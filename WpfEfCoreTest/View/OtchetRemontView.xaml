@@ -39,9 +39,9 @@
                     <GridViewColumn Header="№ завод." Width="auto"
                                     DisplayMemberBinding="{Binding ZavodNum }"/>
                     <GridViewColumn Header="Дата получения" Width="auto"
-                                    DisplayMemberBinding="{Binding BeginDate, StringFormat=dd.MM.yyyy HH:mm:ss }"/>
+                                    DisplayMemberBinding="{Binding BeginDate, StringFormat=dd.MM.yyyy HH:mm }"/>
                     <GridViewColumn Header="Дата возврата" Width="auto"
-                                    DisplayMemberBinding="{Binding EndDate, StringFormat=dd.MM.yyyy HH:mm:ss}"/>
+                                    DisplayMemberBinding="{Binding EndDate, StringFormat=dd.MM.yyyy HH:mm}"/>
                     <GridViewColumn Header="Описание предворительной неисправности" Width="auto"
                                     DisplayMemberBinding="{Binding Title }"/>
                     <GridViewColumn Header="Описание реальной неисправности" Width="auto"

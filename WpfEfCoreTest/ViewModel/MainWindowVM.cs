@@ -118,19 +118,20 @@ namespace WpfEfCoreTest.ViewModel
                         var trc = new TitleRemontCompleted();
                         trc.ShowDialog();
 
-                        if (trc.DialogResult == true)
-                            return;
-
-                        if (SelectedF111 != null)
+                        if (Remont)
                         {
-                            var result = DataWorker.RemoveToRemont(SelectedF111.Id);
+                            //var result = DataWorker.RemoveToRemont(SelectedF111.Id);
 
                             FilteredF111s.Clear();
                             FilteredF111s = DataWorker.GetAllDataF111(SelectedUser.Id);
+                            //return;
+                        }
+                        else
+                        {
+                            DataWorker.RemoveToRemont(SelectedF111.Id);
 
-                            //tr.Close();
-
-                            //MessageBox.Show(result);
+                            FilteredF111s.Clear();
+                            FilteredF111s = DataWorker.GetAllDataF111(SelectedUser.Id);
                         }
                     }
                 });

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31829.152
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfEfCoreTest", "WpfEfCoreTest\WpfEfCoreTest.csproj", "{7B3D9FD1-72A3-4A19-8186-E7C8AFEFAA8C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7B3D9FD1-72A3-4A19-8186-E7C8AFEFAA8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B3D9FD1-72A3-4A19-8186-E7C8AFEFAA8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B3D9FD1-72A3-4A19-8186-E7C8AFEFAA8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B3D9FD1-72A3-4A19-8186-E7C8AFEFAA8C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {365D48E1-5BF1-4F90-BA70-6B900B5B3B60}
+	EndGlobalSection
+EndGlobal

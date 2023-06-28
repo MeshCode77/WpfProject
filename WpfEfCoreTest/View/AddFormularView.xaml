@@ -1,0 +1,155 @@
+﻿<Window x:Class="WpfEfCoreTest.View.AddFormularView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfEfCoreTest.View"
+        mc:Ignorable="d"
+        Title="AddFormularView" Height="620" Width="500"
+        WindowStartupLocation="CenterScreen"
+        Name="AddFormularWnd">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+
+        </Grid.ColumnDefinitions>
+
+        <GroupBox
+                Header="Добавление данных в формуляр"
+                Margin="0,5,0,0" HorizontalAlignment="Center" Width="490" Height="648" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+            <GroupBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="0.194"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="1.098"/>
+                </TransformGroup>
+            </GroupBox.RenderTransform>
+            <StackPanel 
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                Margin="70,0,0,0" Width="320" Height="614">
+                <TextBlock
+                    Text="Наименование комплектующего"
+                    Margin="5,20,0,0" 
+                    HorizontalAlignment="Center"/>
+                <ComboBox  Name="NameKomplBlock"
+                           ItemsSource="{Binding AllKomplects}"
+                           SelectedIndex="0"
+                           DisplayMemberPath="NameKompl"
+                           SelectedItem="{Binding SelectedKomplect}"                                                    
+                           Width="200"
+                           Margin="5"/>
+                <TextBlock Text="№ формуляра"
+                           HorizontalAlignment="Center"/>
+                <TextBox Name="KartNumBlock"
+                         Text ="{Binding NumForm}"
+                         Width="200" 
+                         Height="20"
+                         Margin="2"/>
+                <TextBlock Text="№ инвентарный"
+                           HorizontalAlignment="Center"/>
+                <TextBox Name="NumFormBlock"
+                         Text ="{Binding InvNum}"
+                         Width="200" 
+                         Height="20"
+                         Margin="2"/>
+                <TextBlock Text="Модель"
+                           HorizontalAlignment="Center"/>
+                <TextBox Name="ModelBlock"
+                         Text ="{Binding Model}"
+                         Width="200" 
+                         Height="20"
+                         Margin="2"/>
+                <TextBlock Text="Колличество"
+                           HorizontalAlignment="Center"/>
+                <TextBox Name="CountBlock"
+                         Text ="{Binding Count}"
+                         Width="200" 
+                         Height="20"
+                         Margin="2"/>
+                <TextBlock Text="№ заводской"
+                           HorizontalAlignment="Center"/>
+                <TextBox Name="SerialBlock"
+                         Text ="{Binding Serial}"
+                         Width="200" 
+                         Height="20"
+                         Margin="2"/>
+                <TextBlock Text="Дата ввода"
+                           HorizontalAlignment="Center"/>
+                <DatePicker Name="DataInBlock"
+                            Text="{Binding DataIn}"
+                    HorizontalAlignment="Center"
+                            Width="200"
+                            Margin="2"/>
+            </StackPanel>
+        </GroupBox>
+
+
+        <!--кнопки Сохранить и Отмена-->
+
+        <StackPanel 
+            Grid.ColumnSpan="2"            VerticalAlignment="Bottom"
+            Margin="5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button 
+                    Grid.ColumnSpan="1"
+                    Command="{Binding AddFormularCmd}"
+                    CommandParameter="{Binding ElementName=AddFormularWnd}"
+                    Content="Сохранить" 
+                    Margin="5"/>
+                <Button
+                    Grid.Column="2"
+                    IsCancel="True"                  
+                    Content="Отмена"
+                    Margin="5"/>
+            </Grid>
+        </StackPanel>
+
+        <!--правая панель свойств-->
+        <StackPanel
+            Orientation="Vertical" Margin="30,294,50,55">
+            <TextBlock 
+                Text="№ Акта Ввода/Вывода"
+                HorizontalAlignment="Center"
+                 Margin="5,50,0,0" />
+            <TextBox 
+                Name="NumAktBlock"
+                Text ="{Binding NumAkt}"
+                Width="200" 
+                Height="20"
+                Margin="5"/>
+            <TextBlock 
+                    Text="Дата выпуска"
+                    HorizontalAlignment="Center"/>
+            <TextBox 
+                x:Name="YearProdBlock"
+                Text ="{Binding YearProd}"
+                Width="200" 
+                Height="20"
+                Margin="2"/>
+            <TextBlock 
+                Text="Гарантия"
+                HorizontalAlignment="Center"/>
+            <TextBox 
+                x:Name="GarantyToBlock"
+                Text ="{Binding GarantyTo}"
+                Width="200" 
+                Height="20"
+                Margin="2"/>
+            <TextBlock 
+                Text="Наименование"
+                HorizontalAlignment="Center"/>
+            <TextBox 
+                x:Name="NameKomplectBlock"
+                Text ="{Binding NameKomplect}"
+                Width="200" 
+                Height="20"
+                Margin="2"/>
+        </StackPanel>
+    </Grid>
+</Window>

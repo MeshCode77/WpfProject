@@ -1,0 +1,64 @@
+﻿<Window x:Class="WpfEfCoreTest.View.EditUserWindow" WindowStartupLocation="CenterScreen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfEfCoreTest.View"
+        mc:Ignorable="d"
+        Title="EditUserWindow" Height="500" Width="450"
+        Name="EditUserWnd">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Vertical"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Width="300">
+            <TextBlock Text="Фамилия"/>
+            <TextBox Name="LnameBlock" Text="{Binding Lname}"/>
+            <TextBlock Text="Имя"/>
+            <TextBox Name="FnameBlock"  Text="{Binding Fname}"/>
+            <TextBlock Text="Отчество"/>
+            <TextBox Name="MnameBlock"  Text="{Binding Mname}"/>
+            <TextBlock Text="Должность"/>
+            <TextBox Name="DoljBlock"  Text="{Binding Doljnost}"/>
+            <TextBlock Text="Имя компьютера"/>
+            <TextBox Name="NameCompBlock"  Text="{Binding NameComp}"/>
+            <TextBlock Text="Подразделение"/>
+            <ComboBox Name="cbPodr" ItemsSource="{Binding AllPodrs}"
+                      SelectedItem="{Binding IdPodrNavigation}"
+                      DisplayMemberPath="NamePodr">
+                <!--<ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding NamePodr}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>-->
+
+            </ComboBox>
+            
+
+
+        </StackPanel>
+
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="3" Grid.Column="1">
+            <Button Content="Обновить"
+                    Command="{Binding EditUserCommand}"
+                    CommandParameter="{Binding ElementName=EditUserWnd}"
+                    
+                    MinWidth="60"
+                    Margin="5">
+            </Button>
+
+            <Button 
+                    Command="{Binding CancelUser}"
+                    CommandParameter="{Binding ElementName=EditUserWnd}"
+                    MinWidth="60"
+                    Margin="5">
+                    Отмена
+            </Button>
+
+        </StackPanel>
+    </Grid>
+</Window>

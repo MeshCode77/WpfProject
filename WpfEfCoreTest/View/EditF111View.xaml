@@ -1,0 +1,100 @@
+﻿<Window x:Class="WpfEfCoreTest.View.EditF111View"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:WpfEfCoreTest.ViewModel" d:DataContext="{d:DesignInstance Type=vm:F111VM}"
+        mc:Ignorable="d"
+        Title="EditF111View" Height="450" Width="450"
+        WindowStartupLocation="CenterScreen"
+        Name="EditF111">
+
+    <!--<Window.DataContext>
+        <vm:F111VM/>
+    </Window.DataContext>-->
+
+    <Grid>
+        <GroupBox Margin="5">
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="Наименование оборудования"
+                           HorizontalAlignment="Center"/>
+                <ComboBox  Name="ModelBlock" 
+                           ItemsSource="{Binding AllNameOborud}"
+                           SelectedItem="{Binding SelectedNameOborudCB }"
+                           HorizontalAlignment="Center"
+                           Width="200"
+                           Margin="2">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NameOborud1}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                    
+                </ComboBox>
+                <!--<TextBox Name="ModelBlock"
+                         Text ="{Binding Model}"
+                         Width="200" 
+                         Height="20"
+                         Margin="2"/>-->
+                <TextBlock Text="№ карты Ф.111"
+                           HorizontalAlignment="Center"/>
+                <TextBox Name="KartNumBlock"
+                         Text ="{Binding KartNum}"
+                         Width="200" 
+                         Height="20"
+                         Margin="2"/>
+                <TextBlock Text="№ формуляра"
+                           HorizontalAlignment="Center"/>
+                <TextBox Name="NumFormBlock"
+                         Text ="{Binding NumForm}"
+                         Width="200" 
+                         Height="20"
+                         Margin="2"/>
+                <TextBlock Text="№ инвентарный"
+                           HorizontalAlignment="Center"/>
+                <TextBox Name="InvNumBlock"
+                         Text ="{Binding InvNum}"
+                         Width="200" 
+                         Height="20"
+                         Margin="2"/>
+                <TextBlock Text="№ заводской"
+                           HorizontalAlignment="Center"/>
+                <TextBox Name="ZavodNumBlock"
+                         Text ="{Binding ZavodNum}"
+                         Width="200" 
+                         Height="20"
+                         Margin="2"/>
+                <TextBlock Text="Дата получения"
+                           HorizontalAlignment="Center"/>
+                <DatePicker Name="GtDataBlock" SelectedDate="{Binding GtDate}"
+                            Text="{Binding GtDate}"
+                            HorizontalAlignment="Center"
+                            Width="200"
+                            Margin="2"/>
+                <TextBlock Text="Дата сдачи"
+                           HorizontalAlignment="Center"/>
+                <DatePicker Name="OutDataBlock" 
+                            Text="{Binding OutData}"
+                            HorizontalAlignment="Center"
+                            Width="200"
+                            Margin="2"/>
+            </StackPanel>
+        </GroupBox>
+        <StackPanel VerticalAlignment="Bottom" Margin="5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Command="{Binding EditF111Command}"
+                        CommandParameter="{Binding ElementName=EditF111}"
+                    Content="Сохранить" 
+                    Margin="5"/>
+                <Button IsCancel="True"
+                    Grid.Column="1" 
+                    Content="Отмена"
+                    Margin="5"/>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,81 @@
+﻿<Window x:Class="WpfEfCoreTest.View.FormularView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="FormularView" Height="470" Width="1130"
+        WindowStartupLocation="CenterScreen"
+        Name="FormularWnd">
+
+    <!--<Window.DataContext>
+        <local:FormularVM/>
+    </Window.DataContext>-->
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <ListView x:Name="LvFormular"
+                  ItemsSource="{Binding FilteredFormular, Mode=TwoWay}"
+                  SelectedItem="{Binding SelectedRowFormular}"
+                  Grid.Row="0" Margin="5" BorderThickness="1">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Id" Width="auto"
+                                    DisplayMemberBinding="{Binding Path=Id }" />
+                    <GridViewColumn Header="IdF111" Width="auto"
+                                    DisplayMemberBinding="{Binding Path=Idf111 }" />
+                    <GridViewColumn Header="Наименование" Width="auto"
+                                    DisplayMemberBinding="{Binding Path=NameKomplect}" />
+                    <GridViewColumn Header="№ формуляра" Width="auto"
+                                    DisplayMemberBinding="{Binding Path=NumForm }" />
+                    <GridViewColumn Header="№ Инв." Width="auto"
+                                    DisplayMemberBinding="{Binding Path=InvNum}" />
+                    <GridViewColumn Header="Модель" Width="auto"
+                                    DisplayMemberBinding="{Binding Path=Model}" />
+                    <GridViewColumn Header="Колличество" Width="auto"
+                                    DisplayMemberBinding="{Binding Path=Count}" />
+                    <GridViewColumn Header="№ заводской" Width="auto"
+                                    DisplayMemberBinding="{Binding Path=Serial}" />
+                    <GridViewColumn Header="Год выпуска" Width="auto"
+                                    DisplayMemberBinding="{Binding Path=YearProd}" />
+                    <GridViewColumn Header="Дата ввода" Width="auto"
+                                    DisplayMemberBinding="{Binding Path=DateIn}" />
+                    <GridViewColumn Header="Дата вывода" Width="auto"
+                                    DisplayMemberBinding="{Binding Path=DateOut}" />
+                    <GridViewColumn Header="№ Акта" Width="auto"
+                                    DisplayMemberBinding="{Binding Path=F111s[0].KartNum}" />
+                    <GridViewColumn Header="Гарантия до" Width="auto"
+                                    DisplayMemberBinding="{Binding Path=Formulars[0].NumForm}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <StackPanel
+            Orientation="Horizontal"
+            HorizontalAlignment="Center"
+            Margin="0,384,0,0"
+            Grid.RowSpan="2"
+            Width="300">
+            <Button Content="Добавить"
+                    Margin="10"
+                    
+                    Command="{Binding OpenFormularCmd}" />
+            <Button Content="Изменить"
+                    Margin="10"
+                    IsEnabled="{Binding ButtonOnOff, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                    Command="{Binding OpenEditFormularCmd}" />
+            <Button Content="Удалить"
+                    Margin="10"
+                    IsEnabled="{Binding ButtonOnOff, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                    Command="{Binding DeleteFormularCmd}" />
+            <Button Content="Отмена"
+                    Margin="10"
+                    IsCancel="True"
+                    Command="{Binding CancelFormular}"
+                    CommandParameter="{Binding ElementName=FormularWnd}" />
+
+        </StackPanel>
+    </Grid>
+</Window>

@@ -803,7 +803,7 @@ namespace WpfEfCoreTest.Model.Data
                     InvNum = otchetRemont.InvNum,
                     NumForm = otchetRemont.NumForm,
                     NameOborud = otchetRemont.NameOborud,
-                    BeginDate = otchetRemont.BeginDate,
+                    BeginDate = otchetRemont.BeginDate = DateTime.Now,
                     EndDate = otchetRemont.EndDate,
                     ZavodNum = otchetRemont.ZavodNum,
                     Title = otchetRemont.Title,
@@ -843,27 +843,5 @@ namespace WpfEfCoreTest.Model.Data
 
             return result;
         }
-
-        //// метод для заполенния данными дополнительного поля KolEdNameOb значениями из коллекции CountColl
-        //public static ObservableCollection<NameOborud> UnionNameOborud()
-        //{
-        //    // коллекция для NameOborud
-        //    var unionColl = new ObservableCollection<NameOborud>();
-        //    unionColl = GetAllNameOborud();
-
-        //    // коллекция для CountColl
-        //    var valColl = new ObservableCollection<int>();
-        //    valColl = GetOborudColl();
-
-        //    var temp1 = 0;
-        //    foreach (var temp in unionColl)
-        //    {
-        //        temp.KolEdNameOb = valColl[temp1];
-        //        temp.EconomicEffect = valColl[temp1]
-        //        temp1++;
-        //    }
-
-        //    return unionColl;
-        //}
     }
 }

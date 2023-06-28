@@ -121,14 +121,17 @@ namespace WpfEfCoreTest.ViewModel
                         if (trc.DialogResult == true)
                             return;
 
-                        FilteredF111s.Clear();
-                        FilteredF111s = DataWorker.GetAllDataF111(SelectedUser.Id);
+                        if (SelectedF111 != null)
+                        {
+                            var result = DataWorker.RemoveToRemont(SelectedF111.Id);
 
-                        var result = DataWorker.RemoveToRemont(SelectedF111.Id);
+                            FilteredF111s.Clear();
+                            FilteredF111s = DataWorker.GetAllDataF111(SelectedUser.Id);
 
-                        //tr.Close();
+                            //tr.Close();
 
-                        MessageBox.Show(result);
+                            //MessageBox.Show(result);
+                        }
                     }
                 });
             }

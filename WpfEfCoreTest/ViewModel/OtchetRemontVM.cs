@@ -90,15 +90,13 @@ namespace WpfEfCoreTest.ViewModel
             MessageBox.Show(result);
         }
 
+        //public void RemoveToRemont(
+        //        int id) //не удаление объекта из таблицы OtchetRemont а снятие флажка в колонке Remont таблицы F111
+        //{
+        //    var result = DataWorker.RemoveToRemont(id);
 
-        public void
-            RemoveToRemont(
-                int id) //не удаление объекта из таблицы OtchetRemont а снятие флажка в колонке Remont таблицы F111
-        {
-            var result = DataWorker.RemoveToRemont(id);
-
-            MessageBox.Show(result);
-        }
+        //    MessageBox.Show(result);
+        //}
 
         #region Реализация интерфейса INotifyPropertyChanged
 

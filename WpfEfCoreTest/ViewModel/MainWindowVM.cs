@@ -93,6 +93,8 @@ namespace WpfEfCoreTest.ViewModel
         }
 
 
+        public bool DialogResult { get; private set; }
+
         // команда выбора столбца Ремонт и выбора строки (обьекта) в F111
         public RelayCommand SelectItemCommand
         {
@@ -116,9 +118,9 @@ namespace WpfEfCoreTest.ViewModel
                     else
                     {
                         var trc = new TitleRemontCompleted();
-                        trc.ShowDialog();
+                        var res = trc.ShowDialog();
 
-                        if (trc.DialogResult != false)
+                        if (res == true)
                         {
                             DataWorker.RemoveToRemont(SelectedF111.Id);
 
@@ -127,7 +129,7 @@ namespace WpfEfCoreTest.ViewModel
 
                             //return;
                         }
-                        else
+                        else if (res == false)
                         {
                             //DataWorker.RemoveToRemont(SelectedF111.Id);
 
@@ -370,18 +372,10 @@ namespace WpfEfCoreTest.ViewModel
             }
         }
 
-        private void ToggleCheckBox()
+        private void CloseDialog(bool result)
         {
-            // Получаем выбранный элемент ListView
-            var selected = SelectedF111;
-            if (selected != null)
-                // Изменяем значение свойства IsChecked у выбранного элемента
-                selected.Remont = !selected.Remont;
-        }
-
-        private void UncheckCheckBox()
-        {
-            Remont = false;
+            DialogResult = result;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("DialogResult"));
         }
 
 
@@ -420,16 +414,11 @@ namespace WpfEfCoreTest.ViewModel
                     var otchRem = new OtchetRemontVM();
 
                     if (Title != null) // проверка на введенность информации о неисправности
-                    {
                         otchRem.AddToRemont(SelectedUser, SelectedF111, Title);
-                    }
                     else
-                    {
                         MessageBox.Show("Введите неисправность оборудования", "!!! ВНИМАНИЕ !!!");
-                        return;
-                    }
 
-                    wnd.Close();
+                    if (wnd != null) wnd.DialogResult = true;
                 });
             }
         }
@@ -442,7 +431,12 @@ namespace WpfEfCoreTest.ViewModel
                 {
                     var wnd = obj as Window;
 
-                    wnd.Close();
+                    CloseDialog(false);
+
+                    FilteredF111s.Clear();
+                    DataWorker.GetAllDataF111();
+
+                    if (wnd != null) wnd.DialogResult = false;
                 });
             }
         }
@@ -459,16 +453,14 @@ namespace WpfEfCoreTest.ViewModel
                     var otchRem = new OtchetRemontVM();
 
                     if (TitleCompleted != null) // проверка на введенность информации о неисправности
-                    {
                         otchRem.AddToRemontCompleted(SelectedUser, SelectedF111, TitleCompleted);
-                    }
                     else
-                    {
                         MessageBox.Show("Введите реальную неисправность оборудования", "!!! ВНИМАНИЕ !!!");
-                        return;
-                    }
 
-                    wnd.Close();
+                    //CloseDialog(true);
+                    if (wnd != null) wnd.DialogResult = true;
+                    //if (wnd != null)
+                    //wnd.Close();
                 });
             }
         }
@@ -481,7 +473,10 @@ namespace WpfEfCoreTest.ViewModel
                 {
                     var wnd = obj as Window;
 
-                    wnd.Close();
+                    FilteredF111s.Clear();
+                    DataWorker.GetAllDataF111();
+
+                    if (wnd != null) wnd.DialogResult = false;
                 });
             }
         }

@@ -414,9 +414,15 @@ namespace WpfEfCoreTest.ViewModel
                     var otchRem = new OtchetRemontVM();
 
                     if (Title != null) // проверка на введенность информации о неисправности
+                    {
                         otchRem.AddToRemont(SelectedUser, SelectedF111, Title);
+                    }
                     else
+                    {
                         MessageBox.Show("Введите неисправность оборудования", "!!! ВНИМАНИЕ !!!");
+                        return;
+                    }
+
 
                     if (wnd != null) wnd.DialogResult = true;
                 });
@@ -453,14 +459,16 @@ namespace WpfEfCoreTest.ViewModel
                     var otchRem = new OtchetRemontVM();
 
                     if (TitleCompleted != null) // проверка на введенность информации о неисправности
+                    {
                         otchRem.AddToRemontCompleted(SelectedUser, SelectedF111, TitleCompleted);
+                    }
                     else
+                    {
                         MessageBox.Show("Введите реальную неисправность оборудования", "!!! ВНИМАНИЕ !!!");
+                        return;
+                    }
 
-                    //CloseDialog(true);
                     if (wnd != null) wnd.DialogResult = true;
-                    //if (wnd != null)
-                    //wnd.Close();
                 });
             }
         }

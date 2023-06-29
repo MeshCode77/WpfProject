@@ -329,9 +329,9 @@ namespace WpfEfCoreTest
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.BeginDate).HasColumnType("date");
+                entity.Property(e => e.BeginDate).HasColumnType("datetime");
 
-                entity.Property(e => e.EndDate).HasColumnType("date");
+                entity.Property(e => e.EndDate).HasColumnType("datetime");
 
                 entity.Property(e => e.Idf111).HasColumnName("idf111");
 

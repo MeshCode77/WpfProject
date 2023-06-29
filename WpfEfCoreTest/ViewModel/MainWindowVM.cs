@@ -118,17 +118,18 @@ namespace WpfEfCoreTest.ViewModel
                         var trc = new TitleRemontCompleted();
                         trc.ShowDialog();
 
-                        if (Remont)
+                        if (trc.DialogResult != false)
                         {
-                            //var result = DataWorker.RemoveToRemont(SelectedF111.Id);
+                            DataWorker.RemoveToRemont(SelectedF111.Id);
 
                             FilteredF111s.Clear();
                             FilteredF111s = DataWorker.GetAllDataF111(SelectedUser.Id);
+
                             //return;
                         }
                         else
                         {
-                            DataWorker.RemoveToRemont(SelectedF111.Id);
+                            //DataWorker.RemoveToRemont(SelectedF111.Id);
 
                             FilteredF111s.Clear();
                             FilteredF111s = DataWorker.GetAllDataF111(SelectedUser.Id);
@@ -417,7 +418,6 @@ namespace WpfEfCoreTest.ViewModel
                     var wnd = obj as Window;
 
                     var otchRem = new OtchetRemontVM();
-                    if (otchRem == null) throw new ArgumentNullException(nameof(otchRem));
 
                     if (Title != null) // проверка на введенность информации о неисправности
                     {
@@ -457,7 +457,6 @@ namespace WpfEfCoreTest.ViewModel
                     var wnd = obj as Window;
 
                     var otchRem = new OtchetRemontVM();
-                    if (otchRem == null) throw new ArgumentNullException(nameof(otchRem));
 
                     if (TitleCompleted != null) // проверка на введенность информации о неисправности
                     {
@@ -482,7 +481,7 @@ namespace WpfEfCoreTest.ViewModel
                 {
                     var wnd = obj as Window;
 
-                    if (wnd != null) wnd.Close();
+                    wnd.Close();
                 });
             }
         }

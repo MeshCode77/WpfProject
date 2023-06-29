@@ -70,8 +70,8 @@ namespace WpfEfCoreTest.ViewModel
                     InvNum = selected.InvNum,
                     NumForm = selected.NumForm,
                     NameOborud = selected.Model,
-                    BeginDate = selected
-                        .GtDate, // = DateTime.Now, // в бд выбран тип Date а надо было DateTime тогда было бы и время 
+                    BeginDate =
+                        null, // = DateTime.Now, // в бд выбран тип Date а надо было DateTime тогда было бы и время 
                     EndDate = selected.OutDate = DateTime.Now,
                     ZavodNum = selected.ZavodNum,
                     Title = null,

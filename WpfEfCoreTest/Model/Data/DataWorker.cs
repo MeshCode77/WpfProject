@@ -803,7 +803,7 @@ namespace WpfEfCoreTest.Model.Data
                     InvNum = otchetRemont.InvNum,
                     NumForm = otchetRemont.NumForm,
                     NameOborud = otchetRemont.NameOborud,
-                    BeginDate = otchetRemont.BeginDate = DateTime.Now,
+                    BeginDate = otchetRemont.BeginDate,
                     EndDate = otchetRemont.EndDate,
                     ZavodNum = otchetRemont.ZavodNum,
                     Title = otchetRemont.Title,

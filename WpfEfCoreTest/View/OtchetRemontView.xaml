@@ -14,10 +14,20 @@
     </Window.DataContext>
 
     <Grid>
+        <StackPanel Margin="0,0,0,191" Grid.ColumnSpan="3">
+            <Menu>
+                <MenuItem Header="Управление" Margin="10">
+                    <MenuItem Header="Сохранить в файл"/>
+                    <MenuItem Header="Стереть данные из БД"/>
+                    <MenuItem Header="Печать"/>
+                    <MenuItem Header="Выход"/>
+                </MenuItem>
+            </Menu>
+        </StackPanel>
         <ListView Name="lstViewRemont"
                   ItemsSource="{Binding AllOtchetRem}"
                   SelectedItem="{Binding SelectedRemont}"
-                  Margin="10">
+                  Margin="10,35, 10,10">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Id"  Width="50" 

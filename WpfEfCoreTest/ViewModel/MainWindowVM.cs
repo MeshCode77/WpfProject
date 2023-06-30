@@ -372,12 +372,6 @@ namespace WpfEfCoreTest.ViewModel
             }
         }
 
-        private void CloseDialog(bool result)
-        {
-            DialogResult = result;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("DialogResult"));
-        }
-
 
         public void UpdateF111ToUser()
         {
@@ -436,8 +430,6 @@ namespace WpfEfCoreTest.ViewModel
                 return titleCancel ?? new RelayCommand(obj =>
                 {
                     var wnd = obj as Window;
-
-                    CloseDialog(false);
 
                     FilteredF111s.Clear();
                     DataWorker.GetAllDataF111();

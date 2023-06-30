@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using SqlServMvvmApp;
 using WpfEfCoreTest.Annotations;
 using WpfEfCoreTest.Model;
 using WpfEfCoreTest.Model.Data;
@@ -13,6 +14,8 @@ namespace WpfEfCoreTest.ViewModel
     {
         public ObservableCollection<OtchetRemont> allOtchetRem = DataWorker.GetAllOtchetRemont();
 
+        private RelayCommand saveToFileCmd;
+
 
         public ObservableCollection<OtchetRemont> AllOtchetRem
         {
@@ -21,6 +24,17 @@ namespace WpfEfCoreTest.ViewModel
             {
                 allOtchetRem = value;
                 OnPropertyChanged();
+            }
+        }
+
+        public RelayCommand SaveToFileCmd
+        {
+            get
+            {
+                return saveToFileCmd ?? new RelayCommand(obj =>
+                {
+                    var wnd = obj as Window;
+                });
             }
         }
 
@@ -89,14 +103,6 @@ namespace WpfEfCoreTest.ViewModel
 
             MessageBox.Show(result);
         }
-
-        //public void RemoveToRemont(
-        //        int id) //не удаление объекта из таблицы OtchetRemont а снятие флажка в колонке Remont таблицы F111
-        //{
-        //    var result = DataWorker.RemoveToRemont(id);
-
-        //    MessageBox.Show(result);
-        //}
 
         #region Реализация интерфейса INotifyPropertyChanged
 

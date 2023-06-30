@@ -17,7 +17,7 @@
         <StackPanel Margin="0,0,0,191" Grid.ColumnSpan="3">
             <Menu>
                 <MenuItem Header="Управление" Margin="10">
-                    <MenuItem Header="Сохранить в файл"/>
+                    <MenuItem Header="Сохранить в файл" Command="SaveToFileCmd"/>
                     <MenuItem Header="Стереть данные из БД"/>
                     <MenuItem Header="Печать"/>
                     <MenuItem Header="Выход"/>

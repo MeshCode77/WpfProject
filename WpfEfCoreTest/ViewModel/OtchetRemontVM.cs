@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using SqlServMvvmApp;
@@ -12,9 +13,25 @@ namespace WpfEfCoreTest.ViewModel
 {
     public class OtchetRemontVM : INotifyPropertyChanged
     {
+        private readonly IDialogService _dialogService;
+        private readonly IFileService _fileService;
         public ObservableCollection<OtchetRemont> allOtchetRem = DataWorker.GetAllOtchetRemont();
 
-        private RelayCommand saveToFileCmd;
+        // команда очистки таблицы OtchetRemont
+        private RelayCommand clearOtchetRemont;
+
+        // команда сохранения файла
+        private RelayCommand saveCommand;
+
+        public OtchetRemontVM()
+        {
+        }
+
+        public OtchetRemontVM(IDialogService dialogService, IFileService fileService)
+        {
+            _dialogService = dialogService;
+            _fileService = fileService;
+        }
 
 
         public ObservableCollection<OtchetRemont> AllOtchetRem
@@ -27,13 +44,47 @@ namespace WpfEfCoreTest.ViewModel
             }
         }
 
-        public RelayCommand SaveToFileCmd
+        public RelayCommand SaveCommand
         {
             get
             {
-                return saveToFileCmd ?? new RelayCommand(obj =>
+                return saveCommand ??
+                       (saveCommand = new RelayCommand(obj =>
+                       {
+                           try
+                           {
+                               if (_dialogService.SaveFileDialog())
+                               {
+                                   _fileService.Save(_dialogService.FilePath, AllOtchetRem.ToList());
+                                   _dialogService.ShowMessage("Файл сохранен");
+                               }
+                           }
+                           catch (Exception ex)
+                           {
+                               _dialogService.ShowMessage(ex.Message);
+                           }
+                       }));
+            }
+        }
+
+        public RelayCommand ClearOtchetRemont
+        {
+            get
+            {
+                return clearOtchetRemont ??= new RelayCommand(obj =>
                 {
-                    var wnd = obj as Window;
+                    var res = DataWorker.ClearOtchetRemont();
+
+                    AllOtchetRem.Clear();
+                    DataWorker.GetAllOtchetRemont();
+
+                    foreach (var column in MainWindowVM.f111s) // нашли столбец Remont и установили ему значение true
+                        column.Remont = false;
+
+                    //MainWindowVM.f111s = new ObservableCollection<F111>();
+                    //MainWindowVM.f111s = DataWorker.GetAllDataF111();
+
+                    MessageBox.Show(res);
                 });
             }
         }

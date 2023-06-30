@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
+using Microsoft.EntityFrameworkCore;
 using WpfEfCoreTest.ViewModel;
 
 namespace WpfEfCoreTest.Model.Data
@@ -758,6 +759,7 @@ namespace WpfEfCoreTest.Model.Data
             return compositeCollection;
         }
 
+        // получить все данные из таблицы OtchetRemont
         public static ObservableCollection<OtchetRemont> GetAllOtchetRemont()
         {
             using (var tc = new TestContext())
@@ -840,6 +842,30 @@ namespace WpfEfCoreTest.Model.Data
                 result = "Данные изменены в таблице F111 колонке Remont";
             }
 
+
+            return result;
+        }
+
+        public static string ClearOtchetRemont()
+        {
+            var result = "Удаление данных из таблицы отчета по ремонту НЕ удалась !!!";
+
+            using (var tc = new TestContext())
+            {
+                tc.Database.ExecuteSqlRaw("DELETE FROM OtchetRemont");
+
+                var temp = tc.F111s.ToObservableCollection(); // нашли выбранный объект F111
+
+                foreach (var column in MainWindowVM.f111s) // нашли столбец Remont и установили ему значение true
+                    column.Remont = false;
+
+                tc.SaveChanges();
+
+                //MainWindowVM.f111s = new ObservableCollection<F111>();
+                //MainWindowVM.f111s = GetAllDataF111();
+
+                return result = "Данные из таблицы отчет по ремонту успешно удалены !!!";
+            }
 
             return result;
         }

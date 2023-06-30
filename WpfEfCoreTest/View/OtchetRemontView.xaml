@@ -17,8 +17,8 @@
         <StackPanel Margin="0,0,0,191" Grid.ColumnSpan="3">
             <Menu>
                 <MenuItem Header="Управление" Margin="10">
-                    <MenuItem Header="Сохранить в файл" Command="SaveToFileCmd"/>
-                    <MenuItem Header="Стереть данные из БД"/>
+                    <MenuItem Header="Сохранить в файл" Command="{Binding SaveCommand}"/>
+                    <MenuItem Header="Стереть данные из БД" Command="{Binding ClearOtchetRemont}"/>
                     <MenuItem Header="Печать"/>
                     <MenuItem Header="Выход"/>
                 </MenuItem>
@@ -38,10 +38,6 @@
                                     DisplayMemberBinding="{Binding Podr }"/>
                     <GridViewColumn Header="Наименование" Width="auto"
                                     DisplayMemberBinding="{Binding NameOborud }"/>
-                    <GridViewColumn Header="Модель" Width="auto"
-                                    DisplayMemberBinding="{Binding Model }"/>
-                    <GridViewColumn Header="№ карточки" Width="auto"
-                                    DisplayMemberBinding="{Binding KartNum }"/>
                     <GridViewColumn Header="№ формуляра" Width="auto"
                                     DisplayMemberBinding="{Binding NumForm }"/>
                     <GridViewColumn Header="№ инв." Width="auto"

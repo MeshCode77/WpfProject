@@ -1,6 +1,6 @@
 ﻿namespace WpfEfCoreTest
 {
-    internal interface IDialogService
+    public interface IDialogService
     {
         string FilePath { get; set; } // путь к выбранному файлу
         void ShowMessage(string message); // показ сообщения

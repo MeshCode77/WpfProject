@@ -18,7 +18,7 @@ namespace WpfEfCoreTest.View
         {
             InitializeComponent();
 
-            //AllDataF111ToUser = lvF111;
+            AllDataF111ToUser = lvF111;
             AllDataFormular = lvFormular;
         }
 

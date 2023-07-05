@@ -93,8 +93,6 @@ namespace WpfEfCoreTest.ViewModel
         }
 
 
-        public bool DialogResult { get; private set; }
-
         // команда выбора столбца Ремонт и выбора строки (обьекта) в F111
         public RelayCommand SelectItemCommand
         {
@@ -394,6 +392,16 @@ namespace WpfEfCoreTest.ViewModel
             MainWindow.AllDataFormular.Items.Refresh();
             MainWindow.AllDataFormular.ItemsSource = FilteredFormular;
         }
+
+        public static void RefreshF111()
+        {
+            f111s = DataWorker.GetAllDataF111(DataTransfer.IdUser);
+
+            MainWindow.AllDataF111ToUser.Items.Refresh();
+
+            MainWindow.AllDataF111ToUser.ItemsSource = f111s;
+        }
+
 
         #region КОМАНДЫ ДЛЯ ОПИСАНИЯ ПРЕДВАРИТЕЛЬНЫХ И РЕАЛЬНЫХ ПРИЧИН НЕИСПРАВНОСТЕЙ ОБОРУДОВАНИЯ
 

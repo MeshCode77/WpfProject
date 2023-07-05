@@ -78,8 +78,9 @@ namespace WpfEfCoreTest.ViewModel
                     AllOtchetRem.Clear();
                     DataWorker.GetAllOtchetRemont();
 
-                    foreach (var column in MainWindowVM.f111s) // нашли столбец Remont и установили ему значение true
-                        column.Remont = false;
+                    //foreach (var column in MainWindowVM.f111s) // нашли столбец Remont и установили ему значение true
+                    //    column.Remont = false;
+
 
                     //MainWindowVM.f111s = new ObservableCollection<F111>();
                     //MainWindowVM.f111s = DataWorker.GetAllDataF111();

@@ -854,15 +854,15 @@ namespace WpfEfCoreTest.Model.Data
             {
                 tc.Database.ExecuteSqlRaw("DELETE FROM OtchetRemont");
 
-                var temp = tc.F111s.ToObservableCollection(); // нашли выбранный объект F111
+                var temp = tc.F111s.ToObservableCollection();
 
-                foreach (var column in MainWindowVM.f111s) // нашли столбец Remont и установили ему значение true
+                foreach (var column in temp)
+                    // нашли столбец Remont и установили ему значение true
                     column.Remont = false;
 
                 tc.SaveChanges();
 
-                //MainWindowVM.f111s = new ObservableCollection<F111>();
-                //MainWindowVM.f111s = GetAllDataF111();
+                MainWindowVM.RefreshF111();
 
                 return result = "Данные из таблицы отчет по ремонту успешно удалены !!!";
             }

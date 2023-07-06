@@ -31,7 +31,11 @@
                             Width="200" 
                             Height="24"
                             FontSize="14"/>
-                        <Button  Content="Войти"  Width="200" Margin="10,15,10,10" Height="24"/>
+                        <Button  Content="Войти"
+                                 Command="{Binding SigIn}"
+                                 Width="200" 
+                                 Margin="10,15,10,10"
+                                 Height="24"/>
                     </StackPanel>
                 </GroupBox>
         </StackPanel>

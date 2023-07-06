@@ -1,9 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows;
+using SqlServMvvmApp;
 using WpfEfCoreTest.Annotations;
 using WpfEfCoreTest.Model;
 using WpfEfCoreTest.Model.Data;
+using WpfEfCoreTest.View;
 
 namespace WpfEfCoreTest.ViewModel
 {
@@ -12,6 +16,8 @@ namespace WpfEfCoreTest.ViewModel
         // получить все подразделения
         private ObservableCollection<UserSy> allUserSys = DataWorker.GetAllUserSys();
         private UserSy selectedUserSys;
+
+        public RelayCommand sigIn;
 
         public UserSysVM()
         {
@@ -43,6 +49,22 @@ namespace WpfEfCoreTest.ViewModel
             {
                 selectedUserSys = value;
                 OnPropertyChanged(nameof(SelectedUserSys));
+            }
+        }
+
+        public RelayCommand SigIn
+        {
+            get
+            {
+                return sigIn ?? new RelayCommand(obj =>
+                {
+                    var window = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+
+                    var main = new MainWindow();
+                    main.Show();
+
+                    if (window != null) window.Close();
+                });
             }
         }
 

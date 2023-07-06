@@ -3,6 +3,8 @@ using System.IO;
 using System.Runtime.Serialization.Json;
 using WpfEfCoreTest.Model;
 
+//https://metanit.com/sharp/wpf/22.6.php
+
 namespace WpfEfCoreTest
 {
     public class JsonFileService : IFileService

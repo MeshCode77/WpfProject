@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using WpfEfCoreTest.Model;
 
+//https://metanit.com/sharp/wpf/22.6.php
+
 namespace WpfEfCoreTest
 {
     public interface IFileService

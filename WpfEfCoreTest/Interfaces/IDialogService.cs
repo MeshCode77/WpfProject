@@ -1,5 +1,7 @@
 ﻿namespace WpfEfCoreTest
 {
+    // https://metanit.com/sharp/wpf/22.6.php
+
     public interface IDialogService
     {
         string FilePath { get; set; } // путь к выбранному файлу

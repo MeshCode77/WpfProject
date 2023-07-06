@@ -8,6 +8,40 @@
         Title="UserManagerView" Height="450" Width="800"
         WindowStartupLocation="CenterScreen">
     <Grid>
-        <Label Content="User Manager" FontSize="20"/>
+        <Grid.RowDefinitions>
+            <RowDefinition  Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <ListView x:Name="ViewAllUsers"
+                  ItemsSource="{Binding Users}"
+                  SelectedItem="{Binding SelectedUser}"
+                  Grid.Row="0" Margin="5" BorderThickness="1">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Id"  Width="auto" 
+                                    DisplayMemberBinding="{Binding Path=Id }"/>
+                    <GridViewColumn Header="Логин" Width="auto"
+                                    DisplayMemberBinding="{Binding Path=Lname }"/>
+                    <GridViewColumn Header="Пароль" Width="auto"
+                                    DisplayMemberBinding="{Binding Path=Lname }"/>
+                    <GridViewColumn Header="Ф.И.О." Width="auto"
+                                    DisplayMemberBinding="{Binding Path=Lname }"/>
+                    <GridViewColumn Header="Роль" Width="auto"
+                                    DisplayMemberBinding="{Binding Path=Lname }"/>
+                    <GridViewColumn Header="IdUser" Width="auto"
+                                    DisplayMemberBinding="{Binding Path=Lname }"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="Добавить" Margin="10" Command="{Binding OpenAddUserWnd}" />
+            <Button Content="Изменить" Margin="10" Command="{Binding OpenEditCommandWnd}"/>
+            <Button Content="Удалить" Margin="10" Command="{Binding DeleteUserCommand}"/>
+
+            <Button Content="Отмена" Margin="10" Command="{Binding CancelUser}"
+                    CommandParameter="{Binding ElementName=SprUsersWnd}"/>
+
+        </StackPanel>
+
     </Grid>
 </Window>

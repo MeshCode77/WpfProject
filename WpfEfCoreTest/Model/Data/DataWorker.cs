@@ -869,5 +869,14 @@ namespace WpfEfCoreTest.Model.Data
 
             return result;
         }
+
+        public static ObservableCollection<UserSy> GetAllUserSys()
+        {
+            using (var tc = new TestContext())
+            {
+                var result = tc.UserSys.ToObservableCollection();
+                return result;
+            }
+        }
     }
 }

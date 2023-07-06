@@ -11,6 +11,34 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Новая папка1\**" />
+    <Compile Remove="Новая папка\**" />
+    <EmbeddedResource Remove="Новая папка1\**" />
+    <EmbeddedResource Remove="Новая папка\**" />
+    <None Remove="Новая папка1\**" />
+    <None Remove="Новая папка\**" />
+    <Page Remove="Новая папка1\**" />
+    <Page Remove="Новая папка\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="img\pic11.jpg" />
+    <None Remove="img\pic2.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="img\pic11.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="img\pic2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MathCore.WPF" Version="0.0.33.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.15">
       <PrivateAssets>all</PrivateAssets>

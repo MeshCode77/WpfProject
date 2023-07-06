@@ -5,12 +5,31 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfEfCoreTest.View"
         mc:Ignorable="d"
-        Title="LogoView" Height="450" Width="400">
+        Title="LogoView" Height="430" Width="330" WindowStartupLocation="CenterScreen">
     <Grid>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBox Width="200"  Height="24"/>
-            <TextBox Width="200" Margin="10" Height="24"/>
-            <Button Width="200" Margin="10" Height="24"/>
+        <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Margin="10,10,10,20">
+                <GroupBox >
+                    <StackPanel Margin="5">
+                        <TextBlock Text="   Login" Foreground="DarkGray"/>
+                        <TextBox Width="200"   Height="24" FontSize="14"/>
+                        <TextBlock Text="   Password" Margin="0,10,0,0" Foreground="DarkGray"/>
+                        <PasswordBox Width="200"  Height="24" FontSize="14"/>
+                        <Button  Content="Войти"  Width="200" Margin="10,15,10,10" Height="24"/>
+                    </StackPanel>
+                </GroupBox>
         </StackPanel>
+        <Image x:Name="logo" 
+               Source="/img/pic11.jpg"
+               StretchDirection="DownOnly"
+               VerticalAlignment="Top"/>
+        <TextBlock Text="Minsk (C) IIT 2023" 
+                   Foreground="DimGray"
+                   FontSize="10"
+                   VerticalAlignment="Bottom" 
+                   HorizontalAlignment="Right"
+                   Margin="0,5,5,3"/>
+    
     </Grid>
 </Window>

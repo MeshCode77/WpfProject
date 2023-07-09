@@ -269,6 +269,17 @@
                     <MenuItem Header="На складе"/>
                     <MenuItem Header="Логирование"/>
                 </MenuItem>
+                <MenuItem Header="Сеть">
+                    <MenuItem x:Name="Net" Header="Наличие техники" Command="{Binding OpenWndOtchetAllOborud}"/>
+                    <MenuItem Header="Сканер сети"/>
+                </MenuItem>
+                <MenuItem Header="О программе">
+                    <MenuItem x:Name="About" Header="Наличие техники" Command="{Binding OpenWndOtchetAllOborud}"/>
+                    <MenuItem Header="В ремонте" />
+                    <MenuItem Header="Списание техники"/>
+                    <MenuItem Header="На складе"/>
+                    <MenuItem Header="Логирование"/>
+                </MenuItem>
             </Menu>
         </StackPanel>
         

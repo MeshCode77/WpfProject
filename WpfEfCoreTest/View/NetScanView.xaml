@@ -1,0 +1,58 @@
+﻿<Window x:Class="WpfEfCoreTest.View.NetScanView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfEfCoreTest.ViewModel"
+        mc:Ignorable="d"
+        Title="NetScanView" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <local:ComputerScannerVM/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <TextBox Text="{Binding IpAdress }" 
+            Width="100" 
+            Margin="20"
+            Height="18"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Left"/>
+        <Button Content="Scan Network"
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Top" 
+                Margin="0,20,0,0" 
+                Width="120"
+                Command="{Binding ScanCommand}"/>
+        <ListView  ItemsSource="{Binding ScanHostColl}"
+                   Margin="30,70,30,40">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="IP Adress"
+                                    DisplayMemberBinding="{Binding  IpAdress }"
+                                    Width="100"/>
+                    <GridViewColumn Header="HostName"
+                                    DisplayMemberBinding="{Binding HostName}"
+                                    Width="100"/>
+                    <GridViewColumn Header="Status" 
+                                    DisplayMemberBinding="{Binding Status}"
+                                    Width="100"/>
+                    <!-- Добавьте здесь другие столбцы для свойств компонента -->
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <ListView Grid.Column="1" ItemsSource="{Binding Components}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="30,70,30,40">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Component" DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn Header="Manufacturer" DisplayMemberBinding="{Binding Manufacturer}"/>
+                    <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Description}"/>
+                    <!-- Добавьте здесь другие столбцы для свойств компонента -->
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1"/>
+    </Grid>
+</Window>

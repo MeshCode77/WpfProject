@@ -46,10 +46,5 @@ namespace WpfEfCoreTest.Model
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        public static explicit operator ObservableCollection<object>(F111 v)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

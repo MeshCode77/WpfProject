@@ -37,6 +37,8 @@ namespace WpfEfCoreTest.ViewModel
         // получить все подразделения
         private ObservableCollection<Podr> allPodrs = DataWorker.GetAllPodrs();
 
+        private RelayCommand openNetworkScan;
+
 
         // команда открытия окна карточки Ф111
         public RelayCommand openWindowF111;
@@ -366,6 +368,19 @@ namespace WpfEfCoreTest.ViewModel
                 {
                     var otchRem = new OtchetRemontView();
                     otchRem.ShowDialog();
+                });
+            }
+        }
+
+        // Команда открытия окна OtchetRemontView
+        public RelayCommand OpenNetworkScan
+        {
+            get
+            {
+                return openNetworkScan ?? new RelayCommand(obj =>
+                {
+                    var ns = new NetScanView();
+                    ns.ShowDialog();
                 });
             }
         }

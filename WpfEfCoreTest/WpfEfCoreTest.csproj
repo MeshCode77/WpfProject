@@ -12,13 +12,9 @@
 
   <ItemGroup>
     <Compile Remove="Новая папка1\**" />
-    <Compile Remove="Новая папка\**" />
     <EmbeddedResource Remove="Новая папка1\**" />
-    <EmbeddedResource Remove="Новая папка\**" />
     <None Remove="Новая папка1\**" />
-    <None Remove="Новая папка\**" />
     <Page Remove="Новая папка1\**" />
-    <Page Remove="Новая папка\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,6 +47,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+    <PackageReference Include="System.Management" Version="6.0.0" />
     <PackageReference Include="System.Runtime.Serialization.Json" Version="4.3.0" />
   </ItemGroup>
 

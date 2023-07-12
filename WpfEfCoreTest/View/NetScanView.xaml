@@ -5,28 +5,51 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfEfCoreTest.ViewModel"
         mc:Ignorable="d"
-        Title="NetScanView" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+        Title="NetScanView" Height="500" Width="800" WindowStartupLocation="CenterScreen">
+
     <Window.DataContext>
         <local:ComputerScannerVM/>
     </Window.DataContext>
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Window.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <TextBox Text="{Binding IpAdress }" 
-            Width="100" 
-            Margin="20"
-            Height="18"
-            VerticalAlignment="Top"
-            HorizontalAlignment="Left"/>
-        <Button Content="Scan Network"
-                HorizontalAlignment="Center" 
-                VerticalAlignment="Top" 
-                Margin="0,20,0,0" 
-                Width="120"
-                Command="{Binding ScanCommand}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <StackPanel
+            Margin="10"
+            Orientation="Horizontal">
+            <TextBox Text="{Binding IpAdress }" 
+                     Width="100" 
+                     Margin="20,20,20,20"
+                     Height="18"
+                     VerticalAlignment="Top"
+                     HorizontalAlignment="Left"/>
+            <TextBox Text="{Binding IpAdress }" 
+                     Width="100" 
+                     Margin="10,20,20,20"
+                     Height="18"
+                     VerticalAlignment="Top"
+                     HorizontalAlignment="Left"/>
+            <Button Content="Scan"
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Top" 
+                    Margin="0,20,5,0" 
+                    Width="90"
+                    Command="{Binding ScanCommand}"/>
+        </StackPanel>
+        
+
         <ListView  ItemsSource="{Binding ScanHostColl}"
+                   SelectedItem="{Binding SelectedHost}"
                    Margin="30,70,30,40">
             <ListView.View>
                 <GridView>
@@ -43,6 +66,25 @@
                 </GridView>
             </ListView.View>
         </ListView>
+        <Border BorderBrush="DarkGray"
+                CornerRadius="5" 
+                BorderThickness="1" 
+                Grid.Column="0"
+                Margin="5"/>
+
+        <ProgressBar Grid.Row="1"
+                     Value="{Binding IsScanning, Converter={StaticResource BooleanToVisibilityConverter}}"
+                     Minimum="0" 
+                     Maximum="1" 
+                     Height="24"
+                     Width="auto" 
+                     Margin="5" />
+        <Border BorderBrush="DarkGray"
+                CornerRadius="5" 
+                BorderThickness="1" 
+                Grid.Row="1"
+                Margin="5"/>
+
         <ListView Grid.Column="1" ItemsSource="{Binding Components}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="30,70,30,40">
             <ListView.View>
                 <GridView>
@@ -53,6 +95,10 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1"/>
+        <Border BorderBrush="DarkGray"
+                CornerRadius="5" 
+                BorderThickness="1" 
+                Grid.Column="1"
+                Margin="5"/>
     </Grid>
 </Window>

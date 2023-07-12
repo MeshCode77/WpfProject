@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Management;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using SqlServMvvmApp;
 using WpfEfCoreTest.Model;
 
@@ -18,7 +20,11 @@ namespace WpfEfCoreTest.ViewModel
         private string _hostName;
 
         public string _ipAdress;
+
+        private bool _isScanning;
         private ObservableCollection<ScanHost> _scanHostColl;
+
+        private ScanHost _selectedHost;
         private string _status;
 
         private string hostName;
@@ -82,6 +88,31 @@ namespace WpfEfCoreTest.ViewModel
             }
         }
 
+        public ScanHost SelectedHost
+        {
+            get => _selectedHost;
+            set
+            {
+                _selectedHost = value;
+                OnPropertyChanged(nameof(SelectedHost));
+                //MessageBox.Show(SelectedHost.IpAdress);
+                GetComputerInfoByIpAddress(SelectedHost.IpAdress);
+            }
+        }
+
+        public bool IsScanning
+        {
+            get => _isScanning;
+            set
+            {
+                if (_isScanning != value)
+                {
+                    _isScanning = value;
+                    OnPropertyChanged(nameof(IsScanning));
+                }
+            }
+        }
+
 
         public RelayCommand ScanCommand
         {
@@ -89,7 +120,7 @@ namespace WpfEfCoreTest.ViewModel
             {
                 return scanCommand ?? new RelayCommand(obj =>
                 {
-                    ScanHostColl = ScanNetwork();
+                    ScanHostColl = ScanNetwork2();
 
                     // GetHostNameByIpAddress(IpAdress);
                     //PingHost();
@@ -114,6 +145,95 @@ namespace WpfEfCoreTest.ViewModel
                 return null;
             }
         }
+
+
+        public void GetComputerInfoByIpAddress(string ipAddress)
+        {
+            try
+            {
+                // Получаем экземпляр класса Ping и отправляем эхо-запрос
+                using (var ping = new Ping())
+                {
+                    var reply = ping.Send(ipAddress);
+
+                    if (reply.Status != IPStatus.Success)
+                        // Если устройство не отвечает на эхо-запрос, генерируем исключение
+                        throw new Exception("Устройство не найдено");
+                }
+
+                // Получаем информацию о хосте
+                var hostEntry = Dns.GetHostEntry(ipAddress);
+                var hostName = hostEntry.HostName; // Имя хоста
+                var addresses = hostEntry.AddressList; // Список IP-адресов, связанных с хостом
+
+                // Получаем информацию об устройстве, соответствующем указанному IP-адресу
+                var scope = new ManagementScope("\\\\" + ipAddress + "\\root\\cimv2");
+
+                // Запрашиваем информацию о процессоре
+                var query = new ObjectQuery("SELECT * FROM Win32_Processor");
+                var searcher = new ManagementObjectSearcher(scope, query);
+                var queryCollection = searcher.Get();
+
+                foreach (var o in queryCollection)
+                {
+                    var m = (ManagementObject)o;
+                    var cpu = m["Name"].ToString();
+                    var cpuCores = m["NumberOfCores"].ToString();
+                    var cpuThreads = m["ThreadCount"].ToString();
+                    var cpuArchitecture = m["Architecture"].ToString();
+
+                    MessageBox.Show("Процессор: " + cpu);
+                }
+
+                // Запрашиваем информацию о материнской плате
+                query = new ObjectQuery("SELECT * FROM Win32_BaseBoard");
+                searcher = new ManagementObjectSearcher(scope, query);
+                queryCollection = searcher.Get();
+
+                foreach (ManagementObject m in queryCollection)
+                {
+                    var motherboard = m["Product"].ToString();
+
+                    MessageBox.Show("Материнская плата: " + motherboard);
+                }
+
+                // Запрашиваем информацию о жестком диске
+                query = new ObjectQuery("SELECT * FROM Win32_DiskDrive");
+                searcher = new ManagementObjectSearcher(scope, query);
+                queryCollection = searcher.Get();
+
+                foreach (ManagementObject m in queryCollection)
+                {
+                    var hdd = m["Caption"].ToString();
+
+                    MessageBox.Show("Жесткий диск: " + hdd);
+                }
+
+
+                //// Получаем информацию о сетевых интерфейсах
+                //foreach (var ni in NetworkInterface.GetAllNetworkInterfaces())
+                //    if ((ni.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 ||
+                //         ni.NetworkInterfaceType == NetworkInterfaceType.Ethernet) &&
+                //        ni.OperationalStatus == OperationalStatus.Up)
+                //    {
+                //        var ipProps = ni.GetIPProperties();
+                //        foreach (var addr in ipProps.UnicastAddresses)
+                //            if (addr.Address.ToString() == ipAddress)
+                //            {
+                //                var macAddress = ni.GetPhysicalAddress(); // MAC-адрес
+                //                var interfaceDescription = ni.Description; // Описание интерфейса
+                //                var interfaceSpeed = (int)(ni.Speed / 1000000); // Скорость интерфейса (Мбит/с)
+                //                break;
+                //            }
+                //    }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        //
 
         public ObservableCollection<ScanHost> ScanNetwork()
         {
@@ -154,6 +274,30 @@ namespace WpfEfCoreTest.ViewModel
             return ScanHostColl;
         }
 
+        public ObservableCollection<ScanHost> ScanNetwork2()
+        {
+            var ScanHostColl = new ObservableCollection<ScanHost>();
+
+            var temp = "192.168.100.";
+
+            for (var i = 148; i < 152; i++)
+            {
+                // Получаем имя хоста по IP-адресу
+                var hostName = GetHostNameByIpAddress(temp + i);
+
+                // Создаем экземпляр ViewModel для NetworkInterface
+                var niViewModel = new ScanHost
+                {
+                    IpAdress = temp + i,
+                    HostName = hostName,
+                    Status = "Active"
+                };
+
+                ScanHostColl.Add(niViewModel);
+            }
+
+            return ScanHostColl;
+        }
 
         public void PingHost()
         {

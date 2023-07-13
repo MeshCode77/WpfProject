@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfEfCoreTest.ViewModel"
+        xmlns:loc="clr-namespace:WpfEfCoreTest.Converters"
         mc:Ignorable="d"
         Title="NetScanView" Height="500" Width="800" WindowStartupLocation="CenterScreen">
 
@@ -12,7 +13,7 @@
     </Window.DataContext>
 
     <Window.Resources>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <loc:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Window.Resources>
 
     <Grid>

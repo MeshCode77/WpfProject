@@ -6,6 +6,7 @@ using System.Management;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -16,6 +17,8 @@ namespace WpfEfCoreTest.ViewModel
 {
     public class ComputerScannerVM : INotifyPropertyChanged
     {
+        public delegate ObservableCollection<ScanHost> ThreadStart();
+
         private ObservableCollection<ComputerComponent> _components;
         private string _hostName;
 
@@ -113,19 +116,21 @@ namespace WpfEfCoreTest.ViewModel
             }
         }
 
-
         public RelayCommand ScanCommand
         {
             get
             {
                 return scanCommand ?? new RelayCommand(obj =>
                 {
-                    ScanHostColl = ScanNetwork2();
+                    /// код для создания второго потока
+                    var thread = new Thread(() =>
+                    {
+                        // Код для выполнения во втором потоке
+                        ScanHostColl = ScanNetwork2();
+                    });
 
-                    // GetHostNameByIpAddress(IpAdress);
-                    //PingHost();
-                    //ScanNetworkAsync("192.168.100.150");
-                    //ScanLocalNetworkAsync();
+                    // Запуск второго потока
+                    thread.Start();
                 });
             }
         }
@@ -135,8 +140,6 @@ namespace WpfEfCoreTest.ViewModel
             try
             {
                 var hostEntry = Dns.GetHostEntry(ipAddress);
-
-                //MessageBox.Show(string.Format("IP адресс:{0}\n Имя хоста:{1}", ipAddress, hostEntry.HostName));
                 return hostEntry.HostName;
             }
             catch (Exception ex)
@@ -276,12 +279,24 @@ namespace WpfEfCoreTest.ViewModel
 
         public ObservableCollection<ScanHost> ScanNetwork2()
         {
+            var sb = new StringBuilder();
+
             var ScanHostColl = new ObservableCollection<ScanHost>();
 
             var temp = "192.168.100.";
 
-            for (var i = 148; i < 152; i++)
+            for (var i = 149; i < 152; i++)
             {
+                // проверяем хосты на доступность
+                var ping = new Ping();
+                PingReply pingReply;
+
+                var reply = ping.Send(temp + i, 1000);
+                if (reply.Status == IPStatus.Success)
+                    Status = "Active";
+                else
+                    Status = "InActive";
+
                 // Получаем имя хоста по IP-адресу
                 var hostName = GetHostNameByIpAddress(temp + i);
 
@@ -290,8 +305,10 @@ namespace WpfEfCoreTest.ViewModel
                 {
                     IpAdress = temp + i,
                     HostName = hostName,
-                    Status = "Active"
+                    Status = Status
                 };
+
+                hostName = "";
 
                 ScanHostColl.Add(niViewModel);
             }

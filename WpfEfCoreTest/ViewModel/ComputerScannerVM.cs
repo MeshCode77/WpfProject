@@ -24,7 +24,7 @@ namespace WpfEfCoreTest.ViewModel
 
         public string _ipAdress;
 
-        private bool _isScanning;
+        private int _isScanning;
         private ObservableCollection<ScanHost> _scanHostColl;
 
         private ScanHost _selectedHost;
@@ -37,6 +37,12 @@ namespace WpfEfCoreTest.ViewModel
         public ComputerScannerVM()
         {
             var ScanHostColl = new ObservableCollection<ScanHost>();
+
+            var progress = new Progress<int>(value =>
+            {
+                // обновляем значение прогрессбара
+                IsScanning = value;
+            });
         }
 
 
@@ -103,7 +109,7 @@ namespace WpfEfCoreTest.ViewModel
             }
         }
 
-        public bool IsScanning
+        public int IsScanning
         {
             get => _isScanning;
             set
@@ -126,14 +132,15 @@ namespace WpfEfCoreTest.ViewModel
                     var thread = new Thread(() =>
                     {
                         // Код для выполнения во втором потоке
-                        ScanHostColl = ScanNetwork2();
+                        ScanHostColl = ScanNetwork2(); //ScanNetwork2();
                     });
-
+                    //thread.IsBackground = true;
                     // Запуск второго потока
                     thread.Start();
                 });
             }
         }
+
 
         public string GetHostNameByIpAddress(string ipAddress)
         {
@@ -277,41 +284,47 @@ namespace WpfEfCoreTest.ViewModel
             return ScanHostColl;
         }
 
-        public ObservableCollection<ScanHost> ScanNetwork2()
+        public ObservableCollection<ScanHost> ScanNetwork2() // 
         {
             var sb = new StringBuilder();
-
             var ScanHostColl = new ObservableCollection<ScanHost>();
-
             var temp = "192.168.100.";
 
-            for (var i = 149; i < 152; i++)
+            var lock_object = new object();
+
+            lock (lock_object)
             {
-                // проверяем хосты на доступность
-                var ping = new Ping();
-                PingReply pingReply;
-
-                var reply = ping.Send(temp + i, 1000);
-                if (reply.Status == IPStatus.Success)
-                    Status = "Active";
-                else
-                    Status = "InActive";
-
-                // Получаем имя хоста по IP-адресу
-                var hostName = GetHostNameByIpAddress(temp + i);
-
-                // Создаем экземпляр ViewModel для NetworkInterface
-                var niViewModel = new ScanHost
+                // Код для выполнения во втором потоке
+                for (var i = 0; i < 153; i++)
                 {
-                    IpAdress = temp + i,
-                    HostName = hostName,
-                    Status = Status
-                };
+                    // Получаем имя хоста по IP-адресу
+                    var hostName = GetHostNameByIpAddress(sb.Append(temp + i).ToString());
 
-                hostName = "";
+                    // проверяем хосты на доступность
+                    var ping = new Ping();
+                    var reply = ping.Send(temp + i, 1000);
+                    if (reply.Status == IPStatus.Success)
+                    {
+                        Status = "Active";
+                        // Создаем экземпляр ViewModel для NetworkInterface
+                        var niViewModel = new ScanHost
+                        {
+                            IpAdress = temp + i,
+                            HostName = hostName,
+                            Status = Status
+                        };
+                        ScanHostColl.Add(niViewModel);
+                        hostName = "";
+                    }
+                    else
+                    {
+                        Status = "InActive";
+                    }
 
-                ScanHostColl.Add(niViewModel);
+                    IsScanning++;
+                }
             }
+
 
             return ScanHostColl;
         }

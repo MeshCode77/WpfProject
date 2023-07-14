@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfEfCoreTest.ViewModel"
-        xmlns:loc="clr-namespace:WpfEfCoreTest.Converters"
         mc:Ignorable="d"
         Title="NetScanView" Height="500" Width="800" WindowStartupLocation="CenterScreen">
 
@@ -12,9 +11,10 @@
         <local:ComputerScannerVM/>
     </Window.DataContext>
 
-    <Window.Resources>
-        <loc:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-    </Window.Resources>
+    <!--<Window.DataContext>
+        <local:MainViewModel/>
+    </Window.DataContext>-->
+
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -44,7 +44,7 @@
                     HorizontalAlignment="Center" 
                     VerticalAlignment="Top" 
                     Margin="0,20,5,0" 
-                    Width="90"
+                    Width="80"
                     Command="{Binding ScanCommand}"/>
         </StackPanel>
         
@@ -73,10 +73,10 @@
                 Grid.Column="0"
                 Margin="5"/>
 
-        <ProgressBar Grid.Row="1"
-                     Value="{Binding IsScanning, Converter={StaticResource BooleanToVisibilityConverter}}"
-                     Minimum="0" 
-                     Maximum="1" 
+        <ProgressBar Grid.Row="1" Grid.Column="0"
+                     Value="{Binding IsScanning}"
+                     Minimum="1"
+                     Maximum="255"
                      Height="24"
                      Width="auto" 
                      Margin="5" />

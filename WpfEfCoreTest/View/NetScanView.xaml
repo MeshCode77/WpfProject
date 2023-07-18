@@ -86,12 +86,18 @@
                 Grid.Row="1"
                 Margin="5"/>
 
-        <ListView Grid.Column="1" ItemsSource="{Binding Components}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="30,70,30,40">
+        <ListView Grid.Column="1" ItemsSource="{Binding Components}"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch"
+                  Margin="30,70,30,40">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Component" DisplayMemberBinding="{Binding Name}"/>
-                    <GridViewColumn Header="Manufacturer" DisplayMemberBinding="{Binding Manufacturer}"/>
-                    <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Description}"/>
+                    <GridViewColumn Header="Процессор" Width="auto"
+                                    DisplayMemberBinding="{Binding Processor}"/>
+                    <GridViewColumn Header="Материнская плата" Width="auto"
+                                    DisplayMemberBinding="{Binding BaseBoard}"/>
+                    <GridViewColumn Header="Жесткий диск" Width="auto"
+                                    DisplayMemberBinding="{Binding DiskDrive}"/>
                     <!-- Добавьте здесь другие столбцы для свойств компонента -->
                 </GridView>
             </ListView.View>

@@ -17,12 +17,15 @@ namespace WpfEfCoreTest.ViewModel
     {
         public delegate ObservableCollection<ScanHost> ThreadStart();
 
-        private ObservableCollection<ComputerComponent> _components;
-        private string _hostName;
+        private string _baseBoard;
 
+        private ObservableCollection<ComputerComponent> _components;
+        private string _diskDrive;
+        private string _hostName;
         public string _ipAdress;
 
         private int _isScanning;
+        private string _processor;
         private ObservableCollection<ScanHost> _scanHostColl;
 
         private ScanHost _selectedHost;
@@ -32,13 +35,36 @@ namespace WpfEfCoreTest.ViewModel
 
         public RelayCommand scanCommand;
 
-        public ComputerScannerVM()
+
+        public string DiskDrive
         {
-            var progress = new Progress<int>(value =>
+            get => _diskDrive;
+            set
             {
-                // обновляем значение прогрессбара
-                IsScanning = value;
-            });
+                _diskDrive = value;
+                OnPropertyChanged(nameof(DiskDrive));
+            }
+        }
+
+
+        public string BaseBoard
+        {
+            get => _baseBoard;
+            set
+            {
+                _baseBoard = value;
+                OnPropertyChanged(nameof(BaseBoard));
+            }
+        }
+
+        public string Processor
+        {
+            get => _processor;
+            set
+            {
+                _processor = value;
+                OnPropertyChanged(nameof(Processor));
+            }
         }
 
 
@@ -102,6 +128,7 @@ namespace WpfEfCoreTest.ViewModel
                 OnPropertyChanged(nameof(SelectedHost));
                 //MessageBox.Show(SelectedHost.IpAdress);
                 GetComputerInfoByIpAddress(SelectedHost.IpAdress);
+                Components = AddCompComponent();
             }
         }
 
@@ -185,8 +212,9 @@ namespace WpfEfCoreTest.ViewModel
                     var cpuCores = m["NumberOfCores"].ToString();
                     var cpuThreads = m["ThreadCount"].ToString();
                     var cpuArchitecture = m["Architecture"].ToString();
+                    Processor = cpu;
 
-                    MessageBox.Show("Процессор: " + cpu);
+                    //MessageBox.Show("Процессор: " + cpu);
                 }
 
                 // Запрашиваем информацию о материнской плате
@@ -198,7 +226,8 @@ namespace WpfEfCoreTest.ViewModel
                 {
                     var motherboard = m["Product"].ToString();
 
-                    MessageBox.Show("Материнская плата: " + motherboard);
+                    //MessageBox.Show("Материнская плата: " + motherboard);
+                    BaseBoard = motherboard;
                 }
 
                 // Запрашиваем информацию о жестком диске
@@ -210,13 +239,30 @@ namespace WpfEfCoreTest.ViewModel
                 {
                     var hdd = m["Caption"].ToString();
 
-                    MessageBox.Show("Жесткий диск: " + hdd);
+                    //MessageBox.Show("Жесткий диск: " + hdd);
+                    DiskDrive = hdd;
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+
+        public ObservableCollection<ComputerComponent> AddCompComponent()
+        {
+            var Components = new ObservableCollection<ComputerComponent>();
+
+            var components = new ComputerComponent
+            {
+                Processor = Processor,
+                BaseBoard = BaseBoard,
+                DiskDrive = DiskDrive
+            };
+            Components.Add(components);
+            OnPropertyChanged(nameof(components));
+            return Components;
         }
 
 

@@ -49,7 +49,7 @@
         </StackPanel>
         
 
-        <ListView  ItemsSource="{Binding ScanHostColl}"
+        <ListView  ItemsSource="{Binding ScanHostColl, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                    SelectedItem="{Binding SelectedHost}"
                    Margin="30,70,30,40">
             <ListView.View>

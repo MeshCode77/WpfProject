@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Management;
 using System.Net;
 using System.Net.NetworkInformation;
-using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,8 +34,6 @@ namespace WpfEfCoreTest.ViewModel
 
         public ComputerScannerVM()
         {
-            var ScanHostColl = new ObservableCollection<ScanHost>();
-
             var progress = new Progress<int>(value =>
             {
                 // обновляем значение прогрессбара
@@ -130,10 +126,8 @@ namespace WpfEfCoreTest.ViewModel
                 {
                     /// код для создания второго потока
                     var thread = new Thread(() =>
-                    {
-                        // Код для выполнения во втором потоке
-                        ScanHostColl = ScanNetwork2(); //ScanNetwork2();
-                    });
+                        ScanHostColl = ScanNetwork2Async().Result);
+                    OnPropertyChanged(nameof(ScanHostColl));
                     //thread.IsBackground = true;
                     // Запуск второго потока
                     thread.Start();
@@ -218,24 +212,6 @@ namespace WpfEfCoreTest.ViewModel
 
                     MessageBox.Show("Жесткий диск: " + hdd);
                 }
-
-
-                //// Получаем информацию о сетевых интерфейсах
-                //foreach (var ni in NetworkInterface.GetAllNetworkInterfaces())
-                //    if ((ni.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 ||
-                //         ni.NetworkInterfaceType == NetworkInterfaceType.Ethernet) &&
-                //        ni.OperationalStatus == OperationalStatus.Up)
-                //    {
-                //        var ipProps = ni.GetIPProperties();
-                //        foreach (var addr in ipProps.UnicastAddresses)
-                //            if (addr.Address.ToString() == ipAddress)
-                //            {
-                //                var macAddress = ni.GetPhysicalAddress(); // MAC-адрес
-                //                var interfaceDescription = ni.Description; // Описание интерфейса
-                //                var interfaceSpeed = (int)(ni.Speed / 1000000); // Скорость интерфейса (Мбит/с)
-                //                break;
-                //            }
-                //    }
             }
             catch (Exception ex)
             {
@@ -243,185 +219,52 @@ namespace WpfEfCoreTest.ViewModel
             }
         }
 
-        //
 
-        public ObservableCollection<ScanHost> ScanNetwork()
-        {
-            var ScanHostColl = new ObservableCollection<ScanHost>();
-            // Очищаем список NetworkInterfaces перед сканированием
-            //ScanHostColl.Clear();
-
-            // Получаем все сетевые интерфейсы
-            var interfaces = NetworkInterface.GetAllNetworkInterfaces();
-
-            // Проходим по всем интерфейсам и получаем информацию
-            foreach (var ni in interfaces)
-                // Отбираем только необходимые сетевые интерфейсы
-                if (ni.NetworkInterfaceType == NetworkInterfaceType.Ethernet ||
-                    ni.NetworkInterfaceType == NetworkInterfaceType.Wireless80211)
-                {
-                    // Получаем IP-адреса для текущего интерфейса
-                    var ipProps = ni.GetIPProperties();
-                    foreach (var addr in ipProps.UnicastAddresses)
-                        // Проверяем, что это IPv4-адрес
-                        if (addr.Address.AddressFamily == AddressFamily.InterNetwork)
-                        {
-                            // Получаем имя хоста по IP-адресу
-                            var hostName = GetHostNameByIpAddress(addr.Address.ToString());
-
-                            // Создаем экземпляр ViewModel для NetworkInterface
-                            var niViewModel = new ScanHost
-                            {
-                                IpAdress = addr.Address.ToString(),
-                                HostName = hostName,
-                                Status = "Active"
-                            };
-
-                            ScanHostColl.Add(niViewModel);
-                        }
-                }
-
-            return ScanHostColl;
-        }
-
-        public ObservableCollection<ScanHost> ScanNetwork2() // 
+        public async Task<ObservableCollection<ScanHost>> ScanNetwork2Async()
         {
             var sb = new StringBuilder();
+            var temp = "192.168.100";
+            //var i = 0;
+            ScanHost niViewModel = null; // = new ScanHost
             var ScanHostColl = new ObservableCollection<ScanHost>();
-            var temp = "192.168.100.";
 
-            var lock_object = new object();
-
-            lock (lock_object)
+            for (var i = 0; i < 255; i++)
             {
-                // Код для выполнения во втором потоке
-                for (var i = 0; i < 153; i++)
+                await Task.Run(async () =>
                 {
-                    // Получаем имя хоста по IP-адресу
+                    var ipAddress = $"{temp}.{i}";
+                    //var status = reply.Status == IPStatus.Success ? "Active" : "InActive";
                     var hostName = GetHostNameByIpAddress(sb.Append(temp + i).ToString());
-
-                    // проверяем хосты на доступность
                     var ping = new Ping();
-                    var reply = ping.Send(temp + i, 1000);
-                    if (reply.Status == IPStatus.Success)
+                    //var reply = ping.Send(temp + i, 1000);
+                    var reply1 = await ping.SendPingAsync(ipAddress, 1000);
+
+                    Application.Current.Dispatcher.Invoke(() =>
                     {
-                        Status = "Active";
-                        // Создаем экземпляр ViewModel для NetworkInterface
-                        var niViewModel = new ScanHost
+                        if (reply1.Status == IPStatus.Success)
                         {
-                            IpAdress = temp + i,
-                            HostName = hostName,
-                            Status = Status
-                        };
-                        ScanHostColl.Add(niViewModel);
-                        hostName = "";
-                    }
-                    else
-                    {
-                        Status = "InActive";
-                    }
-
+                            Status = "Active";
+                            niViewModel = new ScanHost
+                            {
+                                IpAdress = ipAddress,
+                                HostName = hostName,
+                                Status = reply1.Status.ToString()
+                            };
+                            ScanHostColl.Add(niViewModel);
+                            OnPropertyChanged(nameof(ScanHostColl));
+                        }
+                        else
+                        {
+                            Status = "InActive";
+                        }
+                    });
                     IsScanning++;
-                }
-            }
+                });
 
+                OnPropertyChanged(nameof(ScanHostColl));
+            }
 
             return ScanHostColl;
-        }
-
-        public void PingHost()
-        {
-            var scan = new ScanHost();
-
-            var worker = new BackgroundWorker();
-
-            Thread.Sleep(500);
-
-            PingReply pingReply;
-            string name;
-
-
-            //string name;
-            var ping = new Ping();
-            var reply = ping.Send(IpAdress, 1000);
-            IPAddress addr;
-            IPHostEntry host;
-
-            addr = IPAddress.Parse(scan.IpAdress);
-            //host = Dns.GetHostEntry();
-            //name = host.HostName;
-            //ScanHostColl.Add(reply.Address.ToString());
-            //MessageBox.Show(reply.Address + " " + reply.Status);
-        }
-
-        public async Task ScanLocalNetworkAsync()
-        {
-            var components = new List<ComputerComponent>();
-
-            var hostName = Dns.GetHostName();
-            var currentIpAddress = ""; //"192.168.100.150";
-
-            var hostEntry = Dns.GetHostEntry(hostName);
-            foreach (var ipAddress in hostEntry.AddressList)
-                if (ipAddress.AddressFamily == AddressFamily.InterNetwork)
-                {
-                    currentIpAddress = ipAddress.ToString();
-                    break;
-                }
-
-            var ipOctets = currentIpAddress.Split('.');
-            var baseIpAddress = $"{ipOctets[0]}.{ipOctets[1]}.{ipOctets[2]}.";
-
-            for (var i = 1; i < 256; i++)
-            {
-                var ipAddress = $"{baseIpAddress}{i}";
-
-                using (var ping = new Ping())
-                {
-                    var reply = await ping.SendPingAsync(ipAddress);
-                    if (reply.Status == IPStatus.Success)
-                    {
-                        // Ваш код для сбора информации о компонентах компьютера в локальной сети
-                        // Пример:
-                        //components.Add(new ComputerComponent
-                        //    { Name = "Processor", Manufacturer = "Intel", Description = "Intel Core i7" });
-                        //components.Add(new ComputerComponent
-                        //    { Name = "Motherboard", Manufacturer = "ASUS", Description = "ASUS Prime Z390" });
-                        //components.Add(new ComputerComponent
-                        //{
-                        //    Name = "Graphics Card", Manufacturer = "NVIDIA", Description = "NVIDIA GeForce RTX 2080 Ti"
-                        //});
-                    }
-                }
-            }
-
-            Components = new ObservableCollection<ComputerComponent>(components);
-        }
-
-
-        public async Task ScanNetworkAsync(string ipAddress)
-        {
-            var components = new List<ComputerComponent>();
-
-            using (var ping = new Ping())
-            {
-                var reply = await ping.SendPingAsync(ipAddress);
-                if (reply.Status == IPStatus.Success)
-                {
-                    // Ваш код для сбора информации о компонентах удаленного компьютера
-                    // Пример:
-                    components.Add(new ComputerComponent
-                        { Name = "Processor", Manufacturer = "Intel", Description = "Intel Core i7" });
-                    components.Add(new ComputerComponent
-                        { Name = "Motherboard", Manufacturer = "ASUS", Description = "ASUS Prime Z390" });
-                    components.Add(new ComputerComponent
-                    {
-                        Name = "Graphics Card", Manufacturer = "NVIDIA", Description = "NVIDIA GeForce RTX 2080 Ti"
-                    });
-                }
-            }
-
-            Components = new ObservableCollection<ComputerComponent>(components);
         }
 
 

@@ -1,17 +1,16 @@
-﻿using System.Collections.Specialized;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using WpfEfCoreTest.Annotations;
 
 namespace WpfEfCoreTest.Model
 {
-    public class ScanHost : INotifyCollectionChanged
+    public class ScanHost : INotifyPropertyChanged
     {
         public string HostName { get; set; }
         public string IpAdress { get; set; }
         public string Status { get; set; }
 
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
+        //public event NotifyCollectionChangedEventHandler CollectionChanged;
 
 
         public event PropertyChangedEventHandler PropertyChanged;

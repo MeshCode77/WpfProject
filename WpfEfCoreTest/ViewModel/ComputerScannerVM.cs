@@ -26,10 +26,12 @@ namespace WpfEfCoreTest.ViewModel
 
         private int _isScanning;
         private string _processor;
+        public string _ramm;
         private ObservableCollection<ScanHost> _scanHostColl;
 
         private ScanHost _selectedHost;
         private string _status;
+        public string _vc;
 
         private string hostName;
 
@@ -67,6 +69,25 @@ namespace WpfEfCoreTest.ViewModel
             }
         }
 
+        public string Videocard
+        {
+            get => _vc;
+            set
+            {
+                _vc = value;
+                OnPropertyChanged(nameof(Videocard));
+            }
+        }
+
+        public string Ramm
+        {
+            get => _ramm;
+            set
+            {
+                _ramm = value;
+                OnPropertyChanged(nameof(Ramm));
+            }
+        }
 
         public string IpAdress
         {
@@ -242,6 +263,41 @@ namespace WpfEfCoreTest.ViewModel
                     //MessageBox.Show("Жесткий диск: " + hdd);
                     DiskDrive = hdd;
                 }
+
+                // Запрашиваем информацию о видеокарте
+                query = new ObjectQuery("SELECT * FROM Win32_VideoController");
+                searcher = new ManagementObjectSearcher(scope, query);
+                queryCollection = searcher.Get();
+
+                foreach (ManagementObject m in queryCollection)
+                {
+                    var vc = m["Caption"].ToString();
+
+                    //MessageBox.Show("Жесткий диск: " + hdd);
+                    Videocard = vc;
+                }
+
+                // Запрашиваем информацию о оперативной памяти
+                var memoryType = "";
+                ulong memorySize = 0;
+
+                // Create WMI query to get memory information
+                var searcher1 =
+                    new ManagementObjectSearcher("root\\CIMV2",
+                        "SELECT * FROM Win32_PhysicalMemory");
+
+                // Get memory information
+                foreach (ManagementObject queryObj in searcher1.Get())
+                {
+                    memoryType = queryObj["MemoryType"].ToString();
+                    memorySize += Convert.ToUInt64(queryObj["Capacity"]);
+                }
+
+                // Convert memory size from bytes to gigabytes
+                var memorySizeGB = memorySize / Math.Pow(1024, 3);
+
+                var result = $"Тип памяти: {memoryType}, объем памяти: {memorySizeGB:F2} ГБ";
+                Ramm = result;
             }
             catch (Exception ex)
             {
@@ -258,7 +314,9 @@ namespace WpfEfCoreTest.ViewModel
             {
                 Processor = Processor,
                 BaseBoard = BaseBoard,
-                DiskDrive = DiskDrive
+                DiskDrive = DiskDrive,
+                Videocard = Videocard,
+                Ramm = Ramm
             };
             Components.Add(components);
             OnPropertyChanged(nameof(components));

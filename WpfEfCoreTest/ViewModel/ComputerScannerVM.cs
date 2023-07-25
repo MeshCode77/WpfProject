@@ -21,6 +21,8 @@ namespace WpfEfCoreTest.ViewModel
 
         private ObservableCollection<ComputerComponent> _components;
         private string _diskDrive;
+
+        // Коллекция, которая будет содержать все жесткие диски системы
         private string _hostName;
         public string _ipAdress;
 
@@ -183,6 +185,8 @@ namespace WpfEfCoreTest.ViewModel
             }
         }
 
+        public ObservableCollection<string> HardDrivesColl { get; set; } = new();
+
 
         public string GetHostNameByIpAddress(string ipAddress)
         {
@@ -197,7 +201,6 @@ namespace WpfEfCoreTest.ViewModel
                 return null;
             }
         }
-
 
         public void GetComputerInfoByIpAddress(string ipAddress)
         {
@@ -262,6 +265,8 @@ namespace WpfEfCoreTest.ViewModel
 
                     //MessageBox.Show("Жесткий диск: " + hdd);
                     DiskDrive = hdd;
+
+                    HardDrivesColl.Add(DiskDrive);
                 }
 
                 // Запрашиваем информацию о видеокарте
@@ -278,6 +283,7 @@ namespace WpfEfCoreTest.ViewModel
                 }
 
                 // Запрашиваем информацию о оперативной памяти
+
                 var memoryType = "";
                 ulong memorySize = 0;
 
@@ -286,17 +292,19 @@ namespace WpfEfCoreTest.ViewModel
                     new ManagementObjectSearcher("root\\CIMV2",
                         "SELECT * FROM Win32_PhysicalMemory");
 
-                // Get memory information
-                foreach (ManagementObject queryObj in searcher1.Get())
+                //// Get memory information
+                foreach (var o in searcher1.Get())
                 {
+                    var queryObj = (ManagementObject)o;
+
                     memoryType = queryObj["MemoryType"].ToString();
                     memorySize += Convert.ToUInt64(queryObj["Capacity"]);
                 }
 
                 // Convert memory size from bytes to gigabytes
                 var memorySizeGB = memorySize / Math.Pow(1024, 3);
-
-                var result = $"Тип памяти: {memoryType}, объем памяти: {memorySizeGB:F2} ГБ";
+                //var result = $"Тип памяти: {memoryType}, объем памяти: {memorySizeGB:F2} ГБ";
+                var result = $"Объем памяти: {memorySizeGB:F2} ГБ";
                 Ramm = result;
             }
             catch (Exception ex)
@@ -318,6 +326,7 @@ namespace WpfEfCoreTest.ViewModel
                 Videocard = Videocard,
                 Ramm = Ramm
             };
+
             Components.Add(components);
             OnPropertyChanged(nameof(components));
             return Components;
@@ -343,25 +352,26 @@ namespace WpfEfCoreTest.ViewModel
                     //var reply = ping.Send(temp + i, 1000);
                     var reply1 = await ping.SendPingAsync(ipAddress, 1000);
 
-                    Application.Current.Dispatcher.Invoke(() =>
+                    //Application.Current.Dispatcher.Invoke(() =>
+                    //{
+                    if (reply1.Status == IPStatus.Success)
                     {
-                        if (reply1.Status == IPStatus.Success)
+                        Status = "Active";
+                        niViewModel = new ScanHost
                         {
-                            Status = "Active";
-                            niViewModel = new ScanHost
-                            {
-                                IpAdress = ipAddress,
-                                HostName = hostName,
-                                Status = reply1.Status.ToString()
-                            };
-                            ScanHostColl.Add(niViewModel);
-                            OnPropertyChanged(nameof(ScanHostColl));
-                        }
-                        else
-                        {
-                            Status = "InActive";
-                        }
-                    });
+                            IpAdress = ipAddress,
+                            HostName = hostName,
+                            Status = reply1.Status.ToString()
+                        };
+                        ScanHostColl.Add(niViewModel);
+                        OnPropertyChanged(nameof(ScanHostColl));
+                    }
+                    else
+                    {
+                        Status = "InActive";
+                    }
+
+                    //});
                     IsScanning++;
                 });
 

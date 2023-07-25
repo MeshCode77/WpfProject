@@ -4,14 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfEfCoreTest.View"
+        xmlns:viewModel="clr-namespace:WpfEfCoreTest.ViewModel"
         mc:Ignorable="d"
         Title="AddFormularView" Height="620" Width="500"
         WindowStartupLocation="CenterScreen"
         Name="AddFormularWnd">
+
+    <Window.DataContext>
+        <viewModel:FormularVM/>
+    </Window.DataContext>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-
         </Grid.ColumnDefinitions>
 
         <GroupBox
@@ -28,60 +33,66 @@
             <StackPanel 
                 Grid.Column="0"
                 HorizontalAlignment="Left"
-                Margin="70,0,0,0" Width="320" Height="614">
+                Margin="70,0,0,0"
+                Width="320" Height="614">
                 <TextBlock
                     Text="Наименование комплектующего"
-                    Margin="5,20,0,0" 
+                    Margin="30,20,0,0" 
                     HorizontalAlignment="Center"/>
                 <ComboBox  Name="NameKomplBlock"
                            ItemsSource="{Binding AllKomplects}"
                            SelectedIndex="0"
                            DisplayMemberPath="NameKompl"
                            SelectedItem="{Binding SelectedKomplect}"                                                    
-                           Width="200"
+                           Width="300"
                            Margin="5"/>
                 <TextBlock Text="№ формуляра"
-                           HorizontalAlignment="Center"/>
-                <TextBox Name="KartNumBlock"
-                         Text ="{Binding NumForm}"
-                         Width="200" 
-                         Height="20"
-                         Margin="2"/>
+                           HorizontalAlignment="Left"
+                           Margin="10,5,0,0"/>
                 <TextBlock Text="№ инвентарный"
-                           HorizontalAlignment="Center"/>
+                           Width="104"
+                           Margin="25,-15,-120,3"/>
                 <TextBox Name="NumFormBlock"
-                         Text ="{Binding InvNum}"
-                         Width="200" 
+                         Text ="{Binding NumForm}"
+                         Width="80" 
                          Height="20"
-                         Margin="2"/>
+                         Margin="0,0,220,0"/>
+                <TextBox x:Name="InvNumBlock"
+                         Text ="{Binding InvNum}"
+                         Width="160" 
+                         Height="20"
+                         Margin="50,-20,-90,0"/>
                 <TextBlock Text="Модель"
-                           HorizontalAlignment="Center"/>
+                           HorizontalAlignment="Center"
+                           Margin="0,5,0,3"/>
                 <TextBox Name="ModelBlock"
                          Text ="{Binding Model}"
-                         Width="200" 
+                         Width="301" 
                          Height="20"
-                         Margin="2"/>
+                         Margin="0"/>
                 <TextBlock Text="Колличество"
-                           HorizontalAlignment="Center"/>
+                           HorizontalAlignment="Center"
+                           Margin="0,10,230,3"/>
                 <TextBox Name="CountBlock"
                          Text ="{Binding Count}"
-                         Width="200" 
+                         Width="80" 
                          Height="20"
-                         Margin="2"/>
+                         Margin="7,0,230,0"/>
                 <TextBlock Text="№ заводской"
-                           HorizontalAlignment="Center"/>
+                           HorizontalAlignment="Center"
+                           Margin="120,-55,5,5" Height="18"/>
                 <TextBox Name="SerialBlock"
                          Text ="{Binding Serial}"
                          Width="200" 
                          Height="20"
-                         Margin="2"/>
+                         Margin="100,-20,0,5"/>
                 <TextBlock Text="Дата ввода"
                            HorizontalAlignment="Center"/>
                 <DatePicker Name="DataInBlock"
                             Text="{Binding DataIn}"
                     HorizontalAlignment="Center"
-                            Width="200"
-                            Margin="2"/>
+                            Width="300"
+                            Margin="0,3,0,7"/>
             </StackPanel>
         </GroupBox>
 

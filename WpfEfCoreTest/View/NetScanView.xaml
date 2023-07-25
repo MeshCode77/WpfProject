@@ -172,12 +172,13 @@
                 Text="{Binding BaseBoard}"
                 FontWeight="Bold"
                 Foreground="DarkBlue"/>
-            <TextBlock
+            <ComboBox  ItemsSource="{Binding HardDrivesColl}"
+                       SelectedIndex="0"
                 Grid.Column="1"
-                Grid.Row="7" 
-                Text="{Binding DiskDrive}"
+                Grid.Row="7"
                 FontWeight="Bold"
-                Foreground="DarkBlue"/>
+                Foreground="DarkBlue" Margin="0,0,10,0">
+            </ComboBox>
             <TextBlock
                 Grid.Column="1"
                 Grid.Row="8" 

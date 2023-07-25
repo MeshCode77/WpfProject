@@ -380,7 +380,7 @@ namespace WpfEfCoreTest.ViewModel
                 return openNetworkScan ?? new RelayCommand(obj =>
                 {
                     var ns = new NetScanView();
-                    ns.ShowDialog();
+                    ns.Show();
                 });
             }
         }

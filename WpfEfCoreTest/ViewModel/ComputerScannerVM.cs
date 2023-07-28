@@ -241,6 +241,7 @@ namespace WpfEfCoreTest.ViewModel
                     //MessageBox.Show("Процессор: " + cpu);
                 }
 
+
                 // Запрашиваем информацию о материнской плате
                 query = new ObjectQuery("SELECT * FROM Win32_BaseBoard");
                 searcher = new ManagementObjectSearcher(scope, query);
@@ -249,6 +250,7 @@ namespace WpfEfCoreTest.ViewModel
                 foreach (ManagementObject m in queryCollection)
                 {
                     var motherboard = m["Product"].ToString();
+                    //memoryType = m["MemoryType"].ToString();
 
                     //MessageBox.Show("Материнская плата: " + motherboard);
                     BaseBoard = motherboard;
@@ -297,14 +299,14 @@ namespace WpfEfCoreTest.ViewModel
                 {
                     var queryObj = (ManagementObject)o;
 
-                    memoryType = queryObj["MemoryType"].ToString();
+                    //memoryType = queryObj["MemoryType"].ToString();
                     memorySize += Convert.ToUInt64(queryObj["Capacity"]);
                 }
 
                 // Convert memory size from bytes to gigabytes
                 var memorySizeGB = memorySize / Math.Pow(1024, 3);
-                //var result = $"Тип памяти: {memoryType}, объем памяти: {memorySizeGB:F2} ГБ";
-                var result = $"Объем памяти: {memorySizeGB:F2} ГБ";
+                var result = $"Тип памяти: {memoryType}, объем памяти: {memorySizeGB:F2} ГБ";
+                //var result = $"Объем памяти: {memorySizeGB:F2} ГБ";
                 Ramm = result;
             }
             catch (Exception ex)

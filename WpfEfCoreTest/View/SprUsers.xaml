@@ -24,7 +24,8 @@
         <ListView x:Name="ViewAllUsers"
                   ItemsSource="{Binding Users}"
                   SelectedItem="{Binding SelectedUser}"
-                  Grid.Row="0" Margin="5" BorderThickness="1">
+                  Grid.Row="0" Margin="5" BorderThickness="1"
+                  FontSize="14">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Id"  Width="auto" 

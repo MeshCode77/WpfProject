@@ -34,7 +34,8 @@
                       ItemsSource="{Binding AllPodrs}"                 
                       SelectedItem="{Binding SelectedPodr}"                
                       Margin="5"
-                      BorderThickness="1">
+                      BorderThickness="1"
+                      FontSize="14">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Id"  Width="35" 
@@ -52,7 +53,8 @@
                       ItemsSource="{Binding FilteredUsers}"                 
                       SelectedItem="{Binding SelectedUser}"
                       Margin="5"
-                      BorderThickness="1" d:ItemsSource="{d:SampleData ItemCount=5}">
+                      BorderThickness="1" d:ItemsSource="{d:SampleData ItemCount=5}"
+                      FontSize="14">
                 <ListView.View>
                     <GridView>
                         <GridView.Columns>
@@ -103,7 +105,8 @@
             <ListView x:Name="lvUsersInfo"
                       ItemsSource="{Binding FilteredInfos}"
                       Margin="5"                 
-                      BorderThickness="1">
+                      BorderThickness="1"
+                      FontSize="14">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Id"  Width="auto" 
@@ -136,7 +139,8 @@
                           ItemsSource="{Binding FilteredF111s}"
                           SelectedItem="{Binding SelectedF111}"
                           Margin="5"
-                          BorderThickness="1">
+                          BorderThickness="1"
+                          FontSize="14">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Id"  Width="auto" 
@@ -214,7 +218,8 @@
                           Grid.Column="2"
                           Grid.Row="1"
                           Margin="0,5,0,5"
-                          BorderThickness="1">
+                          BorderThickness="1"
+                          FontSize="14">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Id"  Width="auto" 

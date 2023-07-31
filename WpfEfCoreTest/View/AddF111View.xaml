@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WpfEfCoreTest.ViewModel"
         xmlns:viewModel="clr-namespace:WpfEfCoreTest.ViewModel"
         mc:Ignorable="d"
-        Title="Добавление данных в карточку Ф.111" Height="450" Width="450"
+        Title="Добавление данных в карточку Ф.111" Height="550" Width="450"
         WindowStartupLocation="CenterScreen"
         Name="AddF111">
 
@@ -16,9 +16,10 @@
 
     <Grid>
         <GroupBox Margin="5">
-            <StackPanel VerticalAlignment="Center" Height="341">
+            <StackPanel VerticalAlignment="Center" Height="450">
                 <TextBlock Text="Наименование оборудования"
-                           HorizontalAlignment="Center"/>
+                           HorizontalAlignment="Center"
+                           FontSize="14"/>
                 <ComboBox  Name="ModelBlock"
                            ItemsSource="{Binding AllNameOborud}"
                            SelectedIndex="0"
@@ -26,9 +27,12 @@
                            SelectedItem="{Binding SelectedNameOborud}"
                            HorizontalAlignment="Center"
                            Width="250"
-                           Margin="2"/>
+                           Margin="2"
+                           FontSize="14"
+                           Height="24"/>
                 <TextBlock Text="Наименование подразделения"
-                           HorizontalAlignment="Center"/>
+                           HorizontalAlignment="Center"
+                           FontSize="14"/>
                 <ComboBox  Name="PodrBlock"
                            ItemsSource="{Binding AllPodrs}"
                            SelectedIndex="0"
@@ -36,60 +40,69 @@
                            SelectedItem="{Binding SelectedPodr}"
                            HorizontalAlignment="Center"
                            Width="250"
-                           Margin="5"/>
-                <!--<TextBox Name="ModelBlock"
-                         Text ="{Binding Model}"
-                         Width="200" 
-                         Height="20"
-                         Margin="2"/>-->
+                           Margin="5"
+                           FontSize="14"
+                           Height="24"/>
                 <TextBlock Text="№ карты Ф.111"
-                           HorizontalAlignment="Center"/>
+                           HorizontalAlignment="Center"
+                           FontSize="14"/>
                 <TextBox Name="KartNumBlock"
                          Text ="{Binding KartNum}"
                          Width="200" 
-                         Height="20"
-                         Margin="2"/>
+                         Height="24"
+                         Margin="2"
+                         FontSize="14"/>
                 <TextBlock Text="№ формуляра"
                            HorizontalAlignment="Center"/>
                 <TextBox Name="NumFormBlock"
                          Text ="{Binding NumForm}"
                          Width="200" 
-                         Height="20"
-                         Margin="2"/>
+                         Height="24"
+                         Margin="2"
+                         FontSize="14"/>
                 <TextBlock Text="№ инвентарный"
-                           HorizontalAlignment="Center"/>
+                           HorizontalAlignment="Center"
+                           FontSize="14"/>
                 <TextBox Name="InvNumBlock"
                          Text ="{Binding InvNum}"
                          Width="200" 
-                         Height="20"
+                         Height="24"
                          Margin="2"/>
                 <TextBlock Text="№ заводской"
-                           HorizontalAlignment="Center"/>
+                           HorizontalAlignment="Center"
+                           FontSize="14"/>
                 <TextBox Name="ZavodNumBlock"
                          Text ="{Binding ZavodNum}"
                          Width="200" 
-                         Height="20"
+                         Height="24"
                          Margin="2"/>
                 <TextBlock Text="Дата получения"
-                           HorizontalAlignment="Center"/>
+                           HorizontalAlignment="Center"
+                           FontSize="14"/>
                 <DatePicker Name="GtDataBlock"
                             Text="{Binding GtDate}"
                             SelectedDate="{Binding GtDate}"
                             HorizontalAlignment="Center"
                             Width="200"
-                            Margin="2"/>
+                            Margin="2"
+                            FontSize="14"
+                            Height="24"/>
                 <TextBlock Text="Дата сдачи"
-                           HorizontalAlignment="Center"/>
+                           HorizontalAlignment="Center"
+                           FontSize="14"/>
                 <DatePicker Name="OutDataBlock"
                             Text="{Binding OutData}"
-                    HorizontalAlignment="Center"
+                            HorizontalAlignment="Center"
                             Width="200"
-                            Margin="2"/>
+                            Margin="2"
+                            FontSize="14"
+                            Height="24"/>
                 <TextBlock Text="В ремонте"
                            Margin="5,0,0,0">
                         <CheckBox x:Name="chkRemont" 
                             Margin="35,10,0,0"
-                            IsChecked="{Binding Remont}"/>
+                            IsChecked="{Binding Remont}"
+                            FontSize="14"/>
                 </TextBlock>
             </StackPanel>
         </GroupBox>

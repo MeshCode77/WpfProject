@@ -104,35 +104,42 @@ namespace WpfEfCoreTest.Model.Data
 
             using (var tc = new TestContext())
             {
-                // проверяем наличие пользователя
-                var chechIsExist = tc.Users.Any(el =>
-                    el.Lname == lname && el.Fname == fname && el.IdPodrNavigation == IdPodrNavigation);
-                var checkIsExistInfo = tc.Infos.Any(el => el.Doljnost == dolj);
-
-                if (!chechIsExist && !checkIsExistInfo)
+                try
                 {
-                    var newUser = new User
+                    // проверяем наличие пользователя
+                    var chechIsExist = tc.Users.Any(el =>
+                        el.Lname == lname && el.Fname == fname && el.IdPodrNavigation == IdPodrNavigation);
+                    var checkIsExistInfo = tc.Infos.Any(el => el.Doljnost == dolj);
+
+                    if (!chechIsExist && !checkIsExistInfo)
                     {
-                        Lname = lname,
-                        Fname = fname,
-                        Mname = mname,
-                        IdPodr = IdPodrNavigation.Id // СВЯЗЬ FK(users) и PK(podrs)
-                    };
-                    tc.Users.Add(newUser);
-                    tc.SaveChanges();
+                        var newUser = new User
+                        {
+                            Lname = lname,
+                            Fname = fname,
+                            Mname = mname,
+                            IdPodr = IdPodrNavigation.Id // СВЯЗЬ FK(users) и PK(podrs)
+                        };
+                        tc.Users.Add(newUser);
+                        tc.SaveChanges();
 
 
-                    var newInfo = new Info
-                    {
-                        IdUser = newUser.Id,
-                        Doljnost = dolj,
-                        NameComp = nameComp
-                    };
+                        var newInfo = new Info
+                        {
+                            IdUser = newUser.Id,
+                            Doljnost = dolj,
+                            NameComp = nameComp
+                        };
 
-                    tc.Infos.Add(newInfo);
-                    tc.SaveChanges();
+                        tc.Infos.Add(newInfo);
+                        tc.SaveChanges();
 
-                    result = "Сделано";
+                        result = "Сделано";
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
                 }
 
                 return result;
@@ -569,45 +576,49 @@ namespace WpfEfCoreTest.Model.Data
         }
 
         // добавляем данные в формуляр
-        internal static string AddDataFormular(int Idf111, int IdKomplect, string NumForm, string InvNum, string Serial,
-            string Model, string Count, DateTime DataTo, DateTime DateIn, DateTime? DateOut, string NumAkt,
-            string YearProd, string GarantyTo, string SelectedKomplect)
+        //public static string AddDataFormular(int Idf111, int IdKomplect, string NumForm, string InvNum, string Serial,
+        //    string Model, string Count, DateTime DataTo, DateTime DateIn, DateTime? DateOut, string NumAkt,
+        //    string YearProd, string GarantyTo, string SelectedKomplect)
+
+        public static string AddDataFormular(int Idf111, int IdKomplect, Formular addForm, string nameKompl)
         {
             var result = "Такое оборудование уже существует в карточке";
 
             using (var tc = new TestContext())
             {
-                //проверяем наличие вводимых данных в карточке пользователя
-                var checkIsExistFormular = tc.Formulars.Any(el =>
-                    el.Idf111 == Idf111 && el.NumForm == NumForm && el.InvNum == InvNum && el.Model == Model &&
-                    el.Count == Count && el.Serial == Serial && el.DataTo == DataTo && el.DateIn == DateIn &&
-                    el.DateOut == DateOut &&
-                    el.NumAkt == NumAkt && el.YearProd == YearProd && el.GarantyTo == GarantyTo &&
-                    el.NameKomplect == SelectedKomplect); // && el.NumForm == obj.NumForm && el.InvNum == obj.InvNum
-                if (!checkIsExistFormular)
+                try
                 {
-                    var newFormular = new Formular
+                    //проверяем наличие вводимых данных в карточке пользователя
+                    var checkIsExistFormular = tc.Formulars.Any(el => el.Serial == addForm.Serial);
+                    if (!checkIsExistFormular)
                     {
-                        Idf111 = Idf111,
-                        IdKomplect = IdKomplect, // id наименования комплектующего 
-                        NumForm = NumForm,
-                        InvNum = InvNum,
-                        Model = Model,
-                        Count = Count,
-                        Serial = Serial,
-                        DataTo = DataTo,
-                        DateIn = DateIn,
-                        DateOut = DateOut,
-                        NumAkt = NumAkt,
-                        YearProd = YearProd,
-                        GarantyTo = GarantyTo,
-                        NameKomplect = SelectedKomplect
-                    };
+                        var newFormular = new Formular
+                        {
+                            Idf111 = Idf111,
+                            IdKomplect = IdKomplect, // id наименования комплектующего 
+                            NumForm = addForm.NumForm,
+                            InvNum = addForm.InvNum,
+                            Model = addForm.Model,
+                            Count = addForm.Count,
+                            Serial = addForm.Serial,
+                            DataTo = addForm.DataTo,
+                            DateIn = addForm.DateIn,
+                            DateOut = addForm.DateOut,
+                            NumAkt = addForm.NumAkt,
+                            YearProd = addForm.YearProd,
+                            GarantyTo = addForm.GarantyTo,
+                            NameKomplect = nameKompl
+                        };
 
-                    tc.Formulars.Add(newFormular);
-                    tc.SaveChanges();
+                        tc.Formulars.Add(newFormular);
+                        tc.SaveChanges();
 
-                    result = "Данные успешно добавлены";
+                        result = "Данные успешно добавлены";
+                        return result;
+                    }
+                }
+                catch (Exception e)
+                {
                 }
             }
 

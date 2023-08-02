@@ -55,7 +55,7 @@
                          Text ="{Binding InvNum}"
                          Width="160" 
                          Height="24"
-                         Margin="50,-22,-90,0"/>
+                         Margin="50,-25,-90,0"/>
                 <TextBlock Text="Модель"
                            HorizontalAlignment="Center"
                            Margin="0,5,0,3"
@@ -76,13 +76,13 @@
                          Margin="7,0,230,0"/>
                 <TextBlock Text="№ заводской"
                            HorizontalAlignment="Center"
-                           Margin="120,-55,5,5" Height="18"
+                           Margin="120,-65,5,5" Height="18"
                            FontSize="14"/>
                 <TextBox Name="SerialBlock"
                          Text ="{Binding Serial}"
                          Width="200" 
                          Height="24"
-                         Margin="100,-20,0,5"
+                         Margin="100,-24,0,5"
                          FontSize="14"/>
                 <TextBlock Text="Дата ввода"
                            HorizontalAlignment="Center"

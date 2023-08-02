@@ -203,8 +203,8 @@ namespace WpfEfCoreTest.ViewModel
                         _selectedUser
                             .Id; // передача выбраного id пользователя в DataTranfer для использ в других классах
 
-                    FilteredF111s =
-                        new ObservableCollection<F111>(); // создаем новую коллекцию F111 - это решает проблему неработающего SelectedUser для F111
+                    //FilteredF111s =
+                    //    new ObservableCollection<F111>(); // создаем новую коллекцию F111 - это решает проблему неработающего SelectedUser для F111
 
                     if (f111s != null)
                     {
@@ -279,6 +279,8 @@ namespace WpfEfCoreTest.ViewModel
                 if (SelectedF111 != null)
                 {
                     DataTransfer.IdF111 = _selectedF111.Id; // передача IdF111 для других классов
+
+                    //FilteredFormular = new ObservableCollection<Formular>();
 
                     formular.Clear();
 

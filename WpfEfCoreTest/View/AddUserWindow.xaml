@@ -21,32 +21,57 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Width="300">
-            <TextBlock Text="Фамилия"/>
-            <TextBox Name="LnameBlock" Text="{Binding Lname}"/>
-            <TextBlock Text="Имя"/>
-            <TextBox Name="FnameBlock"  Text="{Binding Fname}"/>
-            <TextBlock Text="Отчество"/>
-            <TextBox Name="MnameBlock"  Text="{Binding Mname}"/>
-            <TextBlock Text="Должность"/>
-            <TextBox Name="DoljBlock"  Text="{Binding Doljnost}"/>
-            <TextBlock Text="Имя компьютера"/>
-            <TextBox Name="NameCompBlock"  Text="{Binding NameComp}"/>
-            <TextBlock Text="Подразделение"/>
+            <TextBlock Text="Фамилия"
+                       FontSize="14"/>
+            <TextBox Name="LnameBlock"
+                     Text="{Binding Lname}"
+                     FontSize="14"/>
+            <TextBlock Text="Имя"
+                       FontSize="14"/>
+            <TextBox Name="FnameBlock" 
+                     Text="{Binding Fname}"
+                     FontSize="14"/>
+            <TextBlock Text="Отчество"
+                       FontSize="14"/>
+            <TextBox Name="MnameBlock" 
+                     Text="{Binding Mname}"
+                     FontSize="14"/>
+            <TextBlock Text="Должность"
+                       FontSize="14"/>
+            <TextBox Name="DoljBlock"
+                     Text="{Binding Doljnost}"
+                     FontSize="14"/>
+            <TextBlock Text="Имя компьютера"
+                       FontSize="14"/>
+            <TextBox Name="NameCompBlock" 
+                     Text="{Binding NameComp}"
+                     FontSize="14"/>
+            <TextBlock Text="Подразделение"
+                       FontSize="14"/>
             <ComboBox ItemsSource="{Binding AllPodrs}"
                       SelectedIndex="0"      
                       DisplayMemberPath="NamePodr"
-                      SelectedItem="{Binding IdPodrNavigation}"/>
+                      SelectedItem="{Binding IdPodrNavigation}"
+                      FontSize="14"/>
         </StackPanel>
 
-        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="3" Grid.Column="1">
+        <StackPanel 
+            HorizontalAlignment="Center"
+            Orientation="Horizontal"
+            Grid.Row="3"
+            Grid.Column="1">
             <Button Content="Добавить"
                     Command="{Binding AddCommand}"
                     CommandParameter="{Binding ElementName=AddUserWnd}"
-                    
-                    MinWidth="60"
-                    Margin="5">
-            </Button>
-            <Button IsCancel="True" MinWidth="60" Margin="5">Отмена</Button>
+                    Width="160"
+                    Height="25"
+                    Margin="5"/>
+            <Button 
+                Content="Отмена"
+                IsCancel="True"
+                Width="160" 
+                Height="25"
+                Margin="5"/>
         </StackPanel>
     </Grid>
 </Window>

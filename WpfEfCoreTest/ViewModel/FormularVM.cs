@@ -23,6 +23,7 @@ namespace WpfEfCoreTest.ViewModel
 
         private static Formular _selectedRowFormular;
 
+        private readonly Formular addForm;
 
         private ObservableCollection<Formular> _formular;
 
@@ -49,8 +50,8 @@ namespace WpfEfCoreTest.ViewModel
 
         public FormularVM()
         {
+            //this.addForm = addForm;
             db = new TestContext();
-
 
             db.Formulars.Load();
             db.Formulars.ToObservableCollection();
@@ -63,16 +64,16 @@ namespace WpfEfCoreTest.ViewModel
             AllKomplects = db.Komplects.Local.ToObservableCollection();
 
             // для отображения в comboBox значения
-            if (SelectedRowFormular != null)
-            {
-                var resNameOborud = db.Komplects.FirstOrDefault(x => x.Id == SelectedRowFormular.IdKomplect);
-                //var resGtDate = db.F111s.FirstOrDefault(x => x.GtDate == SelectedRowF111.GtDate);
+            //if (SelectedRowFormular != null)
+            //{
+            //    var resNameOborud = db.Komplects.FirstOrDefault(x => x.Id == SelectedRowFormular.IdKomplect);
+            //    //var resGtDate = db.F111s.FirstOrDefault(x => x.GtDate == SelectedRowF111.GtDate);
 
 
-                if (resNameOborud != null)
-                    SelectedNameKomplCB = resNameOborud;
-                //GtDate = resGtDate.GtDate;
-            }
+            //    if (resNameOborud != null)
+            //        SelectedNameKomplCB = resNameOborud;
+            //    //GtDate = resGtDate.GtDate;
+            //}
         }
 
         #endregion
@@ -306,27 +307,74 @@ namespace WpfEfCoreTest.ViewModel
             {
                 return addFormularCmd ?? new RelayCommand(obj =>
                 {
+                    //var addForm = new Formular();
+
+                    var form = new Formular
+                    {
+                        NumForm = NumForm,
+                        InvNum = InvNum,
+                        Model = Model,
+                        Count = Count,
+                        Serial = Serial,
+                        DataTo = DataTo,
+                        DateIn = DateIn,
+                        DateOut = DateOut,
+                        NumAkt = NumAkt,
+                        YearProd = YearProd,
+                        GarantyTo = GarantyTo,
+                        NameKomplect = SelectedKomplect.NameKompl
+                    };
+
                     var wnd = obj as Window;
                     var result = "";
 
                     if (string.IsNullOrEmpty(NumForm) || NumForm.Length == 0)
                     {
-                        //SetRedBlockTextBox(wnd, "NumFormBlock");
+                        MessageBox.Show("Ввведите номер формуляра", "Сообщение", MessageBoxButton.OK,
+                            MessageBoxImage.Warning);
+                        return;
                     }
+
 
                     if (string.IsNullOrEmpty(InvNum) || InvNum.Length == 0)
                     {
-                        //SetRedBlockTextBox(wnd, "InvNumBlock");
+                        MessageBox.Show("Ввведите Инвентарный номер", "Сообщение", MessageBoxButton.OK,
+                            MessageBoxImage.Warning);
+                        return;
                     }
 
-                    if (string.IsNullOrEmpty(Model) || Model.Length == 0) SetRedBlockTextBox(wnd, "ModelBlock");
 
-                    if (string.IsNullOrEmpty(Count) || Count.Length == 0) SetRedBlockTextBox(wnd, "CountBlock");
+                    if (string.IsNullOrEmpty(Model) || Model.Length == 0)
+                    {
+                        MessageBox.Show("Ввведите Модель", "Сообщение", MessageBoxButton.OK,
+                            MessageBoxImage.Warning);
+                        return;
+                    }
 
-                    if (string.IsNullOrEmpty(Serial) || Serial.Length == 0) SetRedBlockTextBox(wnd, "SerialBlock");
 
-                    if (string.IsNullOrEmpty(DateIn.ToString()) || DateIn.ToString().Length == 0)
-                        SetRedBlockTextBox(wnd, "DataInBlock");
+                    if (string.IsNullOrEmpty(Count) || Count.Length == 0)
+                    {
+                        MessageBox.Show("Ввведите колличество", "Сообщение", MessageBoxButton.OK,
+                            MessageBoxImage.Warning);
+                        return;
+                    }
+
+
+                    if (string.IsNullOrEmpty(Serial) || Serial.Length == 0)
+                    {
+                        MessageBox.Show("Ввведите Серийный номер", "Сообщение", MessageBoxButton.OK,
+                            MessageBoxImage.Warning);
+                        return;
+                    }
+
+
+                    if (string.IsNullOrEmpty(DateIn.ToString()) || DateIn == DateTime.MinValue)
+                    {
+                        DateIn = DateTime.Now;
+                        MessageBox.Show("Ввведите Дату ввода", "Сообщение", MessageBoxButton.OK,
+                            MessageBoxImage.Warning);
+                        return;
+                    }
 
                     if (SelectedKomplect == null)
                     {
@@ -334,9 +382,12 @@ namespace WpfEfCoreTest.ViewModel
                     }
                     else
                     {
-                        result = DataWorker.AddDataFormular(DataTransfer.IdF111, SelectedKomplect.Id, NumForm, InvNum,
-                            Serial, Model,
-                            Count, DataTo, DateIn, DateOut, NumAkt, YearProd, GarantyTo, SelectedKomplect.NameKompl);
+                        //result = DataWorker.AddDataFormular(DataTransfer.IdF111, SelectedKomplect.Id, NumForm, InvNum,
+                        //    Serial, Model,
+                        //    Count, DataTo, DateIn, DateOut, NumAkt, YearProd, GarantyTo, SelectedKomplect.NameKompl);
+
+                        result = DataWorker.AddDataFormular(DataTransfer.IdF111, SelectedKomplect.Id, form,
+                            SelectedKomplect.NameKompl);
 
                         UpdateFormular();
 

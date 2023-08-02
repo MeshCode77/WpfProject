@@ -1,6 +1,4 @@
-﻿
-
-#nullable disable
+﻿#nullable disable
 
 using System;
 using System.Collections.Generic;
@@ -10,7 +8,7 @@ using WpfEfCoreTest.Annotations;
 
 namespace WpfEfCoreTest.Model
 {
-    public partial class Formular : INotifyPropertyChanged
+    public class Formular : INotifyPropertyChanged
     {
         public Formular()
         {
@@ -22,7 +20,7 @@ namespace WpfEfCoreTest.Model
         public int Idf111 { get; set; }
         public int IdKomplect { get; set; }
         public string NameKomplect { get; set; }
-        public  string NumForm { get; set; }
+        public string NumForm { get; set; }
         public string InvNum { get; set; }
         public string Model { get; set; }
         public string Count { get; set; }
@@ -46,7 +44,5 @@ namespace WpfEfCoreTest.Model
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-
     }
 }

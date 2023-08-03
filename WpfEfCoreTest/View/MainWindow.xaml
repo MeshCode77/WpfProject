@@ -8,7 +8,7 @@
         Title="MainWindow"
         FontSize="12"
         Height="850"
-        Width="1800"
+        Width="1600"
         WindowStartupLocation="CenterScreen"
         Name="MainWnd">
 
@@ -122,7 +122,7 @@
                         <GridViewColumn Header="IP адресс" Width="auto"
                                         DisplayMemberBinding="{Binding Path=Ip }"/>
                         <GridViewColumn Header="Должность" Width="auto"
-                                        DisplayMemberBinding="{Binding Path=Dolj }"/>
+                                        DisplayMemberBinding="{Binding Path=Doljnost }"/>
                         <GridViewColumn Header="В/тел" Width="auto"
                                         DisplayMemberBinding="{Binding Path=Vtel }"/>
                     </GridView>
@@ -254,7 +254,7 @@
         
 
         <!--Menu-->
-        <StackPanel Margin="0,0,0,191" Grid.ColumnSpan="3">
+        <StackPanel Margin="0,0,0,9" Grid.ColumnSpan="3">
             <Menu>
                 <MenuItem Header="Администрирование">
                     <MenuItem Header="Пользователи и права" Command="{Binding OpenWndUserManagerCmd}"/>

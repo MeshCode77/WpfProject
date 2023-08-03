@@ -94,7 +94,7 @@ namespace WpfEfCoreTest.ViewModel
         public static string Pass { get; set; }
         public static string Doljnost { get; set; }
         public static string NameComp { get; set; }
-        public static string MAC { get; set; }
+        public static string Mac { get; set; }
         public static string Vtel { get; set; }
 
 
@@ -128,7 +128,8 @@ namespace WpfEfCoreTest.ViewModel
                     }
                     else
                     {
-                        resultStr = DataWorker.CreateUser(Lname, Fname, Mname, Doljnost, NameComp, IdPodrNavigation);
+                        resultStr = DataWorker.CreateUser(Lname, Fname, Mname, Doljnost, NameComp, Login, Pass, Mac,
+                            Vtel, IdPodrNavigation);
                         UpdateAllDataView();
 
                         ShowMessageToUser(resultStr); // показать сообщение 
@@ -139,33 +140,33 @@ namespace WpfEfCoreTest.ViewModel
             }
         }
 
-        public RelayCommand AddPodr
-        {
-            get
-            {
-                return addPodr ?? new RelayCommand(obj =>
-                {
-                    var wnd = obj as Window;
+        //public RelayCommand AddPodr
+        //{
+        //    get
+        //    {
+        //        return addPodr ?? new RelayCommand(obj =>
+        //        {
+        //            var wnd = obj as Window;
 
-                    var result = "";
+        //            var result = "";
 
-                    if (NewNamePodr == null || NewNamePodr.Replace(" ", "").Length == 0)
-                    {
-                        SetRedBlockControll(wnd, "NamePodrBlock");
-                    }
-                    else
-                    {
-                        result = DataWorker.CreatePodr(NewNamePodr);
-                        //UpdateAllDataView();
-                        UpdatePodrView();
+        //            if (NewNamePodr == null || NewNamePodr.Replace(" ", "").Length == 0)
+        //            {
+        //                SetRedBlockControll(wnd, "NamePodrBlock");
+        //            }
+        //            else
+        //            {
+        //                result = DataWorker.CreatePodr(NewNamePodr);
+        //                //UpdateAllDataView();
+        //                UpdatePodrView();
 
-                        ShowMessageToUser(result);
-                        SetNullValuesToProperties();
-                        //wnd.Close();
-                    }
-                });
-            }
-        }
+        //                ShowMessageToUser(result);
+        //                SetNullValuesToProperties();
+        //                //wnd.Close();
+        //            }
+        //        });
+        //    }
+        //}
 
         public RelayCommand EditUserCommand
         {
@@ -183,8 +184,8 @@ namespace WpfEfCoreTest.ViewModel
                         {
                             if (IdPodrNavigation != null)
                             {
-                                resultStr = DataWorker.EditUser(SelectedUser, Lname, Fname, Mname, Doljnost, NameComp,
-                                    IdPodrNavigation);
+                                resultStr = DataWorker.EditUser(SelectedUser, Lname, Fname, Mname, Doljnost, Login,
+                                    Pass, Mac, Vtel, NameComp, IdPodrNavigation);
 
                                 //UpdateAllDataView();
                                 UpdateAllUsersView();
@@ -286,7 +287,7 @@ namespace WpfEfCoreTest.ViewModel
             NamePodr = null;
             Login = null;
             Pass = null;
-            MAC = null;
+            Mac = null;
             Doljnost = null;
             NameComp = null;
         }

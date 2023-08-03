@@ -6,7 +6,7 @@
         x:Class="WpfEfCoreTest.View.SprUsers"
         mc:Ignorable="d"
         xmlns:local="clr-namespace:WpfEfCoreTest.ViewModel"
-        Title="WinSprUsers" Height="650" Width="1236"
+        Title="WinSprUsers" Height="650" Width="1250"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
         Name="SprUsersWnd">
@@ -48,10 +48,8 @@
                                     DisplayMemberBinding="{Binding Path=UserInfo.NameComp}"/>
                     <GridViewColumn Header="В/тел." Width="auto"
                                     DisplayMemberBinding="{Binding Path=UserInfo.Vtel}"/>
-                    <GridViewColumn Header="№ карточки Ф111" Width="auto"
-                                    DisplayMemberBinding="{Binding Path=F111s[0].KartNum}"/>
-                    <GridViewColumn Header="№ формуляра" Width="auto"
-                                    DisplayMemberBinding="{Binding Path=Formulars[0].NumForm}"/>
+                    <!--<GridViewColumn Header="№ карточки Ф111" Width="auto"
+                                    DisplayMemberBinding="{Binding Path=F111s[0].KartNum}"/>-->
                 </GridView>
             </ListView.View>
         </ListView>

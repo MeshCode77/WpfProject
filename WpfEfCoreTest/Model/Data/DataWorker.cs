@@ -98,6 +98,7 @@ namespace WpfEfCoreTest.Model.Data
 
         // создаем нового usera
         public static string CreateUser(string lname, string fname, string mname, string dolj, string nameComp,
+            string login, string pass, string mac, string vtel,
             Podr IdPodrNavigation)
         {
             var result = "Уже существует";
@@ -128,7 +129,11 @@ namespace WpfEfCoreTest.Model.Data
                         {
                             IdUser = newUser.Id,
                             Doljnost = dolj,
-                            NameComp = nameComp
+                            NameComp = nameComp,
+                            Login = login,
+                            Pass = pass,
+                            Mac = mac,
+                            Vtel = vtel
                         };
 
                         tc.Infos.Add(newInfo);
@@ -338,7 +343,8 @@ namespace WpfEfCoreTest.Model.Data
 
 
         // редактирование данных пользователя
-        public static string EditUser(User oldUser, string Lname, string Fname, string Mname, string dolj,
+        public static string EditUser(User oldUser, string Lname, string Fname, string Mname, string dolj, string login,
+            string pass, string mac, string vtel,
             string nameComp, Podr IdPodrNavigation)
         {
             var result = "Такого сотрудника не существует";
@@ -364,7 +370,11 @@ namespace WpfEfCoreTest.Model.Data
                     {
                         IdUser = user.Id,
                         Doljnost = dolj,
-                        NameComp = nameComp
+                        NameComp = nameComp,
+                        Login = login,
+                        Pass = pass,
+                        Mac = mac,
+                        Vtel = vtel
                     };
 
                     db.Infos.Add(newInfo); // и добавляем их
@@ -374,6 +384,10 @@ namespace WpfEfCoreTest.Model.Data
                     info.IdUser = user.Id;
                     info.Doljnost = dolj;
                     info.NameComp = nameComp;
+                    info.Login = login;
+                    info.Pass = pass;
+                    info.Mac = mac;
+                    info.Vtel = vtel;
                 }
 
                 db.SaveChanges();

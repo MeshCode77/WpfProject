@@ -43,7 +43,7 @@
                Source="/img/pic11.jpg"
                StretchDirection="DownOnly"
                VerticalAlignment="Top"/>
-        <TextBlock Text="(C) Minsk IIT 2023" 
+        <TextBlock Text="(C) MINSK BSUIR IIT 2023" 
                    Foreground="DimGray"
                    FontSize="10"
                    VerticalAlignment="Bottom" 

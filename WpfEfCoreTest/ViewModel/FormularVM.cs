@@ -362,7 +362,7 @@ namespace WpfEfCoreTest.ViewModel
 
                     if (string.IsNullOrEmpty(Serial) || Serial.Length == 0)
                     {
-                        MessageBox.Show("Ввведите Серийный номер", "Сообщение", MessageBoxButton.OK,
+                        MessageBox.Show("Ввведите Заводской/Серийный номер", "Сообщение", MessageBoxButton.OK,
                             MessageBoxImage.Warning);
                         return;
                     }

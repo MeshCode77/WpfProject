@@ -42,7 +42,7 @@
                     <GridViewColumn Header="Год выпуска" Width="auto"
                                     DisplayMemberBinding="{Binding Path=YearProd}" />
                     <GridViewColumn Header="Дата ввода" Width="auto"
-                                    DisplayMemberBinding="{Binding Path=DateIn}" />
+                                    DisplayMemberBinding="{Binding Path=DateIn, StringFormat=dd.MM.yyyy HH:mm:ss}" />
                     <GridViewColumn Header="Дата вывода" Width="auto"
                                     DisplayMemberBinding="{Binding Path=DateOut}" />
                     <GridViewColumn Header="№ Акта" Width="auto"

@@ -280,7 +280,7 @@ namespace WpfEfCoreTest.ViewModel
                 {
                     DataTransfer.IdF111 = _selectedF111.Id; // передача IdF111 для других классов
 
-                    //FilteredFormular = new ObservableCollection<Formular>();
+                    FilteredFormular = new ObservableCollection<Formular>();
 
                     formular.Clear();
 

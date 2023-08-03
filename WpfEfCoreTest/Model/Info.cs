@@ -1,49 +1,46 @@
-﻿
+﻿#nullable disable
 
-#nullable disable
-
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.DirectoryServices.ActiveDirectory;
 using System.Runtime.CompilerServices;
 using WpfEfCoreTest.Annotations;
-using WpfEfCoreTest.Model.Data;
 
 namespace WpfEfCoreTest.Model
 {
-    public partial class Info :  INotifyPropertyChanged
+    public class Info : INotifyPropertyChanged
     {
-        private User idUserNavigation;
         private string doljnost;
+        private User idUserNavigation;
         private string nameComp;
 
         public int Id { get; set; }
+
         public int IdUser { get; set; }
+
         //public string NameComp { get; set; }
         public string NameComp
         {
-            get { return nameComp; }
+            get => nameComp;
             set
             {
                 nameComp = value;
-                OnPropertyChanged("NameComp");
+                OnPropertyChanged();
             }
         }
+
         public string Login { get; set; }
         public string Pass { get; set; }
         public string Ip { get; set; }
+
         public string Mac { get; set; }
         //public string Doljnost { get; set; }
 
         public string Doljnost
         {
-            get { return doljnost; }
+            get => doljnost;
             set
             {
                 doljnost = value;
-                OnPropertyChanged("Doljnost");
+                OnPropertyChanged();
             }
         }
 
@@ -51,17 +48,6 @@ namespace WpfEfCoreTest.Model
         public string Vtel { get; set; }
         public virtual User IdUserNavigation { get; set; }
 
-        //public virtual User IdUserNavigation
-        //{
-        //    get { return idUserNavigation; }
-        //    set
-        //    {
-        //        idUserNavigation = value;
-        //        OnPropertyChanged("IdUserNavigation");
-        //    }
-        //}
-
-        
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -70,6 +56,5 @@ namespace WpfEfCoreTest.Model
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
 }

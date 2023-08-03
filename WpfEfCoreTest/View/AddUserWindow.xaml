@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfEfCoreTest.ViewModel"
         mc:Ignorable="d"
-        Title="AddUserWindow" Height="500" Width="450"
+        Title="AddUserWindow" Height="600" Width="450"
         Name="AddUserWnd">
 
     <Window.DataContext>
@@ -17,43 +17,87 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
+        <GroupBox Header="Добавление информации о пользователе"
+            Margin="40,5,40,10"
+            Width="350">
         <StackPanel Orientation="Vertical"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Width="300">
-            <TextBlock Text="Фамилия"
-                       FontSize="14"/>
-            <TextBox Name="LnameBlock"
-                     Text="{Binding Lname}"
-                     FontSize="14"/>
-            <TextBlock Text="Имя"
-                       FontSize="14"/>
-            <TextBox Name="FnameBlock" 
-                     Text="{Binding Fname}"
-                     FontSize="14"/>
-            <TextBlock Text="Отчество"
-                       FontSize="14"/>
-            <TextBox Name="MnameBlock" 
-                     Text="{Binding Mname}"
-                     FontSize="14"/>
-            <TextBlock Text="Должность"
-                       FontSize="14"/>
-            <TextBox Name="DoljBlock"
-                     Text="{Binding Doljnost}"
-                     FontSize="14"/>
-            <TextBlock Text="Имя компьютера"
-                       FontSize="14"/>
-            <TextBox Name="NameCompBlock" 
-                     Text="{Binding NameComp}"
-                     FontSize="14"/>
             <TextBlock Text="Подразделение"
                        FontSize="14"/>
+
             <ComboBox ItemsSource="{Binding AllPodrs}"
                       SelectedIndex="0"      
                       DisplayMemberPath="NamePodr"
                       SelectedItem="{Binding IdPodrNavigation}"
-                      FontSize="14"/>
-        </StackPanel>
+                      FontSize="14"
+                      Height="24"/>
+            <TextBlock Text="Фамилия"
+                       FontSize="14"/>
+            <TextBox x:Name="LnameBlock"
+                     Text="{Binding Lname}"
+                     FontSize="14"
+                     Height="24"/>
+            <TextBlock Text="Имя"
+                       FontSize="14"/>
+            <TextBox x:Name="FnameBlock" 
+                     Text="{Binding Fname}"
+                     FontSize="14"/>
+            <TextBlock Text="Отчество"
+                       FontSize="14"/>
+            <TextBox x:Name="MnameBlock" 
+                     Text="{Binding Mname}"
+                     FontSize="14"/>
+            <TextBlock Text="Должность"
+                       FontSize="14"/>
+            <TextBox x:Name="DoljBlock"
+                     Text="{Binding Doljnost}"
+                     FontSize="14"
+                     Height="24"/>
+            <TextBlock Text="Имя компьютера"
+                       FontSize="14"/>
+            <TextBox x:Name="NameCompBlock" 
+                     Text="{Binding NameComp}"
+                     FontSize="14"
+                     Height="24"/>
+            <TextBlock Text="Логин"
+                       FontSize="14" Width="40"
+                       Margin="0,0,260,0"/>
+            <TextBox x:Name="LoginBlock" 
+                     Text="{Binding Login}"
+                     FontSize="14"
+                     Height="24"
+                     Width="145"
+                     Margin="0,0,155,5"/>
+            <TextBlock Text="Пароль"
+                       FontSize="14" Width="55"
+                       Margin="63,-45,0,90"/>
+            <TextBox x:Name="PassBlock" 
+                     Text="{Binding Pass}"
+                     FontSize="14"
+                     Height="24"
+                     Width="145"
+                     Margin="155,-150,0,11"/>
+            <TextBlock Text="MAC адресс"
+                       FontSize="14"
+                       Margin="0,-105,5,5" Height="24"/>
+            <TextBox x:Name="MACBlock" 
+                     Text="{Binding MAC}"
+                     FontSize="14"
+                     Height="24"
+                     Margin="0,-70,0,5"/>
+            <TextBlock Text="Внутрений тел."
+                       FontSize="14"
+                       Margin="0,-20,5,5" Height="24"/>
+            <TextBox x:Name="VtelBlock" 
+                     Text="{Binding Vtel}"
+                     FontSize="14"
+                     Height="24"
+                     Margin="-55,-10,100,5"
+                     Width="145"/>
+            </StackPanel>
+        </GroupBox>
 
         <StackPanel 
             HorizontalAlignment="Center"

@@ -126,6 +126,7 @@
                     Width="165"
                     Height="25"
                     Margin="0"
+                    Background="Azure"
                     Foreground="DarkBlue"/>
             <Button 
                 Content="Отмена"
@@ -133,6 +134,7 @@
                 Width="165" 
                 Height="25"
                 Margin="20,10,0,10"
+                Background="Azure"
                 Foreground="DarkBlue"/>
         </StackPanel>
     </Grid>

@@ -15,7 +15,7 @@
 
     <Grid>
         <StackPanel Margin="0,0,0,191" Grid.ColumnSpan="3">
-            <Menu>
+            <Menu FontSize="14">
                 <MenuItem Header="Управление" Margin="10">
                     <MenuItem Header="Сохранить в файл" Command="{Binding SaveCommand}"/>
                     <MenuItem Header="Стереть данные из БД" Command="{Binding ClearOtchetRemont}"/>
@@ -27,7 +27,8 @@
         <ListView Name="lstViewRemont"
                   ItemsSource="{Binding AllOtchetRem}"
                   SelectedItem="{Binding SelectedRemont}"
-                  Margin="10,35, 10,10">
+                  Margin="10,35, 10,10"
+                  FontSize="14">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Id"  Width="50" 

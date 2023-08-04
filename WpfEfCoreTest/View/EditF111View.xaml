@@ -23,7 +23,9 @@
                            SelectedItem="{Binding SelectedNameOborudCB }"
                            HorizontalAlignment="Center"
                            Width="200"
-                           Margin="2">
+                           Margin="2"
+                           Background="Azure"
+                           Foreground="DarkBlue">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding NameOborud1}"/>
@@ -89,11 +91,15 @@
                 <Button Command="{Binding EditF111Command}"
                         CommandParameter="{Binding ElementName=EditF111}"
                     Content="Сохранить" 
-                    Margin="5"/>
+                    Margin="5"
+                        Background="Azure"
+                        Foreground="DarkBlue"/>
                 <Button IsCancel="True"
                     Grid.Column="1" 
                     Content="Отмена"
-                    Margin="5"/>
+                    Margin="5"
+                    Background="Azure"
+                    Foreground="DarkBlue"/>
             </Grid>
         </StackPanel>
     </Grid>

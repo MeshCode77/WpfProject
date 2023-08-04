@@ -302,6 +302,13 @@ namespace WpfEfCoreTest.ViewModel
                 return openWindowF111 ?? new RelayCommand(obj =>
                 {
                     _selectedUser = obj as User;
+                    if (SelectedUser == null)
+                    {
+                        MessageBox.Show("Выбирите пользователя", "Сообщение", MessageBoxButton.OK,
+                            MessageBoxImage.Warning);
+                        return;
+                    }
+
                     //_selectedF111 = obj as F111;
                     var f111View = new F111View();
                     f111View.ShowDialog();

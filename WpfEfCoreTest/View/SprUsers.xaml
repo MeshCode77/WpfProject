@@ -18,13 +18,14 @@
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition  Height="50"/>
             <RowDefinition  Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <ListView x:Name="ViewAllUsers"
                   ItemsSource="{Binding Users}"
                   SelectedItem="{Binding SelectedUser}"
-                  Grid.Row="0" Margin="5" BorderThickness="1"
+                  Grid.Row="1" Margin="5" BorderThickness="1"
                   FontSize="14">
             <ListView.View>
                 <GridView>
@@ -53,13 +54,30 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Content="Добавить" Margin="10" Command="{Binding OpenAddUserWnd}" />
-            <Button Content="Изменить" Margin="10" Command="{Binding OpenEditCommandWnd}"/>
-            <Button Content="Удалить" Margin="10" Command="{Binding DeleteUserCommand}"/>
-
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="Добавить"
+                    Margin="10,10,0,10"
+                    Command="{Binding OpenAddUserWnd}"
+                    Width="200"
+                    Background="Azure"
+                    Foreground="DarkBlue"/>
+            <Button Content="Изменить"
+                    Margin="20,10,0,10"
+                    Command="{Binding OpenEditCommandWnd}"
+                    Background="Azure"
+                    Foreground="DarkBlue"
+                    Width="200"/>
+            <Button Content="Удалить"
+                    Margin="20,10,0,10"
+                    Command="{Binding DeleteUserCommand}"
+                    Background="Azure"
+                    Foreground="DarkBlue"
+                    Width="200"/>
             <Button Content="Отмена" Margin="10" Command="{Binding CancelUser}"
-                    CommandParameter="{Binding ElementName=SprUsersWnd}"/>
+                    CommandParameter="{Binding ElementName=SprUsersWnd}"
+                    Background="Azure"
+                    Foreground="DarkBlue"
+                    Width="200"/>
 
         </StackPanel>
 

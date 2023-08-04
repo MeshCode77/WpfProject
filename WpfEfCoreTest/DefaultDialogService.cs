@@ -10,6 +10,9 @@ namespace WpfEfCoreTest
         public bool OpenFileDialog()
         {
             var openFileDialog = new OpenFileDialog();
+
+            openFileDialog.Filter = "Text files (*.TXT)|*.txt|All Files (*.*)|*.*";
+
             if (openFileDialog.ShowDialog() == true)
             {
                 FilePath = openFileDialog.FileName;
@@ -22,6 +25,9 @@ namespace WpfEfCoreTest
         public bool SaveFileDialog()
         {
             var saveFileDialog = new SaveFileDialog();
+
+            saveFileDialog.Filter = "Text files (*.TXT)|*.txt|All Files (*.*)|*.*";
+
             if (saveFileDialog.ShowDialog() == true)
             {
                 FilePath = saveFileDialog.FileName;

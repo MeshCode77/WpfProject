@@ -254,8 +254,8 @@
         
 
         <!--Menu-->
-        <StackPanel Margin="0,0,0,9" Grid.ColumnSpan="3">
-            <Menu>
+        <StackPanel  Grid.ColumnSpan="3" Height="20" VerticalAlignment="Top">
+            <Menu FontSize="12">
                 <MenuItem Header="Администрирование">
                     <MenuItem Header="Пользователи и права" Command="{Binding OpenWndUserManagerCmd}"/>
                     <MenuItem Header="Сменить пользователя"/>

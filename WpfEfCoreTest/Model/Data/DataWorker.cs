@@ -191,33 +191,44 @@ namespace WpfEfCoreTest.Model.Data
         {
             var result = "Такое оборудование уже существует в карточке";
 
-            using (var tc = new TestContext())
+            try
             {
-                //проверяем наличие вводимых данных в карточке пользователя
-                var checkIsExistF111 = tc.F111s.Any(el =>
-                    el.InvNum == invNum && el.KartNum == kartNum && el.NumForm == numForm && el.ZavodNum == zavodNum);
-                if (!checkIsExistF111)
+                using (var tc = new TestContext())
                 {
-                    var newDataF111 = new F111
+                    //проверяем наличие вводимых данных в карточке пользователя
+                    var checkIsExistF111 = tc.F111s.Any(el =>
+                        el.InvNum == invNum && el.KartNum == kartNum && el.NumForm == numForm &&
+                        el.ZavodNum == zavodNum);
+                    if (!checkIsExistF111)
                     {
-                        IdUser = _selectedUser, // Id пользователя для связи с табалицей Users
-                        IdnameOborud = idNameOborud, // SelectedNameOborud для связи с таблицей nameOborud
-                        Podr = podr,
-                        Model = nameOborud, // SelectedNameOborud.NameOborud1 т.к. в Model будет записываться значение имени оборудования типа string
-                        KartNum = kartNum,
-                        NumForm = numForm,
-                        InvNum = invNum,
-                        ZavodNum = zavodNum,
-                        GtDate = gtDate,
-                        OutDate = outData
-                    };
+                        var newDataF111 = new F111
+                        {
+                            IdUser = _selectedUser, // Id пользователя для связи с табалицей Users
+                            IdnameOborud = idNameOborud, // SelectedNameOborud для связи с таблицей nameOborud
+                            Podr = podr,
+                            Model =
+                                nameOborud, // SelectedNameOborud.NameOborud1 т.к. в Model будет записываться значение имени оборудования типа string
+                            KartNum = kartNum,
+                            NumForm = numForm,
+                            InvNum = invNum,
+                            ZavodNum = zavodNum,
+                            GtDate = gtDate,
+                            OutDate = outData
+                        };
 
-                    tc.F111s.Add(newDataF111);
-                    tc.SaveChanges();
+                        tc.F111s.Add(newDataF111);
+                        tc.SaveChanges();
 
-                    result = "Данные успешно добавлены";
+                        result = "Данные успешно добавлены";
+                    }
                 }
             }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                //throw;
+            }
+
 
             return result;
         }

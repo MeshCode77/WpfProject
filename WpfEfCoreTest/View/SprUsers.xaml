@@ -59,23 +59,25 @@
                     Margin="10,10,0,10"
                     Command="{Binding OpenAddUserWnd}"
                     Width="200"
-                    Background="Azure"
+                    Background="White"
                     Foreground="DarkBlue"/>
             <Button Content="Изменить"
                     Margin="20,10,0,10"
                     Command="{Binding OpenEditCommandWnd}"
-                    Background="Azure"
+                    Background="White"
                     Foreground="DarkBlue"
                     Width="200"/>
             <Button Content="Удалить"
                     Margin="20,10,0,10"
                     Command="{Binding DeleteUserCommand}"
-                    Background="Azure"
+                    Background="White"
                     Foreground="DarkBlue"
                     Width="200"/>
-            <Button Content="Отмена" Margin="10" Command="{Binding CancelUser}"
+            <Button Content="Отмена"
+                    Margin="20,10"
+                    Command="{Binding CancelUser}"
                     CommandParameter="{Binding ElementName=SprUsersWnd}"
-                    Background="Azure"
+                    Background="White"
                     Foreground="DarkBlue"
                     Width="200"/>
 

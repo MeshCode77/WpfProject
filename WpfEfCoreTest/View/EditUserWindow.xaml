@@ -121,17 +121,17 @@
                     Command="{Binding EditUserCommand}"
                     CommandParameter="{Binding ElementName=EditUserWnd}"
                     Width="165"
-                    Height="25"
+                    Height="24"
                     Margin="0"
-                    Background="Azure"
+                    Background="White"
                     Foreground="DarkBlue"/>
             <Button 
                 Content="Отмена"
                 IsCancel="True"
                 Width="165" 
-                Height="25"
+                Height="24"
                 Margin="20,10,0,10"
-                Background="Azure"
+                Background="White"
                 Foreground="DarkBlue"/>
         </StackPanel>
     </Grid>

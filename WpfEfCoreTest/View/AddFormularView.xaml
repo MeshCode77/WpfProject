@@ -156,12 +156,18 @@
                             CommandParameter="{Binding ElementName=AddFormularWnd}"
                             Content="Сохранить" 
                             Margin="5"
-                            Height="25"/>
+                            Height="24"
+                            Background="White"
+                            Foreground="DarkBlue"
+                            FontSize="14"/>
                         <Button Grid.Column="1" 
                             IsCancel="True"                  
                             Content="Отмена"
                             Margin="5"
-                            Height="25"/>
+                            Height="24"
+                            Background="White"
+                            Foreground="DarkBlue"
+                            FontSize="14"/>
                     </Grid>
                 </StackPanel>
             </StackPanel>

@@ -6,22 +6,23 @@
         xmlns:vm="clr-namespace:WpfEfCoreTest.ViewModel" d:DataContext="{d:DesignInstance Type=vm:FormularVM}"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="Редактирование данных формуляра" Height="450" Width="800"
+        Title="Редактирование данных формуляра" Height="800" Width="450"
         Name="EditFormularWnd">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
         <GroupBox 
                 Grid.ColumnSpan="2"
                 Header="Редактироние данных в формуляре"
-                Margin="5">
+                Margin="5"
+                FontSize="14"
+                Foreground="DarkBlue">
             <StackPanel 
                 Grid.Column="0"
                 HorizontalAlignment="Left"
-                Margin="70,5">
+                Margin="100, 10, 10,80">
                 <TextBlock
                     Text="Наименование комплектующего"
                     Margin="5,20,0,0" />
@@ -29,7 +30,9 @@
                            ItemsSource="{Binding AllKomplects}"
                            SelectedItem="{Binding SelectedNameKomplCB}"                                                    
                            Width="200"
-                           Margin="5">
+                           Margin="5"
+                           FontSize="14"
+                           Foreground="DarkBlue">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding NameKompl}"/>
@@ -38,62 +41,143 @@
                 </ComboBox>
 
                 <TextBlock Text="№ формуляра"
-                           HorizontalAlignment="Center"/>
+                           HorizontalAlignment="Center"
+                           FontSize="14"
+                            Foreground="DarkBlue"/>
                 <TextBox Name="KartNumBlock"
                          Text ="{Binding NumForm}"
                          Width="200" 
                          Height="20"
-                         Margin="2"/>
+                         Margin="2"
+                         FontSize="14"
+                         Foreground="DarkBlue"/>
                 <TextBlock Text="№ инвентарный"
-                           HorizontalAlignment="Center"/>
+                           HorizontalAlignment="Center"
+                           FontSize="14"
+                           Foreground="DarkBlue"/>
                 <TextBox Name="NumFormBlock"
                          Text ="{Binding InvNum}"
                          Width="200" 
                          Height="20"
                          Margin="2"/>
                 <TextBlock Text="Модель"
-                           HorizontalAlignment="Center"/>
+                           HorizontalAlignment="Center"
+                           FontSize="14"
+                           Foreground="DarkBlue"/>
                 <TextBox Name="ModelBlock"
                          Text ="{Binding Model}"
                          Width="200" 
                          Height="20"
-                         Margin="2"/>
+                         Margin="2"
+                         FontSize="14"
+                         Foreground="DarkBlue"/>
                 <TextBlock Text="Колличество"
-                           HorizontalAlignment="Center"/>
+                           HorizontalAlignment="Center"
+                           FontSize="14"
+                           Foreground="DarkBlue"/>
                 <TextBox Name="CountBlock"
                          Text ="{Binding Count}"
                          Width="200" 
                          Height="20"
-                         Margin="2"/>
+                         Margin="2"
+                         FontSize="14"
+                         Foreground="DarkBlue"/>
                 <TextBlock Text="№ заводской"
-                           HorizontalAlignment="Center"/>
+                           HorizontalAlignment="Center"
+                           FontSize="14"
+                           Foreground="DarkBlue"/>
                 <TextBox Name="SerialBlock"
                          Text ="{Binding Serial}"
                          Width="200" 
                          Height="20"
-                         Margin="2"/>
+                         Margin="2"
+                         FontSize="14"
+                         Foreground="DarkBlue"/>
                 <TextBlock Text="Дата ввода"
-                           HorizontalAlignment="Center"/>
+                           HorizontalAlignment="Center"
+                           Foreground="DarkBlue"
+                           FontSize="14"/>
                 <DatePicker Name="DataInBlock"
                             Text="{Binding DataIn}"
-                    HorizontalAlignment="Center"
+                            HorizontalAlignment="Center"
                             Width="200"
-                            Margin="2"/>
+                            Margin="2"
+                            FontSize="14"
+                            Foreground="DarkBlue"/>
                 <TextBlock Text="Дата вывода"
-                           HorizontalAlignment="Center"/>
+                           HorizontalAlignment="Center"
+                           FontSize="14"
+                           Foreground="DarkBlue"/>
                 <DatePicker Name="DataOutBlock"
                             Text="{Binding DataOut}"
                             HorizontalAlignment="Center"
                             Width="200"
-                            Margin="2"/>
+                            Margin="2"
+                            FontSize="14"
+                            Foreground="DarkBlue"/>
+
+                <TextBlock 
+                    Text="№ Акта Ввода/Вывода"
+                    HorizontalAlignment="Center"
+                    Margin="5,20,0,0" 
+                    FontSize="14"
+                    Foreground="DarkBlue"/>
+                <TextBox 
+                    Name="NumAktBlock"
+                    Text ="{Binding NumAkt}"
+                    Width="200" 
+                    Height="24"
+                    Margin="5"
+                    FontSize="14"
+                    Foreground="DarkBlue"/>
+                <TextBlock 
+                    Text="Дата выпуска"
+                    HorizontalAlignment="Center"
+                    FontSize="14"
+                    Foreground="DarkBlue"/>
+                <TextBox 
+                    x:Name="YearProdBlock"
+                    Text ="{Binding YearProd}"
+                    Width="200" 
+                    Margin="2"
+                    Height="24"
+                    FontSize="14"
+                    Foreground="DarkBlue"/>
+                <TextBlock 
+                    Text="Гарантия"
+                    HorizontalAlignment="Center"
+                    FontSize="14"
+                    Foreground="DarkBlue"/>
+                <TextBox 
+                    x:Name="GarantyToBlock"
+                    Text ="{Binding GarantyTo}"
+                    Width="200" 
+                    Height="24"
+                    Margin="2"
+                    FontSize="14"
+                    Foreground="DarkBlue"/>
+                <TextBlock 
+                    Text="Наименование"
+                    HorizontalAlignment="Center"
+                    FontSize="14"
+                    Foreground="DarkBlue"/>
+                <TextBox 
+                    x:Name="NameKomplectBlock"
+                    Text ="{Binding NameKomplect}"
+                    Width="200" 
+                    Height="24"
+                    Margin="2"
+                    FontSize="14"
+                    Foreground="DarkBlue"/>
+
+
             </StackPanel>
         </GroupBox>
-
 
         <!--кнопки Сохранить и Отмена-->
 
         <StackPanel 
-            Grid.ColumnSpan="2"            VerticalAlignment="Bottom"
+            VerticalAlignment="Bottom"
             Margin="5">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -101,60 +185,23 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Button 
-                    Grid.ColumnSpan="1"
                     Command="{Binding EditFormularCmd}"
                     CommandParameter="{Binding ElementName=EditFormularWnd}"
                     Content="Сохранить" 
-                    Margin="5"/>
+                    Margin="5"
+                    Background="White"
+                    Foreground="DarkBlue"
+                    FontSize="14"/>
                 <Button
-                    Grid.Column="2"
+                    Grid.Column="1"
                     IsCancel="True"                  
                     Content="Отмена"
-                    Margin="5"/>
+                    Margin="5"
+                    Background="White"
+                    Foreground="DarkBlue"
+                    FontSize="14"/>
             </Grid>
         </StackPanel>
 
-        <!--правая панель свойств-->
-        <StackPanel 
-            Grid.Column="1"
-            Orientation="Vertical">
-            <TextBlock 
-                Text="№ Акта Ввода/Вывода"
-                HorizontalAlignment="Center"
-                 Margin="5,50,0,0" />
-            <TextBox 
-                Name="NumAktBlock"
-                Text ="{Binding NumAkt}"
-                Width="200" 
-                Height="20"
-                Margin="5"/>
-            <TextBlock 
-                    Text="Дата выпуска"
-                    HorizontalAlignment="Center"/>
-            <TextBox 
-                x:Name="YearProdBlock"
-                Text ="{Binding YearProd}"
-                Width="200" 
-                Height="20"
-                Margin="2"/>
-            <TextBlock 
-                Text="Гарантия"
-                HorizontalAlignment="Center"/>
-            <TextBox 
-                x:Name="GarantyToBlock"
-                Text ="{Binding GarantyTo}"
-                Width="200" 
-                Height="20"
-                Margin="2"/>
-            <TextBlock 
-                Text="Наименование"
-                HorizontalAlignment="Center"/>
-            <TextBox 
-                x:Name="NameKomplectBlock"
-                Text ="{Binding NameKomplect}"
-                Width="200" 
-                Height="20"
-                Margin="2"/>
-        </StackPanel>
     </Grid>
 </Window>

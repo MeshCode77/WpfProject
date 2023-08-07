@@ -4,6 +4,10 @@
              xmlns:local="clr-namespace:WpfEfCoreTest"
              StartupUri="View/LogoView.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ButtonFont.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

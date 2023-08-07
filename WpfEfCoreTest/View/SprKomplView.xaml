@@ -5,6 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfEfCoreTest.View"
         mc:Ignorable="d"
+        FontSize="14"
+        Background="White"
+        Foreground="DarkBlue"
         Title="Справочник комплектующих"
         MinHeight="580"
         Height="580"
@@ -31,7 +34,8 @@
                 <TextBlock Grid.Column="2"
                            Text = "Добавить комплектующее"
                            Margin="40,0, 5, 5"
-                           HorizontalAlignment="Right"/>
+                           HorizontalAlignment="Right"
+                           FontSize="14"/>
             </StackPanel>
 
             <ListView 
@@ -85,16 +89,25 @@
                              Width="auto"
                              Margin="0,0,10,0"
                              Command="{Binding CancelNameKompl}"
-                             CommandParameter="{Binding ElementName= SprKompl}" VerticalAlignment="Center"/>
+                             CommandParameter="{Binding ElementName= SprKompl}" VerticalAlignment="Center"
+                             Background="White"
+                             Foreground="DarkBlue"
+                             FontSize="14"/>
 
                     <Button Grid.Column="1" Content="Удалить"
                             Height="auto"
-                            Command="{Binding DeleteNK}"/>
+                            Command="{Binding DeleteNK}"
+                            Background="White"
+                            Foreground="DarkBlue"
+                            FontSize="14"/>
 
                     <Button Grid.Column="2" Content="Изменить"
                             Height="auto"
                             Margin="10,0,0,0"
-                            Command="{Binding EditNKWnd}" Grid.ColumnSpan="2"/>
+                            Command="{Binding EditNKWnd}" Grid.ColumnSpan="2"
+                            Background="White"
+                            Foreground="DarkBlue"
+                            FontSize="14"/>
 
                 </Grid>
             </StackPanel>
@@ -114,18 +127,25 @@
                                HorizontalAlignment="Center"
                                FontSize="14"
                                Text="Введите наименование комплектующего"
-                               Margin="5,15,5,10"/>
+                               Margin="5,15,5,10"
+                               Background="White"
+                               Foreground="DarkBlue"/>
                     <TextBox Name="NamePodrBlock"
                              Text="{Binding NewNameKompl}"
                              FontSize="14"
                              Margin="5"
-                             IsReadOnly="False"/>
+                             IsReadOnly="False"
+                             Height="24"/>
 
                     <Button 
                             Content="Добавить комплектующие"
                             Margin="5"
                             Command="{Binding AddKompl}"
-                            CommandParameter="{Binding ElementName=SprKompl}"/>
+                            CommandParameter="{Binding ElementName=SprKompl}"
+                            FontSize="14"
+                            Height="24"
+                            Background="White"
+                            Foreground="DarkBlue"/>
                 </StackPanel>
             </Expander>
         </StackPanel>

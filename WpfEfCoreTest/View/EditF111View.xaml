@@ -92,14 +92,16 @@
                         CommandParameter="{Binding ElementName=EditF111}"
                     Content="Сохранить" 
                     Margin="5"
-                        Background="Azure"
-                        Foreground="DarkBlue"/>
+                        Background="White"
+                        Foreground="DarkBlue"
+                        FontSize="14"/>
                 <Button IsCancel="True"
                     Grid.Column="1" 
                     Content="Отмена"
                     Margin="5"
-                    Background="Azure"
-                    Foreground="DarkBlue"/>
+                    Background="White"
+                    Foreground="DarkBlue"
+                    FontSize="14"/>
             </Grid>
         </StackPanel>
     </Grid>

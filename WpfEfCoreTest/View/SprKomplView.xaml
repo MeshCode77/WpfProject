@@ -3,44 +3,37 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfEfCoreTest.View"
+        xmlns:local="clr-namespace:WpfEfCoreTest.ViewModel"
         mc:Ignorable="d"
         FontSize="14"
         Background="White"
         Foreground="DarkBlue"
         Title="Справочник комплектующих"
-        MinHeight="580"
-        Height="580"
-        MinWidth="400"
-        Width="400" 
-        SizeToContent="WidthAndHeight"
+        Height="600"
+        Width="560" 
         WindowStartupLocation="CenterScreen"
         Name="SprKompl">
+
+    <Window.DataContext>
+        <local:SprKomplVM/>
+    </Window.DataContext>
+
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="4*"/>
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0">
+        <StackPanel>
             <TextBlock Text="Поиск"
                        Margin="5,0"/>
             <StackPanel Orientation="Horizontal">
                 <TextBox 
+                    Text="{Binding FilterNK, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     FontSize="14"
                     Height="24"
-                    Width="215"
-                    HorizontalAlignment="Left"
+                    Width="275"
                     Margin="5,1"/>
-                <TextBlock Grid.Column="2"
-                           Text = "Добавить комплектующее"
-                           Margin="40,0, 5, 5"
-                           HorizontalAlignment="Right"
-                           FontSize="14"/>
             </StackPanel>
 
             <ListView 
                 Name="LvSprNK"
-                ItemsSource="{Binding AllNameKompl}"
+                ItemsSource="{Binding FilteredNK}"
                 SelectedItem="{Binding SelectedNK}"
                 Height="400"
                 Width="auto"
@@ -57,25 +50,39 @@
                     </GridView>
                 </ListView.View>
             </ListView>
+            <TextBlock   Text="Наименование комплектующего"
+                         Margin="5"/>
 
             <!--TextBox наименование подразделения-->
             <StackPanel
-                DataContext="{Binding SelectedItem, ElementName=LvSprKompl}"
                 Height="auto"
                 VerticalAlignment="Top">
-                <TextBlock   Text="Наименование подразделения"
-                             Margin="5,0,0,0"/>
-                <TextBox 
-                         Text="{Binding NamePodr,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         FontSize="14"
-                         Height="24"
-                         Width="390"
-                         HorizontalAlignment="Left" 
-                         Margin="5,0,0,0"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox Grid.Column="0" 
+                        Text="{Binding NewNameKompl}"
+                        FontSize="14"
+                        Height="24"
+                        Margin="5,5,50,5"/>
+                    <Button Grid.Column="1"
+                        Content="Добавить" 
+                        Height="24"
+                        Margin="-38,5,5,5"
+                        Command="{Binding AddKompl}"
+                        CommandParameter="{Binding ElementName=SprKompl}"
+                        Background="White"
+                        Foreground="DarkBlue" Grid.ColumnSpan="2"/>
+                </Grid>
+
             </StackPanel>
 
             <!--Кновки добавления Удаления Обновления-->
-            <StackPanel Margin="5">
+            <StackPanel 
+                Margin="5,10,5,0">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="24*"/>
@@ -84,8 +91,9 @@
                         <ColumnDefinition Width="13*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Button  Grid.Column="0" Content="Отмена"
-                             Height="32"
+                    <Button  
+                             Content="Отмена"
+                             Height="24"
                              Width="auto"
                              Margin="0,0,10,0"
                              Command="{Binding CancelNameKompl}"
@@ -95,60 +103,21 @@
                              FontSize="14"/>
 
                     <Button Grid.Column="1" Content="Удалить"
-                            Height="auto"
+                            Height="24"
                             Command="{Binding DeleteNK}"
                             Background="White"
                             Foreground="DarkBlue"
                             FontSize="14"/>
 
                     <Button Grid.Column="2" Content="Изменить"
-                            Height="auto"
+                            Height="24"
                             Margin="10,0,0,0"
                             Command="{Binding EditNKWnd}" Grid.ColumnSpan="2"
                             Background="White"
                             Foreground="DarkBlue"
                             FontSize="14"/>
-
                 </Grid>
             </StackPanel>
-
         </StackPanel>
-
-        <!--Expander-->
-        <StackPanel  VerticalAlignment="Top"
-                     Grid.Column="1"
-                     Margin="0,12">
-            <Expander ExpandDirection="Right" >
-                <StackPanel VerticalAlignment="Bottom"
-                    Width="260"
-                    Height="550"
-                    >
-                    <TextBlock 
-                               HorizontalAlignment="Center"
-                               FontSize="14"
-                               Text="Введите наименование комплектующего"
-                               Margin="5,15,5,10"
-                               Background="White"
-                               Foreground="DarkBlue"/>
-                    <TextBox Name="NamePodrBlock"
-                             Text="{Binding NewNameKompl}"
-                             FontSize="14"
-                             Margin="5"
-                             IsReadOnly="False"
-                             Height="24"/>
-
-                    <Button 
-                            Content="Добавить комплектующие"
-                            Margin="5"
-                            Command="{Binding AddKompl}"
-                            CommandParameter="{Binding ElementName=SprKompl}"
-                            FontSize="14"
-                            Height="24"
-                            Background="White"
-                            Foreground="DarkBlue"/>
-                </StackPanel>
-            </Expander>
-        </StackPanel>
-
     </Grid>
 </Window>

@@ -153,13 +153,13 @@ namespace WpfEfCoreTest.Model.Data
 
         public static string DeleteNK(Komplect selectedNK)
         {
-            var result = "Такого подразделения не существует";
+            var result = "Такого комплектующего не существует";
 
             using (var tc = new TestContext())
             {
                 tc.Komplects.Remove(selectedNK);
                 tc.SaveChanges();
-                result = "Сделано! Подразделение: " + selectedNK.NameKompl + " - удалено";
+                result = "Сделано! Комплектующее: " + selectedNK.NameKompl + " - удалено";
             }
 
             return result;
@@ -255,7 +255,7 @@ namespace WpfEfCoreTest.Model.Data
 
         public static string CreateNameKoml(string newNameKompl)
         {
-            var result = "Уже существует";
+            var result = "Такое комплектующее уже имеется в БД";
 
             using (var tc = new TestContext())
             {

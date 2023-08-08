@@ -49,7 +49,7 @@
                             Command="{Binding EditNKCmd}"
                             CommandParameter="{Binding ElementName = EditNameKompl}"
                             Foreground="DarkBlue"
-                            Background="{StaticResource buttonBrush}"
+                            Background="White"
                             Height="24"
                             FontSize="14"/>
 
@@ -57,7 +57,7 @@
                             Content="Отмена"
                             Margin="5,10,5,5"
                             Click="ButtonBase_OnClick"
-                            Background="{StaticResource buttonBrush}"
+                            Background="White"
                             Foreground="DarkBlue"
                             Height="24"
                             FontSize="14"/>

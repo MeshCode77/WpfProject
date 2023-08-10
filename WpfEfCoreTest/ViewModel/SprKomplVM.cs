@@ -13,16 +13,28 @@ namespace WpfEfCoreTest.ViewModel
 {
     public class SprKomplVM : INotifyPropertyChanged
     {
-        private string _filterNK;
-        // получить все подразделения
+        private ObservableCollection<Komplect> _filteredNK;
 
+        private string _filterNK;
+
+        // получить все наименования комплектующих
         private ObservableCollection<Komplect> allNameKompl = DataWorker.GetAllNameKomplects();
 
         // свойство для нового комплектующего
         private string newNameKompl;
 
+        // конструктор класса
+        public SprKomplVM()
+        {
+            AllNameKompl = DataWorker.GetAllNameKomplects();
+            FilteredNK = OnFilter();
+        }
+
+        //свойство выбранного оборудования;
+        public static Komplect SelectedNK { get; set; }
 
         public static string nameKompl { get; set; }
+
 
         public string FilterNK
         {
@@ -31,22 +43,21 @@ namespace WpfEfCoreTest.ViewModel
             {
                 _filterNK = value;
                 OnPropertyChanged(nameof(FilteredNK));
+                DataTransfer.FilterNK = FilterNK;
+                FilteredNK = OnFilter();
             }
         }
 
 
         public ObservableCollection<Komplect> FilteredNK
         {
-            get
+            get => _filteredNK;
+            set
             {
-                if (string.IsNullOrEmpty(FilterNK)) return allNameKompl;
-                return new ObservableCollection<Komplect>(allNameKompl.Where(x => x.NameKompl == FilterNK));
+                _filteredNK = value;
+                OnPropertyChanged(nameof(FilteredNK));
             }
         }
-
-
-        //свойство выбранного оборудования;
-        public static Komplect SelectedNK { get; set; }
 
         public ObservableCollection<Komplect> AllNameKompl
         {
@@ -68,6 +79,23 @@ namespace WpfEfCoreTest.ViewModel
             }
         }
 
+
+        private ObservableCollection<Komplect> OnFilter()
+        {
+            if (string.IsNullOrEmpty(DataTransfer.FilterNK))
+            {
+                AllNameKompl = DataWorker.GetAllNameKomplects();
+                return new ObservableCollection<Komplect>(AllNameKompl); // create a new collection
+            }
+
+            //return new ObservableCollection<Komplect>(
+            //    AllNameKompl.Where(i => i.NameKompl.Contains(DataTransfer.FilterNK)));
+            AllNameKompl = DataWorker.GetAllNameKomplects();
+            FilteredNK = AllNameKompl.Where(i => i.NameKompl.Contains(DataTransfer.FilterNK)).ToObservableCollection();
+            return FilteredNK;
+        }
+
+
         // метод вывода сообщения
         private void ShowMessageToUser(string result)
         {
@@ -80,10 +108,15 @@ namespace WpfEfCoreTest.ViewModel
         private void UpdateNKView()
         {
             AllNameKompl = DataWorker.GetAllNameKomplects();
-            SprKomplView.UpdateNK.ItemsSource = null;
-            SprKomplView.UpdateNK.Items.Clear();
-            SprKomplView.UpdateNK.ItemsSource = AllNameKompl;
+            FilteredNK = OnFilter();
+            OnPropertyChanged(nameof(FilteredNK));
+            SprKomplView.UpdateNK.ItemsSource = FilteredNK;
             SprKomplView.UpdateNK.Items.Refresh();
+
+            //SprKomplView.UpdateNK.ItemsSource = null;
+            //SprKomplView.UpdateNK.Items.Clear();
+            //SprKomplView.UpdateNK.ItemsSource = OnFilter(); //AllNameKompl;
+            //SprKomplView.UpdateNK.Items.Refresh();
         }
 
         #region Реализация интерфейса INotyfyPropertyChange
@@ -143,6 +176,7 @@ namespace WpfEfCoreTest.ViewModel
 
                         //обновление
                         UpdateNKView();
+
                         //SetNullValuesToProperties();
                         ShowMessageToUser(resultStr);
                     }

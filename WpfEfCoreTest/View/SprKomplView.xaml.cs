@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using WpfEfCoreTest.ViewModel;
 
 namespace WpfEfCoreTest.View
 {
@@ -15,6 +16,9 @@ namespace WpfEfCoreTest.View
             InitializeComponent();
 
             //DataContext = new SprKomplVM();
+
+            var listView = LvSprNK;
+            var viewModel = new SprKomplVM();
 
             UpdateNK = LvSprNK;
         }

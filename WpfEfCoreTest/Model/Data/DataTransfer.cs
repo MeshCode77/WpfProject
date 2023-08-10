@@ -13,6 +13,8 @@ namespace WpfEfCoreTest.Model.Data
 
         public static int IdUser { get; set; }
 
+        public static string FilterNK { get; set; }
+
         //public int IdPodr { get; set; }
         //public int IdnameOborud { get; set; }
         //public static string Model { get; set; }

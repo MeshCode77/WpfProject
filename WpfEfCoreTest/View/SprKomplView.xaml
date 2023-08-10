@@ -33,7 +33,7 @@
 
             <ListView 
                 Name="LvSprNK"
-                ItemsSource="{Binding FilteredNK}"
+                ItemsSource="{Binding FilteredNK, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}"
                 SelectedItem="{Binding SelectedNK}"
                 Height="400"
                 Width="auto"
@@ -92,12 +92,11 @@
                     </Grid.ColumnDefinitions>
 
                     <Button  
-                             Content="Отмена"
+                             Content="Изменить"
                              Height="24"
                              Width="auto"
                              Margin="0,0,10,0"
-                             Command="{Binding CancelNameKompl}"
-                             CommandParameter="{Binding ElementName= SprKompl}" VerticalAlignment="Center"
+                             Command="{Binding EditNKWnd}"
                              Background="White"
                              Foreground="DarkBlue"
                              FontSize="14"/>
@@ -109,10 +108,12 @@
                             Foreground="DarkBlue"
                             FontSize="14"/>
 
-                    <Button Grid.Column="2" Content="Изменить"
+                    <Button Grid.Column="2" Content="Отмена"
                             Height="24"
                             Margin="10,0,0,0"
-                            Command="{Binding EditNKWnd}" Grid.ColumnSpan="2"
+                            Command="{Binding CancelNameKompl}" Grid.ColumnSpan="2"
+                            CommandParameter="{Binding ElementName= SprKompl}"
+                            VerticalAlignment="Center"
                             Background="White"
                             Foreground="DarkBlue"
                             FontSize="14"/>

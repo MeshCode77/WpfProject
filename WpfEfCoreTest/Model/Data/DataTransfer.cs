@@ -17,6 +17,8 @@ namespace WpfEfCoreTest.Model.Data
 
         public static string FilterUser { get; set; } // строка фильтр для поиска фамилии пользователя
 
+        public static string FilterPodr { get; set; } // строка фильтр для поиска подразделения
+
         #endregion
     }
 }

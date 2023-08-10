@@ -18,8 +18,10 @@ namespace WpfEfCoreTest.ViewModel
     {
         private readonly TestContext db;
 
+        private ObservableCollection<User> _filteredPodr;
         private ObservableCollection<User> _filteredUser;
 
+        private string _filterPodr;
         private string _filterUser;
 
         // команда добавления нового пользователя
@@ -64,7 +66,8 @@ namespace WpfEfCoreTest.ViewModel
             Infos = db.Infos.Local.ToObservableCollection();
             F111s = db.F111s.Local.ToObservableCollection();
 
-            FilteredUser = OnFilter();
+            FilteredUser = OnFilterUser();
+            //FilteredPodr = OnFilterPodr();
         }
 
         public string FilterUser
@@ -75,9 +78,32 @@ namespace WpfEfCoreTest.ViewModel
                 _filterUser = value;
                 OnPropertyChanged(nameof(FilteredUser));
                 DataTransfer.FilterUser = FilterUser;
-                FilteredUser = OnFilter();
+                FilteredUser = OnFilterUser();
             }
         }
+
+        public string FilterPodr
+        {
+            get => _filterPodr;
+            set
+            {
+                _filterPodr = value;
+                OnPropertyChanged(nameof(FilteredUser));
+                DataTransfer.FilterPodr = FilterPodr;
+                FilteredUser = OnFilterPodr();
+            }
+        }
+
+        public ObservableCollection<User> FilteredPodr
+        {
+            get => _filteredPodr;
+            set
+            {
+                _filteredPodr = value;
+                OnPropertyChanged(nameof(FilteredPodr));
+            }
+        }
+
 
         public ObservableCollection<User> FilteredUser
         {
@@ -269,7 +295,7 @@ namespace WpfEfCoreTest.ViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private ObservableCollection<User> OnFilter()
+        private ObservableCollection<User> OnFilterUser()
         {
             if (string.IsNullOrEmpty(DataTransfer.FilterUser))
             {
@@ -281,6 +307,21 @@ namespace WpfEfCoreTest.ViewModel
             FilteredUser = Users.Where(i => i.Lname.Contains(DataTransfer.FilterUser)).ToObservableCollection();
             return FilteredUser;
         }
+
+        private ObservableCollection<User> OnFilterPodr()
+        {
+            if (string.IsNullOrEmpty(DataTransfer.FilterPodr))
+            {
+                Users = DataWorker.GetAllUsers();
+                return new ObservableCollection<User>(Users); // create a new collection
+            }
+
+            Users = DataWorker.GetAllUsers();
+            FilteredUser = Users.Where(i => i.UserPodr.NamePodr.Contains(DataTransfer.FilterPodr))
+                .ToObservableCollection();
+            return FilteredUser;
+        }
+
 
         // метод установки окна по центру экрана
         private void SetCentralPositionAndOpen(AddUserWindow newsprUsers)
@@ -333,17 +374,10 @@ namespace WpfEfCoreTest.ViewModel
         private void UpdateAllUsersView()
         {
             Users = DataWorker.GetAllUsers();
-            FilteredUser = OnFilter();
+            FilteredUser = OnFilterUser();
             OnPropertyChanged(nameof(FilteredUser));
             SprUsers.AllUsersView.ItemsSource = FilteredUser;
             SprUsers.AllUsersView.Items.Refresh();
-
-
-            //AllUsers = DataWorker.GetAllUsers();
-            //SprUsers.AllUsersView.ItemsSource = null;
-            //SprUsers.AllUsersView.Items.Clear();
-            //SprUsers.AllUsersView.ItemsSource = AllUsers;
-            //SprUsers.AllUsersView.Items.Refresh();
         }
 
         private void UpdateAllPodrView()

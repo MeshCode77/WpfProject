@@ -24,7 +24,7 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
             <TextBlock 
-                Text="Поиск"
+                Text="Поиск по Фамилии"
                 HorizontalAlignment="Left"
                 Margin="5,5,5,0"/>
             <TextBox
@@ -33,6 +33,16 @@
                Width="200"
                Height="24"
                Margin="5,0,0,0"/>
+            <TextBlock 
+                Text="Поиск по подразделению"
+                HorizontalAlignment="Center"
+                Margin="-70,-40,380,20"/>
+            <TextBox
+                Text="{Binding FilterPodr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged  }"
+                HorizontalAlignment="Center"
+                Width="200"
+                Height="24"
+                Margin="5,-23,400,0"/>
         </StackPanel>
         <ListView x:Name="ViewAllUsers"
                   ItemsSource="{Binding FilteredUser, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

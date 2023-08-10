@@ -26,7 +26,7 @@ namespace WpfEfCoreTest.ViewModel
         // конструктор класса
         public SprKomplVM()
         {
-            AllNameKompl = DataWorker.GetAllNameKomplects();
+            //AllNameKompl = DataWorker.GetAllNameKomplects();
             FilteredNK = OnFilter();
         }
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,6 +17,10 @@ namespace WpfEfCoreTest.ViewModel
     public class SprUsersVM : INotifyPropertyChanged
     {
         private readonly TestContext db;
+
+        private ObservableCollection<User> _filteredUser;
+
+        private string _filterUser;
 
         // команда добавления нового пользователя
         private RelayCommand addCommand;
@@ -58,7 +63,32 @@ namespace WpfEfCoreTest.ViewModel
             Podrs = db.Podrs.Local.ToObservableCollection();
             Infos = db.Infos.Local.ToObservableCollection();
             F111s = db.F111s.Local.ToObservableCollection();
+
+            FilteredUser = OnFilter();
         }
+
+        public string FilterUser
+        {
+            get => _filterUser;
+            set
+            {
+                _filterUser = value;
+                OnPropertyChanged(nameof(FilteredUser));
+                DataTransfer.FilterUser = FilterUser;
+                FilteredUser = OnFilter();
+            }
+        }
+
+        public ObservableCollection<User> FilteredUser
+        {
+            get => _filteredUser;
+            set
+            {
+                _filteredUser = value;
+                OnPropertyChanged(nameof(FilteredUser));
+            }
+        }
+
 
         // свойства для Users
         //public static int Id { get; set; }
@@ -140,33 +170,6 @@ namespace WpfEfCoreTest.ViewModel
             }
         }
 
-        //public RelayCommand AddPodr
-        //{
-        //    get
-        //    {
-        //        return addPodr ?? new RelayCommand(obj =>
-        //        {
-        //            var wnd = obj as Window;
-
-        //            var result = "";
-
-        //            if (NewNamePodr == null || NewNamePodr.Replace(" ", "").Length == 0)
-        //            {
-        //                SetRedBlockControll(wnd, "NamePodrBlock");
-        //            }
-        //            else
-        //            {
-        //                result = DataWorker.CreatePodr(NewNamePodr);
-        //                //UpdateAllDataView();
-        //                UpdatePodrView();
-
-        //                ShowMessageToUser(result);
-        //                SetNullValuesToProperties();
-        //                //wnd.Close();
-        //            }
-        //        });
-        //    }
-        //}
 
         public RelayCommand EditUserCommand
         {
@@ -197,7 +200,7 @@ namespace WpfEfCoreTest.ViewModel
                             }
                             else
                             {
-                                SetRedBlockControll(wnd, "cbPodr");
+                                //SetRedBlockControll(wnd, "cbPodr");
                                 ShowMessageToUser(noPodr);
                             }
                         }
@@ -266,6 +269,19 @@ namespace WpfEfCoreTest.ViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private ObservableCollection<User> OnFilter()
+        {
+            if (string.IsNullOrEmpty(DataTransfer.FilterUser))
+            {
+                Users = DataWorker.GetAllUsers();
+                return new ObservableCollection<User>(Users); // create a new collection
+            }
+
+            Users = DataWorker.GetAllUsers();
+            FilteredUser = Users.Where(i => i.Lname.Contains(DataTransfer.FilterUser)).ToObservableCollection();
+            return FilteredUser;
+        }
+
         // метод установки окна по центру экрана
         private void SetCentralPositionAndOpen(AddUserWindow newsprUsers)
         {
@@ -316,11 +332,18 @@ namespace WpfEfCoreTest.ViewModel
 
         private void UpdateAllUsersView()
         {
-            AllUsers = DataWorker.GetAllUsers();
-            SprUsers.AllUsersView.ItemsSource = null;
-            SprUsers.AllUsersView.Items.Clear();
-            SprUsers.AllUsersView.ItemsSource = AllUsers;
+            Users = DataWorker.GetAllUsers();
+            FilteredUser = OnFilter();
+            OnPropertyChanged(nameof(FilteredUser));
+            SprUsers.AllUsersView.ItemsSource = FilteredUser;
             SprUsers.AllUsersView.Items.Refresh();
+
+
+            //AllUsers = DataWorker.GetAllUsers();
+            //SprUsers.AllUsersView.ItemsSource = null;
+            //SprUsers.AllUsersView.Items.Clear();
+            //SprUsers.AllUsersView.ItemsSource = AllUsers;
+            //SprUsers.AllUsersView.Items.Refresh();
         }
 
         private void UpdateAllPodrView()

@@ -23,10 +23,19 @@
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
-            <TextBlock Text="Поиск"/>
+            <TextBlock 
+                Text="Поиск"
+                HorizontalAlignment="Left"
+                Margin="5,5,5,0"/>
+            <TextBox
+                Text="{Binding FilterUser, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged  }"
+                HorizontalAlignment="Left"
+               Width="200"
+               Height="24"
+               Margin="5,0,0,0"/>
         </StackPanel>
         <ListView x:Name="ViewAllUsers"
-                  ItemsSource="{Binding Users}"
+                  ItemsSource="{Binding FilteredUser, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding SelectedUser}"
                   Grid.Row="1" Margin="5" BorderThickness="1"
                   FontSize="14">

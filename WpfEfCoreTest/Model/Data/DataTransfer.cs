@@ -15,6 +15,8 @@ namespace WpfEfCoreTest.Model.Data
 
         public static string FilterNK { get; set; } // строка фильтр для поиска наименования комплектующего
 
+        public static string FilterUser { get; set; } // строка фильтр для поиска фамилии пользователя
+
         #endregion
     }
 }

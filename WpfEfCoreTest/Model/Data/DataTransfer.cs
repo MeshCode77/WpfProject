@@ -13,19 +13,7 @@ namespace WpfEfCoreTest.Model.Data
 
         public static int IdUser { get; set; }
 
-        public static string FilterNK { get; set; }
-
-        //public int IdPodr { get; set; }
-        //public int IdnameOborud { get; set; }
-        //public static string Model { get; set; }
-        //public static string KartNum { get; set; }
-        //public static string NumForm { get; set; }
-        //public static string InvNum { get; set; }
-        //public static string ZavodNum { get; set; }
-        //public static DateTime GtDate { get; set; }
-        //public static DateTime? OutDate { get; set; }
-        //public static bool? Remont { get; set; }
-        //public static bool? Spisan { get; set; }
+        public static string FilterNK { get; set; } // строка фильтр для поиска наименования комплектующего
 
         #endregion
     }

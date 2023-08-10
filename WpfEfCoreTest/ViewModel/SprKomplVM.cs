@@ -88,8 +88,6 @@ namespace WpfEfCoreTest.ViewModel
                 return new ObservableCollection<Komplect>(AllNameKompl); // create a new collection
             }
 
-            //return new ObservableCollection<Komplect>(
-            //    AllNameKompl.Where(i => i.NameKompl.Contains(DataTransfer.FilterNK)));
             AllNameKompl = DataWorker.GetAllNameKomplects();
             FilteredNK = AllNameKompl.Where(i => i.NameKompl.Contains(DataTransfer.FilterNK)).ToObservableCollection();
             return FilteredNK;
@@ -112,11 +110,6 @@ namespace WpfEfCoreTest.ViewModel
             OnPropertyChanged(nameof(FilteredNK));
             SprKomplView.UpdateNK.ItemsSource = FilteredNK;
             SprKomplView.UpdateNK.Items.Refresh();
-
-            //SprKomplView.UpdateNK.ItemsSource = null;
-            //SprKomplView.UpdateNK.Items.Clear();
-            //SprKomplView.UpdateNK.ItemsSource = OnFilter(); //AllNameKompl;
-            //SprKomplView.UpdateNK.Items.Refresh();
         }
 
         #region Реализация интерфейса INotyfyPropertyChange

@@ -614,7 +614,7 @@ namespace WpfEfCoreTest.Model.Data
                 try
                 {
                     //проверяем наличие вводимых данных в карточке пользователя
-                    var checkIsExistFormular = tc.Formulars.Any(el => el.Serial == addForm.Serial);
+                    var checkIsExistFormular = tc.Formulars.Any(el => el.Model == addForm.Model);
                     if (!checkIsExistFormular)
                     {
                         var newFormular = new Formular

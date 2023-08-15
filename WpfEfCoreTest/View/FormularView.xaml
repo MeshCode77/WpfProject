@@ -29,10 +29,10 @@
                                     DisplayMemberBinding="{Binding Path=Idf111 }" />
                     <GridViewColumn Header="Наименование" Width="auto"
                                     DisplayMemberBinding="{Binding Path=NameKomplect}" />
-                    <GridViewColumn Header="№ формуляра" Width="auto"
+                    <!--<GridViewColumn Header="№ формуляра" Width="auto"
                                     DisplayMemberBinding="{Binding Path=NumForm }" />
                     <GridViewColumn Header="№ Инв." Width="auto"
-                                    DisplayMemberBinding="{Binding Path=InvNum}" />
+                                    DisplayMemberBinding="{Binding Path=InvNum}" />-->
                     <GridViewColumn Header="Модель" Width="auto"
                                     DisplayMemberBinding="{Binding Path=Model}" />
                     <GridViewColumn Header="Колличество" Width="auto"

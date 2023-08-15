@@ -91,7 +91,7 @@ namespace WpfEfCoreTest.ViewModel
             //db.Formulars.ToObservableCollection();
             formular = new ObservableCollection<Formular>();
 
-            //ToggleCheckBox();
+            if (SelectedUser != null) FilteredF111s = DataWorker.GetAllDataF111ToId(SelectedUser.Id);
         }
 
 
@@ -280,9 +280,9 @@ namespace WpfEfCoreTest.ViewModel
                 {
                     DataTransfer.IdF111 = _selectedF111.Id; // передача IdF111 для других классов
 
-                    FilteredFormular = new ObservableCollection<Formular>();
-
                     formular.Clear();
+
+                    //FilteredFormular = DataWorker.GetAllDataFormularToIdF111(SelectedF111.Id);
 
                     if (db.Formulars == null)
                         return;

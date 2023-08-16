@@ -3,44 +3,40 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfEfCoreTest.View"
-        xmlns:viewModel="clr-namespace:WpfEfCoreTest.ViewModel"
-        xmlns:viewModels="clr-namespace:MathCore.WPF.ViewModels;assembly=MathCore.WPF"
+        xmlns:local="clr-namespace:WpfEfCoreTest.ViewModel"
         mc:Ignorable="d"
-        Title="SprPodrWindow"
-        MinHeight="580"
-        Height="580"
-        MinWidth="400"
-        Width="400" 
-        SizeToContent="WidthAndHeight"
+        FontSize="14"
+        Background="White"
+        Foreground="DarkBlue"
+        Title="Справочник подразделений"
+        Height="600"
+        Width="560" 
         WindowStartupLocation="CenterScreen"
         Name="AddPodrWnd">
+
+    <Window.DataContext>
+        <local:SprPodrVM/>
+    </Window.DataContext>
+
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*" MinWidth="300"/>
-            <ColumnDefinition Width="auto" MinWidth="30"/>
-        </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0">
+        <StackPanel>
             <TextBlock Text="Поиск"
                        Margin="5,0"/>
             <StackPanel Orientation="Horizontal">
                 <TextBox 
+                    Text="{Binding FilterPodr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     FontSize="14"
                     Height="24"
-                    Width="205"
-                    HorizontalAlignment="Left"
+                    Width="275"
                     Margin="5,1"/>
-                <TextBlock Grid.Column="2"
-                           Text = "Добавить подразделение"
-                           Margin="55,0, 0, 5"
-                           HorizontalAlignment="Right"/>
             </StackPanel>
-            
+
             <ListView 
                 Name="LvSprPodr"
-                ItemsSource="{Binding AllPodrs}"
+                ItemsSource="{Binding FilteredPodr, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}"
                 SelectedItem="{Binding SelectedPodr}"
                 Height="400"
+                Width="auto"
                 Margin="5"
                 FontSize="14">
                 <ListView.View>
@@ -48,31 +44,46 @@
                         <GridViewColumn Header="Id"
                                         DisplayMemberBinding="{Binding Id}"
                                         Width="auto"/>
-                        <GridViewColumn Header="Наименование подразделения"
+                        <GridViewColumn Header="Наименование подразделения" 
                                         DisplayMemberBinding="{Binding NamePodr}"
-                                        Width="auto"/>
+                                        Width="400"/>
                     </GridView>
                 </ListView.View>
             </ListView>
+            <TextBlock   Text="Введите наименование подразделения"
+                         Margin="5"/>
 
             <!--TextBox наименование подразделения-->
             <StackPanel
-                DataContext="{Binding SelectedItem, ElementName=LvSprPodr}"
                 Height="auto"
                 VerticalAlignment="Top">
-                <TextBlock   Text="Наименование подразделения"
-                             Margin="5,0,0,0"/>
-                <TextBox 
-                         Text="{Binding NamePodr,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         FontSize="14"
-                         Height="24"
-                         Width="360"
-                         HorizontalAlignment="Left" 
-                         Margin="5,0,0,0"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="27*"/>
+                        <ColumnDefinition Width="57*"/>
+                        <ColumnDefinition Width="28*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox Grid.Column="0" 
+                        Text="{Binding NewNamePodr}"
+                        FontSize="14"
+                        Height="24"
+                        Margin="5,5,50,5" Grid.ColumnSpan="2"/>
+                    <Button Grid.Column="1"
+                        Content="Добавить" 
+                        Height="24"
+                        Margin="247,5,5,5"
+                        Command="{Binding AddPodr}"
+                        CommandParameter="{Binding ElementName=AddPodrWnd}"
+                        Background="White"
+                        Foreground="DarkBlue" Grid.ColumnSpan="2"/>
+                </Grid>
+
             </StackPanel>
 
             <!--Кновки добавления Удаления Обновления-->
-            <StackPanel Margin="5">
+            <StackPanel 
+                Margin="5,10,5,0">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="24*"/>
@@ -81,57 +92,34 @@
                         <ColumnDefinition Width="13*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Button  Grid.Column="0" Content="Отмена"
-                             Height="32"
+                    <Button  
+                             Content="Изменить"
+                             Height="24"
                              Width="auto"
                              Margin="0,0,10,0"
-                             Command="{Binding CancelPodr}"
-                             CommandParameter="{Binding ElementName= AddPodrWnd}" VerticalAlignment="Center"/>
+                             Command="{Binding OpenWndEditPodrNameCmd}"
+                             Background="White"
+                             Foreground="DarkBlue"
+                             FontSize="14"/>
 
                     <Button Grid.Column="1" Content="Удалить"
-                            Height="auto"
-                            Command="{Binding DeletePodrCmd}"/>
+                            Height="24"
+                            Command="{Binding DeletePodrCmd}"
+                            Background="White"
+                            Foreground="DarkBlue"
+                            FontSize="14"/>
 
-                    <Button Grid.Column="2"
-                            Grid.ColumnSpan="2"
-                            Content="Изменить"
-                            Height="auto"
+                    <Button Grid.Column="2" Content="Отмена"
+                            Height="24"
                             Margin="10,0,0,0"
-                            Command="{Binding OpenWndEditPodrNameCmd}"/>
-
+                            Command="{Binding CancelPodr}" Grid.ColumnSpan="2"
+                            CommandParameter="{Binding ElementName= AddPodrWnd}"
+                            VerticalAlignment="Center"
+                            Background="White"
+                            Foreground="DarkBlue"
+                            FontSize="14"/>
                 </Grid>
             </StackPanel>
-
         </StackPanel>
-
-        <!--Expander-->
-        <StackPanel  VerticalAlignment="Top"
-                     Grid.Column="1"
-                     Margin="0,12">
-            <Expander ExpandDirection="Right" >
-                <StackPanel VerticalAlignment="Bottom"
-                    Width="260"
-                    Height="550"
-                    >
-                    <TextBlock 
-                               HorizontalAlignment="Center"
-                               FontSize="14"
-                               Text="Введите наименование подразделения"
-                               Margin="5,15,5,10"/>
-                    <TextBox Name="NamePodrBlock"
-                             Text="{Binding NewNamePodr}"
-                             FontSize="14"
-                             Margin="5"
-                             IsReadOnly="False"/>
-
-                    <Button 
-                            Content="Добавить подразделение"
-                            Margin="5"
-                            Command="{Binding AddPodr}"
-                            CommandParameter="{Binding ElementName=AddPodrWnd}"/>
-                </StackPanel>
-            </Expander>
-        </StackPanel>
-
     </Grid>
 </Window>

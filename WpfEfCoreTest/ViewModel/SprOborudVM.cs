@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using SqlServMvvmApp;
 using WpfEfCoreTest.Annotations;
@@ -17,55 +13,88 @@ namespace WpfEfCoreTest.ViewModel
 {
     public class SprOborudVM : INotifyPropertyChanged
     {
+        private ObservableCollection<NameOborud> _filteredNO;
 
-        #region Реализация интерфейса INotyfyPropertyChange
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion
-
-
-        public static string nameOborud1 { get; set; }
-
-
-        //private ObservableCollection<NameOborud> nameOborud;
-        //public ObservableCollection<NameOborud> NameOborud
-        //{
-        //    get { return nameOborud; }
-        //    set
-        //    {
-        //        nameOborud = value;
-        //        OnPropertyChanged(nameof(NameOborud));
-        //    }
-        //}
-
-        //свойство выбранного оборудования;
-        public  static NameOborud SelectedNO { get; set; }
+        private string _filterNO;
 
 
         // получить все подразделения
-
         private ObservableCollection<NameOborud> allNameOborud = DataWorker.GetAllNameOborud();
+
+        // свойство для нового оборудования
+        private string newNameOb;
+
+        public SprOborudVM()
+        {
+            FilteredNO = OnFilter();
+        }
+
+        public static string nameOborud1 { get; set; }
+
+        //свойство выбранного оборудования;
+        public static NameOborud SelectedNO { get; set; }
+
+        public string FilterNO
+        {
+            get => _filterNO;
+            set
+            {
+                _filterNO = value;
+                OnPropertyChanged(nameof(FilteredNO));
+                DataTransfer.FilterNO = FilterNO;
+                FilteredNO = OnFilter();
+            }
+        }
+
+
+        public ObservableCollection<NameOborud> FilteredNO
+        {
+            get => _filteredNO;
+            set
+            {
+                _filteredNO = value;
+                OnPropertyChanged(nameof(FilteredNO));
+            }
+        }
+
         public ObservableCollection<NameOborud> AllNameOborud
         {
-            get { return allNameOborud; }
+            get => allNameOborud;
             set
             {
                 allNameOborud = value;
-                OnPropertyChanged("AllNameOborud");
+                OnPropertyChanged(nameof(AllNameOborud));
             }
+        }
+
+        public string NewNameOb
+        {
+            get => newNameOb;
+            set
+            {
+                newNameOb = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private ObservableCollection<NameOborud> OnFilter()
+        {
+            if (string.IsNullOrEmpty(DataTransfer.FilterNO))
+            {
+                AllNameOborud = DataWorker.GetAllNameOborud();
+                return new ObservableCollection<NameOborud>(AllNameOborud); // create a new collection
+            }
+
+            AllNameOborud = DataWorker.GetAllNameOborud();
+            FilteredNO = AllNameOborud.Where(i => i.NameOborud1.Contains(DataTransfer.FilterNO))
+                .ToObservableCollection();
+            return FilteredNO;
         }
 
         // Вывод сообщения
         private void ShowMessageToUser(string result)
         {
-            MessageView messageView = new MessageView(result);
+            var messageView = new MessageView(result);
             messageView.ShowDialog();
             //SetCenterPositionAndOpen(messageView);
         }
@@ -80,30 +109,31 @@ namespace WpfEfCoreTest.ViewModel
             SprOborudView.UpdateNO.Items.Refresh();
         }
 
-        // свойство для нового оборудования
-        private string newNameOb;
-        public string NewNameOb
+        #region Реализация интерфейса INotyfyPropertyChange
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            get { return newNameOb; }
-            set
-            {
-                newNameOb = value;
-                OnPropertyChanged("NewNameOb");
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        #endregion
 
-        #region команда кнопки отмены 
+
+        #region команда кнопки отмены
 
         // команда кнопки отмены 
         private RelayCommand cancelNameOborud;
+
         public RelayCommand CancelNameOborud
         {
             get
             {
                 return cancelNameOborud ?? new RelayCommand(obj =>
                     {
-                        Window wnd = obj as Window;
+                        var wnd = obj as Window;
 
                         //SetNullValuesToProperties();
 
@@ -123,19 +153,16 @@ namespace WpfEfCoreTest.ViewModel
 
         // Команда удаления подразделения
         private RelayCommand deleteNO;
+
         public RelayCommand DeleteNO
         {
             get
             {
                 return deleteNO ?? new RelayCommand(obj =>
                     {
-                        string resultStr = "Ничего не выбрано";
+                        var resultStr = "Ничего не выбрано";
                         //если сотрудник
-                        if (SelectedNO != null)
-                        {
-                            resultStr = DataWorker.DeleteNO(SelectedNO);
-
-                        }
+                        if (SelectedNO != null) resultStr = DataWorker.DeleteNO(SelectedNO);
 
                         //обновление
                         UpdateNOView();
@@ -152,18 +179,19 @@ namespace WpfEfCoreTest.ViewModel
 
         // команда открытия окна для редактирования наименования оборудования
         private RelayCommand editNO;
+
         public RelayCommand EditNOWnd
         {
             get
             {
                 return editNO ?? new RelayCommand(obj =>
                 {
-                    string resultStr = "Ничего не выбрано";
+                    var resultStr = "Ничего не выбрано";
 
                     if (SelectedNO != null)
                     {
                         //OpenWndEditPodrNameMethod(SelectedPodr);
-                        EditNOWnd editNOWnd = new EditNOWnd(SelectedNO);
+                        var editNOWnd = new EditNOWnd(SelectedNO);
                         editNOWnd.ShowDialog();
                     }
                 });
@@ -176,15 +204,16 @@ namespace WpfEfCoreTest.ViewModel
 
         // Команда редактирования наименования оборудования
         private RelayCommand editNOCmd;
+
         public RelayCommand EditNOCmd
         {
             get
             {
                 return editNOCmd ?? new RelayCommand(obj =>
                 {
-                    Window wnd = obj as Window;
+                    var wnd = obj as Window;
 
-                    string result = "Ошибка";
+                    var result = "Ошибка";
 
                     if (nameOborud1 == null || nameOborud1.Replace(" ", "").Length == 0)
                     {
@@ -210,15 +239,16 @@ namespace WpfEfCoreTest.ViewModel
 
         // Добавление оборудования
         private RelayCommand addOborud;
+
         public RelayCommand AddOborud
         {
             get
             {
                 return addOborud ?? new RelayCommand(obj =>
                 {
-                    Window wnd = obj as Window;
+                    var wnd = obj as Window;
 
-                    string result = "";
+                    var result = "";
 
                     if (NewNameOb == null || NewNameOb.Replace(" ", "").Length == 0)
                     {

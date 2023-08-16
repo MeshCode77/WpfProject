@@ -3,76 +3,85 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfEfCoreTest.View"
+        xmlns:local="clr-namespace:WpfEfCoreTest.ViewModel"
         mc:Ignorable="d"
-        Title="SprOborudView"
-        MinHeight="580"
-        Height="580"
-        MinWidth="400"
-        Width="400" 
-        SizeToContent="WidthAndHeight"
+        FontSize="14"
+        Background="White"
+        Foreground="DarkBlue"
+        Title="Справочник оборудования"
+        Height="600"
+        Width="560" 
         WindowStartupLocation="CenterScreen"
         Name="SprOborud">
+
+    <Window.DataContext>
+        <local:SprOborudVM/>
+    </Window.DataContext>
+
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*" MinWidth="400"/>
-            <ColumnDefinition Width="auto" MinWidth="30"/>
-        </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0">
+        <StackPanel>
             <TextBlock Text="Поиск"
-                       Margin="5,0"
-                       FontSize="14"
-                       Foreground="DarkBlue"/>
+                       Margin="5,0"/>
             <StackPanel Orientation="Horizontal">
                 <TextBox 
+                    Text="{Binding FilterNO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     FontSize="14"
                     Height="24"
-                    Width="215"
-                    HorizontalAlignment="Left"
+                    Width="275"
                     Margin="5,1"/>
-                
             </StackPanel>
 
             <ListView 
                 Name="LvSprNO"
-                ItemsSource="{Binding AllNameOborud}"
+                ItemsSource="{Binding FilteredNO, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}"
                 SelectedItem="{Binding SelectedNO}"
                 Height="400"
+                Width="auto"
                 Margin="5"
-                FontSize="14"
-                Foreground="DarkBlue">
+                FontSize="14">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Id"
                                         DisplayMemberBinding="{Binding Id}"
                                         Width="auto"/>
-                        <GridViewColumn Header="Наименование оборудования"
+                        <GridViewColumn Header="Наименование комплектующего" 
                                         DisplayMemberBinding="{Binding NameOborud1}"
                                         Width="400"/>
                     </GridView>
                 </ListView.View>
             </ListView>
+            <TextBlock   Text="Наименование оборудования"
+                         Margin="5"/>
 
-            <!--TextBox наименование подразделения-->
+            <!--TextBox наименование оборудования-->
             <StackPanel
-                DataContext="{Binding SelectedItem, ElementName=LvSprPodr}"
                 Height="auto"
                 VerticalAlignment="Top">
-                <TextBlock   Text="Наименование оборудования"
-                             Margin="5,0,0,0"
-                             FontSize="14"
-                             Foreground="DarkBlue"/>
-                <TextBox 
-                         Text="{Binding NamePodr,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         FontSize="14"
-                         Height="24"
-                         Width="360"
-                         HorizontalAlignment="Left" 
-                         Margin="5,0,0,0"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox Grid.Column="0" 
+                        Text="{Binding NewNameOb}"
+                        FontSize="14"
+                        Height="24"
+                        Margin="5,5,50,5"/>
+                    <Button Grid.Column="1"
+                        Content="Добавить" 
+                        Height="24"
+                        Margin="-38,5,5,5"
+                        Command="{Binding AddOborud}"
+                        CommandParameter="{Binding ElementName=SprOborud}"
+                        Background="White"
+                        Foreground="DarkBlue" Grid.ColumnSpan="2"/>
+                </Grid>
             </StackPanel>
 
             <!--Кновки добавления Удаления Обновления-->
-            <StackPanel Margin="5">
+            <StackPanel 
+                Margin="5,10,5,0">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="24*"/>
@@ -81,69 +90,34 @@
                         <ColumnDefinition Width="13*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Button  Grid.Column="0" Content="Отмена"
-                             Height="32"
+                    <Button  
+                             Content="Изменить"
+                             Height="24"
                              Width="auto"
                              Margin="0,0,10,0"
-                             Command="{Binding CancelNameOborud}"
-                             CommandParameter="{Binding ElementName= SprOborud}"
-                             VerticalAlignment="Center"
+                             Command="{Binding EditNOWnd}"
                              Background="White"
-                             Foreground="DarkBlue"/>
+                             Foreground="DarkBlue"
+                             FontSize="14"/>
 
                     <Button Grid.Column="1" Content="Удалить"
-                            Height="auto"
+                            Height="24"
                             Command="{Binding DeleteNO}"
                             Background="White"
-                            Foreground="DarkBlue"/>
+                            Foreground="DarkBlue"
+                            FontSize="14"/>
 
-                    <Button Grid.Column="2" Content="Изменить"
-                            Height="auto"
+                    <Button Grid.Column="2" Content="Отмена"
+                            Height="24"
                             Margin="10,0,0,0"
-                            Command="{Binding EditNOWnd}" 
-                            Grid.ColumnSpan="2"
+                            Command="{Binding CancelNameOborud}" Grid.ColumnSpan="2"
+                            CommandParameter="{Binding ElementName= SprOborud}"
+                            VerticalAlignment="Center"
                             Background="White"
-                            Foreground="DarkBlue"/>
-
+                            Foreground="DarkBlue"
+                            FontSize="14"/>
                 </Grid>
             </StackPanel>
-
         </StackPanel>
-
-        <!--Expander-->
-        <StackPanel  VerticalAlignment="Top"
-                     Grid.Column="1"
-                     Margin="0,12">
-            <Expander ExpandDirection="Right" >
-                <StackPanel VerticalAlignment="Bottom"
-                    Width="260"
-                    Height="550"
-                    >
-                    <TextBlock 
-                               HorizontalAlignment="Center"
-                               FontSize="14"
-                               Text="Введите наименование оборудования"
-                               Margin="5,15,5,10"
-                               Foreground="DarkBlue"/>
-                    <TextBox Name="NamePodrBlock"
-                             Text="{Binding NewNameOb}"
-                             FontSize="14"
-                             Margin="5"
-                             IsReadOnly="False"
-                             Foreground="DarkBlue"
-                             Height="24"/>
-
-                    <Button 
-                            Content="Добавить оборудование"
-                            Margin="5"
-                            Command="{Binding AddOborud}"
-                            CommandParameter="{Binding ElementName=SprOborud}"
-                            Background="Azure"
-                            Foreground="DarkBlue"
-                            Height="24"/>
-                </StackPanel>
-            </Expander>
-        </StackPanel>
-
     </Grid>
 </Window>

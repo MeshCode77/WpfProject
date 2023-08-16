@@ -5,7 +5,7 @@ using WpfEfCoreTest.ViewModel;
 namespace WpfEfCoreTest.View
 {
     /// <summary>
-    /// Логика взаимодействия для SprPodrWindow.xaml
+    ///     Логика взаимодействия для SprPodrWindow.xaml
     /// </summary>
     public partial class SprPodrWindow : Window
     {
@@ -15,7 +15,7 @@ namespace WpfEfCoreTest.View
         {
             InitializeComponent();
 
-            this.DataContext = new SprPodrVM(); // new SprUsersVM();
+            DataContext = new SprPodrVM(); // new SprUsersVM();
 
             UpdatePodrsView = LvSprPodr;
         }

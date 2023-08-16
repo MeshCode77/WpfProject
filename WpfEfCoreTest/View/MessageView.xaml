@@ -9,7 +9,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="25"/>
+            <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
         <TextBlock x:Name="MessageText" Grid.Row="0"
                    HorizontalAlignment="Center"
@@ -23,6 +23,7 @@
             Width="200"
             Background="White"
             Foreground="DarkBlue"
-            FontSize="14"/>
+            FontSize="14"
+            Margin="5,0,5,10"/>
     </Grid>
 </Window>

@@ -12,11 +12,18 @@
     </Window.DataContext>
 
     <Window.Resources>
-        <Style x:Key="MyButtonStyle" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="DeepSkyBlue"/>
+        <Style  x:Key="MyButtonStyle" TargetType="Button">
+            <Style.Setters>
+                <Setter Property="Button.Background" Value="DeepSkyBlue" />
+                <Setter Property="Button.Foreground" Value="DarkBlue" />
+                <Setter Property="Button.FontFamily" Value="Verdana" />
+                <Setter Property="Button.Margin" Value="10" />
+            </Style.Setters>
             <Style.Triggers>
-                <Trigger Property="IsFocused" Value="True">
-                    <Setter Property="Background" Value="Red"/>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="FontSize" Value="44" />
+                    <Setter Property="Foreground" Value="Red" />
+                    <Setter Property="Background" Value="Red" />
                 </Trigger>
             </Style.Triggers>
         </Style>

@@ -30,12 +30,7 @@
                     Width="215"
                     HorizontalAlignment="Left"
                     Margin="5,1"/>
-                <TextBlock Grid.Column="2"
-                           Text = "Добавить оборудование"
-                           Margin="40,0, 5, 5"
-                           HorizontalAlignment="Right"
-                           FontSize="14"
-                           Foreground="DarkBlue"/>
+                
             </StackPanel>
 
             <ListView 

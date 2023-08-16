@@ -440,17 +440,15 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Text="{Binding SummaAllEconomEffect}" />
-                <!--<Button Grid.Column="0"
-                        Content="Расчитать" 
-                        Grid.Row="1"
-                        FontSize="14"
-                        Margin="0,5,5,0"
-                        Command="{Binding ResultCmd}"/>-->
-                <Button Grid.Column="1"
+
+                <Button 
+                    HorizontalAlignment="Right"
+                    Grid.Column="1"
                         Content="Отмена"
                         Grid.Row="1"
                         FontSize="14"
-                        Margin="0,5,5,0"/>
+                        Margin="0,5,5,0"
+                        Width="200"/>
             </Grid>
         </StackPanel>
     </Grid>

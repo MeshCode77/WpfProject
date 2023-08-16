@@ -6,25 +6,21 @@
         xmlns:vm="clr-namespace:WpfEfCoreTest.ViewModel" d:DataContext="{d:DesignInstance Type=vm:FormularVM}"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="Редактирование данных формуляра" Height="800" Width="450"
+        Title="Редактирование данных формуляра" Height="740" Width="450"
         Name="EditFormularWnd">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-
         <GroupBox 
                 Grid.ColumnSpan="2"
-                Header="Редактироние данных в формуляре"
+                Header="Редактироние данных формуляра"
                 Margin="5"
                 FontSize="14"
                 Foreground="DarkBlue">
             <StackPanel 
                 Grid.Column="0"
-                HorizontalAlignment="Left"
-                Margin="100, 10, 10,80">
+                HorizontalAlignment="Center" Width="408" Height="624">
                 <TextBlock
                     Text="Наименование комплектующего"
+                    HorizontalAlignment="Center"
                     Margin="5,20,0,0" />
                 <ComboBox  Name="NameKomplBlock"
                            ItemsSource="{Binding AllKomplects}"

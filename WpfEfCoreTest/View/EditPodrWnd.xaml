@@ -45,13 +45,17 @@
                             Margin="5,10,5,5" Grid.ColumnSpan="2"
                             Command="{Binding EditPodr}"
                             CommandParameter="{Binding ElementName = WndNewNamePodr}"
-                            Foreground="DarkBlue"/>
+                            Foreground="DarkBlue"
+                            Background="White"
+                            FontSize="14"/>
 
                     <Button Grid.Column="2"
                             Content="Отмена"
                             Margin="5,10,5,5"
                             Click="ButtonBase_OnClick"
-                            Foreground="DarkBlue"/>
+                            Foreground="DarkBlue"
+                            Background="White"
+                            FontSize="14"/>
                 </Grid>
             </StackPanel>
 

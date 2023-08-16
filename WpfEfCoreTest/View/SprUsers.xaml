@@ -82,26 +82,30 @@
                     Command="{Binding OpenAddUserWnd}"
                     Width="200"
                     Background="White"
-                    Foreground="DarkBlue"/>
+                    Foreground="DarkBlue"
+                    FontSize="14"/>
             <Button Content="Изменить"
                     Margin="20,10,0,10"
                     Command="{Binding OpenEditCommandWnd}"
                     Background="White"
                     Foreground="DarkBlue"
-                    Width="200"/>
+                    Width="200"
+                    FontSize="14"/>
             <Button Content="Удалить"
                     Margin="20,10,0,10"
                     Command="{Binding DeleteUserCommand}"
                     Background="White"
                     Foreground="DarkBlue"
-                    Width="200"/>
+                    Width="200"
+                    FontSize="14"/>
             <Button Content="Отмена"
                     Margin="20,10"
                     Command="{Binding CancelUser}"
                     CommandParameter="{Binding ElementName=SprUsersWnd}"
                     Background="White"
                     Foreground="DarkBlue"
-                    Width="200"/>
+                    Width="200"
+                    FontSize="14"/>
 
         </StackPanel>
 

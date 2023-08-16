@@ -65,34 +65,46 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <StackPanel  Orientation="Horizontal" 
-                    HorizontalAlignment="Left"
+        <StackPanel  
+            Orientation="Horizontal" 
+                    HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Width="360" Margin="220,0,0,0" Grid.Row="1">
+                    Grid.Row="1">
             <Button Name="btnAdd"
                     Content="Добавить" 
-                    Width="70"
+                    Width="200"
                     Height="30"
                     Margin="10" 
-                    
-                    Command="{Binding OpenAddF111Wnd}"/>
+                    Background="White"
+                    Foreground="DarkBlue"
+                    Command="{Binding OpenAddF111Wnd}"
+                    FontSize="14"/>
             <Button Content="Изменить"
-                    Width="70"
+                    Width="200"
                     Height="30"
                     Margin="10"
                     IsEnabled="{Binding ButtonOnOff, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                    Command="{Binding OpenEditF111Win}"/>
+                    Command="{Binding OpenEditF111Win}"
+                    Background="White"
+                    Foreground="DarkBlue"
+                    FontSize="14"/>
             <Button Content="Удалить"
-                    Width="70"
+                    Width="200"
                     Height="30"
                     Margin="10"
                     IsEnabled="{Binding ButtonOnOff, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                    Command="{Binding DeleteF111Command}"/>
+                    Command="{Binding DeleteF111Command}"
+                    Background="White"
+                    Foreground="DarkBlue"
+                    FontSize="14"/>
             <Button Content="Отмена"
-                    Width="70"
+                    Width="200"
                     Height="30"
                     Margin="10"
-                    IsCancel="True"/>
+                    IsCancel="True"
+                    Background="White"
+                    Foreground="DarkBlue"
+                    FontSize="14"/>
         </StackPanel>
     </Grid>
 </Window>

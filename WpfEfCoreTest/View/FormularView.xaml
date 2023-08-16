@@ -20,7 +20,8 @@
         <ListView x:Name="LvFormular"
                   ItemsSource="{Binding FilteredFormular, Mode=TwoWay}"
                   SelectedItem="{Binding SelectedRowFormular}"
-                  Grid.Row="0" Margin="5" BorderThickness="1">
+                  Grid.Row="0" Margin="5" BorderThickness="1"
+                  FontSize="14">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Id" Width="auto"
@@ -55,27 +56,38 @@
         <StackPanel
             Orientation="Horizontal"
             HorizontalAlignment="Center"
-            Margin="0,384,0,0"
-            Grid.RowSpan="2"
-            Width="300">
+            Margin="0,5,0,5"
+            Grid.Row="1"
+            Width="880">
             <Button Content="Добавить"
-                    Margin="10"
-                    
-                    Command="{Binding OpenFormularCmd}" />
+                    Margin="5"
+                    Width="200"
+                    Command="{Binding OpenFormularCmd}" 
+                    Background="White"
+                    Foreground="DarkBlue"
+                    FontSize="14"/>
             <Button Content="Изменить"
-                    Margin="10"
+                    Margin="5"
                     IsEnabled="{Binding ButtonOnOff, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                    Command="{Binding OpenEditFormularCmd}" />
+                    Command="{Binding OpenEditFormularCmd}" 
+                    Width="200"
+                    Background="White"
+                    Foreground="DarkBlue"/>
             <Button Content="Удалить"
-                    Margin="10"
+                    Margin="5"
                     IsEnabled="{Binding ButtonOnOff, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                    Command="{Binding DeleteFormularCmd}" />
+                    Command="{Binding DeleteFormularCmd}"
+                    Width="200"
+                    Background="White"
+                    Foreground="DarkBlue"/>
             <Button Content="Отмена"
-                    Margin="10"
+                    Margin="5"
                     IsCancel="True"
                     Command="{Binding CancelFormular}"
-                    CommandParameter="{Binding ElementName=FormularWnd}" />
-
+                    CommandParameter="{Binding ElementName=FormularWnd}"
+                    Width="200"
+                    Background="White"
+                    Foreground="DarkBlue"/>
         </StackPanel>
     </Grid>
 </Window>

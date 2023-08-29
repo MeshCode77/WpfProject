@@ -5,7 +5,6 @@ using System.Management;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using SqlServMvvmApp;
@@ -175,12 +174,11 @@ namespace WpfEfCoreTest.ViewModel
                 return scanCommand ?? new RelayCommand(obj =>
                 {
                     /// код для создания второго потока
-                    var thread = new Thread(() =>
-                        ScanHostColl = ScanNetwork2Async().Result);
-                    OnPropertyChanged(nameof(ScanHostColl));
-                    //thread.IsBackground = true;
+                    Task.Run(async () =>
+                        ScanHostColl = ScanNetwork3().Result);
+
                     // Запуск второго потока
-                    thread.Start();
+                    //thread.Start();
                 });
             }
         }
@@ -344,7 +342,7 @@ namespace WpfEfCoreTest.ViewModel
         }
 
 
-        public async Task<ObservableCollection<ScanHost>> ScanNetwork2Async()
+        private async Task<ObservableCollection<ScanHost>> ScanNetwork2()
         {
             var sb = new StringBuilder();
             var temp = "192.168.100";
@@ -352,43 +350,70 @@ namespace WpfEfCoreTest.ViewModel
             ScanHost niViewModel = null; // = new ScanHost
             var ScanHostColl = new ObservableCollection<ScanHost>();
 
+            var ping = new Ping();
+
             for (var i = 0; i < 255; i++)
             {
-                await Task.Run(async () =>
+                var ipAddress = $"192.168.100.{i}";
+                //var hostName = GetHostNameByIpAddress(sb.Append(temp + i).ToString());
+                var reply1 = await ping.SendPingAsync(ipAddress, 1);
+
+                if (reply1.Status == IPStatus.Success)
                 {
-                    var ipAddress = $"{temp}.{i}";
-                    //var status = reply.Status == IPStatus.Success ? "Active" : "InActive";
-                    var hostName = GetHostNameByIpAddress(sb.Append(temp + i).ToString());
-                    var ping = new Ping();
-                    //var reply = ping.Send(temp + i, 1000);
-                    var reply1 = await ping.SendPingAsync(ipAddress, 1000);
-
-                    //Application.Current.Dispatcher.Invoke(() =>
-                    //{
-                    if (reply1.Status == IPStatus.Success)
+                    Status = "Active";
+                    niViewModel = new ScanHost
                     {
-                        Status = "Active";
-                        niViewModel = new ScanHost
-                        {
-                            IpAdress = ipAddress,
-                            HostName = hostName,
-                            Status = reply1.Status.ToString()
-                        };
-                        ScanHostColl.Add(niViewModel);
-                        OnPropertyChanged(nameof(ScanHostColl));
-                    }
-                    else
-                    {
-                        Status = "InActive";
-                    }
+                        IpAdress = ipAddress,
+                        HostName = hostName,
+                        Status = reply1.Status.ToString()
+                    };
 
-                    //});
-                    IsScanning++;
-                });
+                    ScanHostColl.Add(niViewModel);
+                }
+                else
+                {
+                    Status = "InActive";
+                }
 
-                OnPropertyChanged(nameof(ScanHostColl));
+
+                IsScanning++;
             }
 
+            OnPropertyChanged(nameof(ScanHostColl));
+            return ScanHostColl;
+        }
+
+
+        private async Task<ObservableCollection<ScanHost>> ScanNetwork3()
+        {
+            var sb = new StringBuilder();
+            var temp = "192.168.100";
+            var ScanHostColl = new ObservableCollection<ScanHost>();
+            var ping = new Ping();
+
+            for (var i = 0; i < 255; i++)
+            {
+                var ipAddress = $"192.168.100.{i}";
+                //var hostName = GetHostNameByIpAddress(ipAddress);
+
+                var reply1 = await ping.SendPingAsync(ipAddress, 1);
+
+                if (reply1.Status == IPStatus.Success)
+                {
+                    var niViewModel = new ScanHost
+                    {
+                        IpAdress = ipAddress,
+                        HostName = hostName,
+                        Status = reply1.Status.ToString()
+                    };
+
+                    ScanHostColl.Add(niViewModel);
+                }
+
+                IsScanning++;
+            }
+
+            OnPropertyChanged(nameof(ScanHostColl));
             return ScanHostColl;
         }
 

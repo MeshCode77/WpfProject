@@ -284,24 +284,33 @@ namespace WpfEfCoreTest.ViewModel
                     Videocard = vc;
                 }
 
+
                 // Запрашиваем информацию о оперативной памяти
 
                 var memoryType = "";
+                var mt = "";
                 ulong memorySize = 0;
 
                 // Create WMI query to get memory information
-                var searcher1 =
-                    new ManagementObjectSearcher("root\\CIMV2",
-                        "SELECT * FROM Win32_PhysicalMemory");
+                query = new ObjectQuery("SELECT * FROM CIM_PhysicalMemory");
+                searcher = new ManagementObjectSearcher(scope, query);
+                queryCollection = searcher.Get();
 
                 //// Get memory information
-                foreach (var o in searcher1.Get())
+                foreach (var o in queryCollection)
                 {
-                    var queryObj = (ManagementObject)o;
-
-                    //memoryType = queryObj["MemoryType"].ToString();
-                    memorySize += Convert.ToUInt64(queryObj["Capacity"]);
+                    var m = (ManagementObject)o;
+                    memoryType = m["MemoryType"].ToString();
+                    memorySize += Convert.ToUInt64(m["Capacity"]);
                 }
+
+
+                //if (memoryType == "21")
+                //    mt = "DDR2";
+                //if (memoryType == "24")
+                //    mt = "DDR3";
+                //if (memoryType == "26")
+                //    mt = "DDR4";
 
                 // Convert memory size from bytes to gigabytes
                 var memorySizeGB = memorySize / Math.Pow(1024, 3);

@@ -6,7 +6,6 @@ using System.Windows;
 using SqlServMvvmApp;
 using WpfEfCoreTest.Annotations;
 using WpfEfCoreTest.Model;
-using WpfEfCoreTest.Model.Data;
 using WpfEfCoreTest.View;
 
 namespace WpfEfCoreTest.ViewModel
@@ -14,15 +13,10 @@ namespace WpfEfCoreTest.ViewModel
     internal class UserSysVM : INotifyPropertyChanged
     {
         // получить все подразделения
-        private ObservableCollection<UserSy> allUserSys = DataWorker.GetAllUserSys();
+        private ObservableCollection<UserSy> allUserSys; // = DataWorker.GetAllUserSys();
         private UserSy selectedUserSys;
 
         public RelayCommand sigIn;
-
-        public UserSysVM()
-        {
-            AllUserSys = DataWorker.GetAllUserSys();
-        }
 
         public int Id { get; set; }
         public string Login { get; set; }

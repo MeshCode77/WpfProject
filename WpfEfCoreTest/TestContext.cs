@@ -511,7 +511,7 @@ namespace WpfEfCoreTest
                     .HasMaxLength(50)
                     .HasColumnName("FName");
 
-                entity.Property(e => e.IdRole).HasColumnName("idRole");
+                //entity.Property(e => e.IdRole).HasColumnName("idRole");
 
                 entity.Property(e => e.IdUser).HasColumnName("idUser");
 
@@ -525,11 +525,11 @@ namespace WpfEfCoreTest
                     .HasMaxLength(32)
                     .HasColumnName("pass");
 
-                entity.HasOne(d => d.IdRoleNavigation)
-                    .WithMany(p => p.UserSies)
-                    .HasForeignKey(d => d.IdRole)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UserSys_Role");
+                //entity.HasOne(d => d.IdRoleNavigation)
+                //    .WithMany(p => p.UserSies)
+                //    .HasForeignKey(d => d.IdRole)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_UserSys_Role");
 
                 entity.HasOne(d => d.IdUserNavigation)
                     .WithMany(p => p.UserSies)

@@ -4,9 +4,12 @@ using System.ComponentModel;
 using System.Management;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Newtonsoft.Json;
+using server;
 using SqlServMvvmApp;
 using WpfEfCoreTest.Model;
 
@@ -171,11 +174,43 @@ namespace WpfEfCoreTest.ViewModel
         {
             get
             {
-                return scanCommand ?? new RelayCommand(obj =>
+                return scanCommand ?? new RelayCommand(async obj =>
                 {
+                    var temp = "192.168.100";
                     /// код для создания второго потока
-                    Task.Run(async () =>
-                        ScanHostColl = ScanNetwork3().Result);
+                    var task = Task.Run(async () =>
+                    {
+                        //var temp = "192.168.100";
+                        //ScanHostColl = await ScanNetwork3());
+                        return ScanHostColl = new ObservableCollection<ScanHost>();
+                    });
+                    var ping = new Ping();
+
+                    for (var i = 0; i < 255; i++)
+                    {
+                        var ipAddress = $"{temp}.{i}";
+                        var reply1 = await ping.SendPingAsync(ipAddress, 1);
+
+                        if (reply1.Status == IPStatus.Success)
+                        {
+                            var hostName = GetHostNameByIpAddress(ipAddress);
+
+                            var niViewModel = new ScanHost
+                            {
+                                IpAdress = ipAddress,
+                                HostName = hostName.Result,
+                                Status = reply1.Status.ToString()
+                            };
+
+                            // Добавляем хост в коллекцию на основном потоке
+                            Application.Current.Dispatcher.Invoke(() => { ScanHostColl.Add(niViewModel); });
+                            ScanHostColl.Add(niViewModel);
+                            OnPropertyChanged(nameof(ScanHostColl));
+                            //return ScanHostColl;
+                        }
+
+                        IsScanning++;
+                    }
 
                     // Запуск второго потока
                     //thread.Start();
@@ -186,7 +221,7 @@ namespace WpfEfCoreTest.ViewModel
         public ObservableCollection<string> HardDrivesColl { get; set; } = new();
 
 
-        public string GetHostNameByIpAddress(string ipAddress)
+        public async Task<string> GetHostNameByIpAddress(string ipAddress)
         {
             try
             {
@@ -204,6 +239,41 @@ namespace WpfEfCoreTest.ViewModel
         {
             try
             {
+                // Создаем сокет
+                var client = new TcpClient(ipAddress, 7000);
+                //Console.WriteLine("Клиент подключен");
+
+                // Отправляем команду
+                var stream = client.GetStream();
+                var request = "get_info";
+                var bytesWrite = Encoding.UTF8.GetBytes(request);
+                stream.Write(bytesWrite, 0, bytesWrite.Length);
+                stream.Flush();
+                //Console.WriteLine("Запрос на сервер: " + request); // + bytesWrite.Length);
+
+                // Получаем ответ
+
+                var buffer = new byte[4096];
+                var bytesRead = stream.Read(buffer, 0, buffer.Length);
+
+                // Преобразуем полученные данные из байтового массива в строку JSON
+                var info = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                //Console.WriteLine(answer);
+
+                // Десериализуем строку JSON в объекты C#
+                var cc = new Components();
+
+                cc = JsonConvert.DeserializeObject<Components>(info);
+
+                Processor = cc.Processor;
+                BaseBoard = cc.BaseBoard;
+                DiskDrive = cc.DiskDrive;
+                Videocard = cc.Videocard;
+                Ramm = cc.Ramm;
+
+                client.Close();
+
+
                 // Получаем экземпляр класса Ping и отправляем эхо-запрос
                 using (var ping = new Ping())
                 {
@@ -227,32 +297,32 @@ namespace WpfEfCoreTest.ViewModel
                 var searcher = new ManagementObjectSearcher(scope, query);
                 var queryCollection = searcher.Get();
 
-                foreach (var o in queryCollection)
-                {
-                    var m = (ManagementObject)o;
-                    var cpu = m["Name"].ToString();
-                    var cpuCores = m["NumberOfCores"].ToString();
-                    var cpuThreads = m["ThreadCount"].ToString();
-                    var cpuArchitecture = m["Architecture"].ToString();
-                    Processor = cpu;
+                //foreach (var o in queryCollection)
+                //{
+                //    var m = (ManagementObject)o;
+                //    //var cpu = m["Name"].ToString();
+                //    var cpuCores = m["NumberOfCores"].ToString();
+                //    var cpuThreads = m["ThreadCount"].ToString();
+                //    var cpuArchitecture = m["Architecture"].ToString();
+                //Processor = cpuInfo;
 
-                    //MessageBox.Show("Процессор: " + cpu);
-                }
+                //    //MessageBox.Show("Процессор: " + cpu);
+                //}
 
 
                 // Запрашиваем информацию о материнской плате
-                query = new ObjectQuery("SELECT * FROM Win32_BaseBoard");
-                searcher = new ManagementObjectSearcher(scope, query);
-                queryCollection = searcher.Get();
+                //var queryMB = new ObjectQuery("SELECT * FROM Win32_BaseBoard");
+                //var searcherMB = new ManagementObjectSearcher(scope, queryMB);
+                //var queryCollectionMB = searcherMB.Get();
 
-                foreach (ManagementObject m in queryCollection)
-                {
-                    var motherboard = m["Product"].ToString();
-                    //memoryType = m["MemoryType"].ToString();
+                //foreach (ManagementObject m in queryCollectionMB)
+                //{
+                //    var motherboard = m["Product"].ToString();
+                //    //memoryType = m["MemoryType"].ToString();
 
-                    //MessageBox.Show("Материнская плата: " + motherboard);
-                    BaseBoard = motherboard;
-                }
+                //    //MessageBox.Show("Материнская плата: " + motherboard);
+                //    BaseBoard = motherboard;
+                //}
 
                 // Запрашиваем информацию о жестком диске
                 query = new ObjectQuery("SELECT * FROM Win32_DiskDrive");
@@ -284,7 +354,6 @@ namespace WpfEfCoreTest.ViewModel
 
 
                 // Запрашиваем информацию о оперативной памяти
-
                 var memoryType = "";
                 var mt = "";
                 ulong memorySize = 0;
@@ -383,39 +452,75 @@ namespace WpfEfCoreTest.ViewModel
             return ScanHostColl;
         }
 
-
+        // реализация клиента для отправки запроса на сервер и получения данных о компонентах хоста
         private async Task<ObservableCollection<ScanHost>> ScanNetwork3()
         {
-            var sb = new StringBuilder();
             var temp = "192.168.100";
             var ScanHostColl = new ObservableCollection<ScanHost>();
             var ping = new Ping();
 
             for (var i = 0; i < 255; i++)
             {
-                var ipAddress = $"192.168.100.{i}";
-                //var hostName = GetHostNameByIpAddress(ipAddress);
-
+                var ipAddress = $"{temp}.{i}";
                 var reply1 = await ping.SendPingAsync(ipAddress, 1);
 
                 if (reply1.Status == IPStatus.Success)
                 {
+                    var hostName = GetHostNameByIpAddress(ipAddress);
+
                     var niViewModel = new ScanHost
                     {
                         IpAdress = ipAddress,
-                        HostName = hostName,
+                        HostName = hostName.Result,
                         Status = reply1.Status.ToString()
                     };
 
+                    // Добавляем хост в коллекцию на основном потоке
+                    //Application.Current.Dispatcher.Invoke(() => { ScanHostColl.Add(niViewModel); });
                     ScanHostColl.Add(niViewModel);
+                    OnPropertyChanged(nameof(ScanHostColl));
+                    return ScanHostColl;
                 }
 
                 IsScanning++;
             }
 
-            OnPropertyChanged(nameof(ScanHostColl));
             return ScanHostColl;
         }
+
+
+        //public async Task<ObservableCollection<ScanHost>> ScanNetwork3()
+        //{
+        //    var temp = "192.168.100";
+        //    var ping = new Ping();
+        //    ScanHostColl = new ObservableCollection<ScanHost>();
+        //    ScanHost scanHost = null;
+
+        //    for (var i = 0; i < 255; i++)
+        //    {
+        //        var ipAddress = $"{temp}.{i}";
+        //        var reply = await ping.SendPingAsync(ipAddress, 1);
+
+        //        if (reply.Status == IPStatus.Success)
+        //        {
+        //            //var hostName = await GetHostNameByIpAddress(ipAddress);
+
+        //            scanHost = new ScanHost
+        //            {
+        //                IpAdress = ipAddress,
+        //                HostName = hostName,
+        //                Status = reply.Status.ToString()
+        //            };
+        //            // Добавляем хост в коллекцию
+        //            ScanHostColl.Add(scanHost);
+        //            OnPropertyChanged(nameof(ScanHostColl));
+        //        }
+
+        //        IsScanning++;
+        //    }
+
+        //    return ScanHostColl;
+        //}
 
 
         #region Реализация интерфейса INotifyPropertyChanged

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfEfCoreTest.ViewModel"
         mc:Ignorable="d"
-        Title="NetScanView" Height="500" Width="800" WindowStartupLocation="CenterScreen">
+        Title="NetScanView" Height="500" Width="1000" WindowStartupLocation="CenterScreen">
 
     <Window.DataContext>
         <local:ComputerScannerVM/>
@@ -49,19 +49,19 @@
         </StackPanel>
 
 
-        <ListView  ItemsSource="{Binding ScanHostColl, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+        <ListView  ItemsSource="{Binding ScanHostColl}"
                    SelectedItem="{Binding SelectedHost}"
                    Margin="30,70,30,40">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="IP Adress"
-                                    DisplayMemberBinding="{Binding  IpAdress }"
+                                    DisplayMemberBinding="{Binding  IpAdress, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay }"
                                     Width="100"/>
                     <GridViewColumn Header="HostName"
-                                    DisplayMemberBinding="{Binding HostName}"
+                                    DisplayMemberBinding="{Binding HostName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                     Width="100"/>
                     <GridViewColumn Header="Status" 
-                                    DisplayMemberBinding="{Binding Status}"
+                                    DisplayMemberBinding="{Binding Status, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                     Width="100"/>
                     <!-- Добавьте здесь другие столбцы для свойств компонента -->
                 </GridView>
@@ -74,7 +74,7 @@
                 Margin="5"/>
 
         <ProgressBar Grid.Row="1" Grid.Column="0"
-                     Value="{Binding IsScanning}"
+                     Value="{Binding IsScanning, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                      Minimum="1"
                      Maximum="255"
                      Height="24"
@@ -113,7 +113,7 @@
         <Grid Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150"/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="25"/>
@@ -164,7 +164,7 @@
             <TextBlock 
                 Grid.Column="1"
                 Grid.Row="5"
-                Text="{Binding Processor}"
+                Text="{Binding Processor, Mode=TwoWay }"
                 FontWeight="Bold"
                 Foreground="DarkBlue"/>
             <TextBlock Grid.Column="1" 

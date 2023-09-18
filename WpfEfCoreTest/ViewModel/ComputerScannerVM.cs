@@ -203,10 +203,9 @@ namespace WpfEfCoreTest.ViewModel
                             };
 
                             // Добавляем хост в коллекцию на основном потоке
-                            Application.Current.Dispatcher.Invoke(() => { ScanHostColl.Add(niViewModel); });
+                            //Application.Current.Dispatcher.Invoke(() => { ScanHostColl.Add(niViewModel); });
                             ScanHostColl.Add(niViewModel);
                             OnPropertyChanged(nameof(ScanHostColl));
-                            //return ScanHostColl;
                         }
 
                         IsScanning++;
@@ -409,118 +408,6 @@ namespace WpfEfCoreTest.ViewModel
             OnPropertyChanged(nameof(components));
             return Components;
         }
-
-
-        private async Task<ObservableCollection<ScanHost>> ScanNetwork2()
-        {
-            var sb = new StringBuilder();
-            var temp = "192.168.100";
-            //var i = 0;
-            ScanHost niViewModel = null; // = new ScanHost
-            var ScanHostColl = new ObservableCollection<ScanHost>();
-
-            var ping = new Ping();
-
-            for (var i = 0; i < 255; i++)
-            {
-                var ipAddress = $"192.168.100.{i}";
-                //var hostName = GetHostNameByIpAddress(sb.Append(temp + i).ToString());
-                var reply1 = await ping.SendPingAsync(ipAddress, 1);
-
-                if (reply1.Status == IPStatus.Success)
-                {
-                    Status = "Active";
-                    niViewModel = new ScanHost
-                    {
-                        IpAdress = ipAddress,
-                        HostName = hostName,
-                        Status = reply1.Status.ToString()
-                    };
-
-                    ScanHostColl.Add(niViewModel);
-                }
-                else
-                {
-                    Status = "InActive";
-                }
-
-
-                IsScanning++;
-            }
-
-            OnPropertyChanged(nameof(ScanHostColl));
-            return ScanHostColl;
-        }
-
-        // реализация клиента для отправки запроса на сервер и получения данных о компонентах хоста
-        private async Task<ObservableCollection<ScanHost>> ScanNetwork3()
-        {
-            var temp = "192.168.100";
-            var ScanHostColl = new ObservableCollection<ScanHost>();
-            var ping = new Ping();
-
-            for (var i = 0; i < 255; i++)
-            {
-                var ipAddress = $"{temp}.{i}";
-                var reply1 = await ping.SendPingAsync(ipAddress, 1);
-
-                if (reply1.Status == IPStatus.Success)
-                {
-                    var hostName = GetHostNameByIpAddress(ipAddress);
-
-                    var niViewModel = new ScanHost
-                    {
-                        IpAdress = ipAddress,
-                        HostName = hostName.Result,
-                        Status = reply1.Status.ToString()
-                    };
-
-                    // Добавляем хост в коллекцию на основном потоке
-                    //Application.Current.Dispatcher.Invoke(() => { ScanHostColl.Add(niViewModel); });
-                    ScanHostColl.Add(niViewModel);
-                    OnPropertyChanged(nameof(ScanHostColl));
-                    return ScanHostColl;
-                }
-
-                IsScanning++;
-            }
-
-            return ScanHostColl;
-        }
-
-
-        //public async Task<ObservableCollection<ScanHost>> ScanNetwork3()
-        //{
-        //    var temp = "192.168.100";
-        //    var ping = new Ping();
-        //    ScanHostColl = new ObservableCollection<ScanHost>();
-        //    ScanHost scanHost = null;
-
-        //    for (var i = 0; i < 255; i++)
-        //    {
-        //        var ipAddress = $"{temp}.{i}";
-        //        var reply = await ping.SendPingAsync(ipAddress, 1);
-
-        //        if (reply.Status == IPStatus.Success)
-        //        {
-        //            //var hostName = await GetHostNameByIpAddress(ipAddress);
-
-        //            scanHost = new ScanHost
-        //            {
-        //                IpAdress = ipAddress,
-        //                HostName = hostName,
-        //                Status = reply.Status.ToString()
-        //            };
-        //            // Добавляем хост в коллекцию
-        //            ScanHostColl.Add(scanHost);
-        //            OnPropertyChanged(nameof(ScanHostColl));
-        //        }
-
-        //        IsScanning++;
-        //    }
-
-        //    return ScanHostColl;
-        //}
 
 
         #region Реализация интерфейса INotifyPropertyChanged

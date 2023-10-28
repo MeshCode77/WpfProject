@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="Редактирование данных формуляра" Height="740" Width="450"
-        Name="EditFormularWnd">
+        Name="EditFormularWnd"
+        Background="WhiteSmoke">
     <Grid>
         <GroupBox 
                 Grid.ColumnSpan="2"

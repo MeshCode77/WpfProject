@@ -7,7 +7,8 @@
         xmlns:local="clr-namespace:WpfEfCoreTest.View"
         mc:Ignorable="d"
         Title="OtchetRemontView" Height="550" Width="1600"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Background="WhiteSmoke">
 
     <Window.DataContext>
         <viewModel:OtchetRemontVM/>

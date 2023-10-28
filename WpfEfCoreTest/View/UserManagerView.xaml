@@ -4,9 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfEfCoreTest.View"
+        xmlns:viewModel="clr-namespace:WpfEfCoreTest.ViewModel"
         mc:Ignorable="d"
         Title="UserManagerView" Height="450" Width="800"
         WindowStartupLocation="CenterScreen">
+
+<Window.DataContext>
+    <viewModel:UserSysVM/>
+</Window.DataContext>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition  Height="*"/>
@@ -15,21 +21,20 @@
         <ListView x:Name="ViewAllUsers"
                   ItemsSource="{Binding Users}"
                   SelectedItem="{Binding SelectedUser}"
-                  Grid.Row="0" Margin="5" BorderThickness="1">
+                  Grid.Row="0" Margin="5" BorderThickness="1"
+                  Background="WhiteSmoke">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Id"  Width="auto" 
                                     DisplayMemberBinding="{Binding Path=Id }"/>
-                    <GridViewColumn Header="Логин" Width="auto"
-                                    DisplayMemberBinding="{Binding Path=Lname }"/>
-                    <GridViewColumn Header="Пароль" Width="auto"
-                                    DisplayMemberBinding="{Binding Path=Lname }"/>
-                    <GridViewColumn Header="Ф.И.О." Width="auto"
-                                    DisplayMemberBinding="{Binding Path=Lname }"/>
-                    <GridViewColumn Header="Роль" Width="auto"
-                                    DisplayMemberBinding="{Binding Path=Lname }"/>
                     <GridViewColumn Header="IdUser" Width="auto"
-                                    DisplayMemberBinding="{Binding Path=Lname }"/>
+                                    DisplayMemberBinding="{Binding Path=IdUser }"/>
+                    <GridViewColumn Header="Ф.И.О." Width="auto"
+                                    DisplayMemberBinding="{Binding Path=Fname }"/>
+                    <GridViewColumn Header="Логин" Width="auto"
+                                    DisplayMemberBinding="{Binding Path=Login }"/>
+                    <GridViewColumn Header="Пароль" Width="auto"
+                                    DisplayMemberBinding="{Binding Path=Pass }"/>
                 </GridView>
             </ListView.View>
         </ListView>

@@ -19,11 +19,12 @@ namespace WpfEfCoreTest.ViewModel
         public RelayCommand sigIn;
 
         public int Id { get; set; }
+        public int? IdUser { get; set; }
         public string Login { get; set; }
         public string Pass { get; set; }
         public string Fname { get; set; }
-        public string Role { get; set; }
-        public int? IdUser { get; set; }
+
+        //public string Role { get; set; }
 
 
         public ObservableCollection<UserSy> AllUserSys
@@ -61,6 +62,7 @@ namespace WpfEfCoreTest.ViewModel
                 });
             }
         }
+
 
         #region реализация интерфейса INotifyPropertyChanged
 

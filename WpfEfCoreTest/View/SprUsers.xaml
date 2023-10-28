@@ -9,7 +9,8 @@
         Title="WinSprUsers" Height="650" Width="1250"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
-        Name="SprUsersWnd">
+        Name="SprUsersWnd"
+        Background="WhiteSmoke">
 
     <Window.DataContext>
         <local:SprUsersVM/>

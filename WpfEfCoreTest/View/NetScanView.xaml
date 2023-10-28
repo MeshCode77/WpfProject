@@ -5,15 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfEfCoreTest.ViewModel"
         mc:Ignorable="d"
-        Title="NetScanView" Height="500" Width="1000" WindowStartupLocation="CenterScreen">
+        Title="NetScanView"
+        Height="520" 
+        Width="1150"
+        WindowStartupLocation="CenterScreen"
+        Background="WhiteSmoke">
+
+    <!--<Window.DataContext>
+        <local:SravneniadatasDB/>
+    </Window.DataContext>-->
 
     <Window.DataContext>
         <local:ComputerScannerVM/>
     </Window.DataContext>
-
-    <!--<Window.DataContext>
-        <local:MainViewModel/>
-    </Window.DataContext>-->
 
 
     <Grid>
@@ -49,9 +53,9 @@
         </StackPanel>
 
 
-        <ListView  ItemsSource="{Binding ScanHostColl}"
-                   SelectedItem="{Binding SelectedHost}"
-                   Margin="30,70,30,40">
+        <ListView Grid.Row="0" ItemsSource="{Binding ScanHostColl}"
+                  SelectedItem="{Binding SelectedHost}">
+            <ListView.Margin>30,70,30,40</ListView.Margin>
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="IP Adress"
@@ -66,18 +70,25 @@
                     <!-- Добавьте здесь другие столбцы для свойств компонента -->
                 </GridView>
             </ListView.View>
+        
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Установить агента" Command="{Binding OpenWindowF111}"/>
+                    <MenuItem Header="Удалить адресс"/>
+                </ContextMenu>
+            </ListView.ContextMenu>
         </ListView>
         <Border BorderBrush="DarkGray"
                 CornerRadius="5" 
-                BorderThickness="1" 
-                Grid.Column="0"
+                BorderThickness="1"
+                Grid.Row="0" Grid.Column="0"
                 Margin="5"/>
 
         <ProgressBar Grid.Row="1" Grid.Column="0"
                      Value="{Binding IsScanning, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                      Minimum="1"
                      Maximum="255"
-                     Height="24"
+                     Height="26"
                      Width="auto" 
                      Margin="5" />
         <Border BorderBrush="DarkGray"
@@ -86,111 +97,144 @@
                 Grid.Row="1"
                 Margin="5"/>
 
-        <!--<ListView Grid.Column="1" ItemsSource="{Binding Components}"
-                  HorizontalAlignment="Stretch"
-                  VerticalAlignment="Stretch"
-                  Margin="30,70,30,40">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Процессор" Width="auto"
-                                    DisplayMemberBinding="{Binding Processor}"/>
-                    <GridViewColumn Header="Материнская плата" Width="auto"
-                                    DisplayMemberBinding="{Binding BaseBoard}"/>
-                    <GridViewColumn Header="Жесткий диск" Width="auto"
-                                    DisplayMemberBinding="{Binding DiskDrive}"/>
-                    -->
-        <!-- Добавьте здесь другие столбцы для свойств компонента -->
-        <!--
-                </GridView>
-            </ListView.View>
-        </ListView>-->
         <Border BorderBrush="DarkGray"
                 CornerRadius="5" 
                 BorderThickness="1" 
                 Grid.Column="1"
                 Margin="5"/>
+        <!--<DataGrid Grid.Row="0" Grid.Column="1" 
+                  ItemsSource="{Binding Components}"
+                  AlternatingRowBackground="LightGraY"
+                  FontSize="14"
+                  AutoGenerateColumns="False">
+            <DataGrid.ItemTemplate>
+                <DataTemplate>
+                    <Border Height="250" Width="250"
+                            BorderBrush="DarkBlue" BorderThickness="1"
+                            CornerRadius="10" Padding="5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions >
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Text="          Наименование"
+                                       Margin="0,3,0,0"
+                                       Background="Orange"
+                                       Foreground="DarkBlue"/>
+                            <TextBlock Grid.Row="2" Text="Процессор"
+                                       Margin="0"
+                                       Background="Gainsboro"
+                                       Foreground="DarkBlue"/>
+                            <TextBlock Grid.Row="2" Text="{Binding Processor}"
+                                       Margin="200,5,0,5"
+                                       Foreground="DarkBlue"/>
+                            </Grid>
+                        </Border>
+                </DataTemplate>
+            </DataGrid.ItemTemplate>
+        </DataGrid>-->
 
-        <Grid Grid.Column="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="150"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="25"/>
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <TextBlock
-                Grid.Row="5" 
-                Text="Процессор"
-                FontWeight="Bold"
-                Foreground="DimGray"
-                Margin="20,0,0,0"/>
-            <TextBlock
-                Grid.Row="6" 
-                Text="Материнская плата"
-                FontWeight="Bold"
-                Foreground="DimGray"
-                Margin="20,0,0,0"/>
-            <TextBlock
-                Grid.Row="7" 
-                Text="Жесткий диск"
-                FontWeight="Bold"
-                Foreground="DimGray"
-                Margin="19,0,0,0"/>
-            <TextBlock
-                Grid.Row="8" 
-                Text="Видеоадаптер"
-                FontWeight="Bold"
-                Foreground="DimGray"
-                Margin="20,0,0,0"/>
-            <TextBlock
-                Grid.Row="9" 
-                Text="Оперативная память"
-                FontWeight="Bold"
-                Foreground="DimGray"
-                Margin="20,0,0,0"/>
-            <!-- Binding-->
-            <TextBlock 
-                Grid.Column="1"
-                Grid.Row="5"
-                Text="{Binding Processor, Mode=TwoWay }"
-                FontWeight="Bold"
-                Foreground="DarkBlue"/>
-            <TextBlock Grid.Column="1" 
-                Grid.Row="6"
-                Text="{Binding BaseBoard}"
-                FontWeight="Bold"
-                Foreground="DarkBlue"/>
-            <ComboBox  ItemsSource="{Binding HardDrivesColl}"
-                       SelectedIndex="0"
-                Grid.Column="1"
-                Grid.Row="7"
-                FontWeight="Bold"
-                Foreground="DarkBlue" Margin="0,0,10,0">
-            </ComboBox>
-            <TextBlock
-                Grid.Column="1"
-                Grid.Row="8" 
-                Text="{Binding Videocard}"
-                FontWeight="Bold"
-                Foreground="DarkBlue"/>
-            <TextBlock
-                Grid.Column="1"
-                Grid.Row="9" 
-                Text="{Binding Ramm}"
-                FontWeight="Bold"
-                Foreground="DarkBlue"/>
-        </Grid>
+        <ListView Grid.Column="1" ItemsSource="{Binding Components}"
+                  SelectedItem="{Binding SelectedHost}"
+                  FontSize="14">
+            <ListView.Margin>30,70,30,40</ListView.Margin>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Height="330" Width="480"
+                                BorderBrush="DarkBlue" BorderThickness="1"
+                                CornerRadius="10" Padding="5">
+                            <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="450"/>
+                            </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions >
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="10"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                            </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Text="          Наименование"
+                                           Margin="0,3,0,0"
+                                           Background="Orange"
+                                           Foreground="DarkBlue"/>
+                            <TextBlock Grid.Row="2" Text="Процессор"
+                                       Margin="0"
+                                       Background="Gainsboro"
+                                       Foreground="DarkBlue"/>
+                            <TextBlock Grid.Row="2" Text="{Binding Processor}"
+                                       Margin="200,5,0,5"
+                                       Foreground="DarkBlue"/>
+                            <Line Grid.Row="2" X2="1"
+                                  Stretch="Fill" Stroke="DarkGray"
+                                  Margin="0,15,0,0"/>
+
+                            <TextBlock Grid.Row="3" Text="Материнская плата"
+                                       Margin="0"
+                                       Foreground="DarkBlue"/>
+                            <TextBlock Grid.Row="3" Text="{Binding BaseBoard}"
+                                       Margin="200,5,5,0"
+                                       Foreground="DarkBlue"/>
+                            <Line Grid.Row="3" X2="1"
+                                  Stretch="Fill" Stroke="DarkGray"
+                                  Margin="0,15,0,0"/>
+
+                            <TextBlock Grid.Row="4" Text="Жесткий диск"
+                                       Margin="0"
+                                       Background="Gainsboro"
+                                       Foreground="DarkBlue"/>
+                            <TextBlock Grid.Row="4" Text="{Binding DiskDrive}"
+                                       Margin="200,5,5,5"
+                                       Background="Gainsboro"
+                                       Foreground="DarkBlue"/>
+                            <Line Grid.Row="4" X2="1"
+                                  Stretch="Fill" Stroke="DarkGray"
+                                  Margin="0,15,0,0"/>
+
+                            <TextBlock Grid.Row="5" Text="Видеоадаптер"
+                                       Margin="0"
+                                       Foreground="DarkBlue"/>
+                            <TextBlock Grid.Row="5" Text="{Binding Videocard}"
+                                       Margin="200,5,5,0"
+                                       Foreground="DarkBlue"/>
+                            <Line Grid.Row="5" X2="1"
+                                  Stretch="Fill" Stroke="DarkGray"
+                                  Margin="0,15,0,0"/>
+
+                            <TextBlock Grid.Row="6" Text="Оперативная память"
+                                       Margin="0"
+                                       Background="Gainsboro"
+                                       Foreground="DarkBlue"/>
+                            <TextBlock Grid.Row="6" Text="{Binding Ramm}"
+                                       Margin="200,5,5,5"
+                                       Background="Gainsboro"
+                                       Foreground="DarkBlue"/>
+                            <Line Grid.Row="6" X2="1"
+                                  Stretch="Fill" Stroke="DarkGray"
+                                  Margin="0,15,0,0"/>
+                        </Grid>
+                    </Border>
+                        
+                    </DataTemplate>
+
+
+
+                </ListView.ItemTemplate>
+        </ListView>
+        
     </Grid>
 </Window>

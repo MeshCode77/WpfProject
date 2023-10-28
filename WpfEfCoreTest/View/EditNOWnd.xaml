@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="Редактирование наименования оборудования" Height="140" Width="400"
         WindowStartupLocation="CenterScreen"
-        Name="EditNameOb">
+        Name="EditNameOb"
+        Background="WhiteSmoke">
     <StackPanel Grid.Row="0">
         <Grid>
             <Grid.ColumnDefinitions>

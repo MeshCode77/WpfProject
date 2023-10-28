@@ -10,7 +10,8 @@
         mc:Ignorable="d"
         Title="OtchetAllOborud" Height="650" Width="1500"
         WindowStartupLocation="CenterScreen"
-        Name="ResultWnd">
+        Name="ResultWnd"
+        Background="WhiteSmoke">
 
     <Window.DataContext>
         <viewModel:OtchetAllOborudVM/>

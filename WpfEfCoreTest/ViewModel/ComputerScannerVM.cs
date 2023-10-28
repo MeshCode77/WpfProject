@@ -41,89 +41,6 @@ namespace WpfEfCoreTest.ViewModel
 
         public RelayCommand scanCommand;
 
-
-        public string DiskDrive
-        {
-            get => _diskDrive;
-            set
-            {
-                _diskDrive = value;
-                OnPropertyChanged(nameof(DiskDrive));
-            }
-        }
-
-
-        public string BaseBoard
-        {
-            get => _baseBoard;
-            set
-            {
-                _baseBoard = value;
-                OnPropertyChanged(nameof(BaseBoard));
-            }
-        }
-
-        public string Processor
-        {
-            get => _processor;
-            set
-            {
-                _processor = value;
-                OnPropertyChanged(nameof(Processor));
-            }
-        }
-
-        public string Videocard
-        {
-            get => _vc;
-            set
-            {
-                _vc = value;
-                OnPropertyChanged(nameof(Videocard));
-            }
-        }
-
-        public string Ramm
-        {
-            get => _ramm;
-            set
-            {
-                _ramm = value;
-                OnPropertyChanged(nameof(Ramm));
-            }
-        }
-
-        public string IpAdress
-        {
-            get => _ipAdress;
-            set
-            {
-                _ipAdress = value;
-                OnPropertyChanged(nameof(IpAdress));
-            }
-        }
-
-        public string HostName
-        {
-            get => _hostName;
-            set
-            {
-                _hostName = value;
-                OnPropertyChanged(nameof(HostName));
-            }
-        }
-
-        public string Status
-        {
-            get => _status;
-            set
-            {
-                _status = value;
-                OnPropertyChanged(nameof(Status));
-            }
-        }
-
-
         public ObservableCollection<ScanHost> ScanHostColl
         {
             get => _scanHostColl;
@@ -285,7 +202,7 @@ namespace WpfEfCoreTest.ViewModel
 
                 // Получаем информацию о хосте
                 var hostEntry = Dns.GetHostEntry(ipAddress);
-                var hostName = hostEntry.HostName; // Имя хоста
+                var HostName = hostEntry.HostName; // Имя хоста
                 var addresses = hostEntry.AddressList; // Список IP-адресов, связанных с хостом
 
                 // Получаем информацию об устройстве, соответствующем указанному IP-адресу
@@ -406,8 +323,94 @@ namespace WpfEfCoreTest.ViewModel
 
             Components.Add(components);
             OnPropertyChanged(nameof(components));
+
             return Components;
         }
+
+        #region Свойства класса
+
+        public string DiskDrive
+        {
+            get => _diskDrive;
+            set
+            {
+                _diskDrive = value;
+                OnPropertyChanged(nameof(DiskDrive));
+            }
+        }
+
+
+        public string BaseBoard
+        {
+            get => _baseBoard;
+            set
+            {
+                _baseBoard = value;
+                OnPropertyChanged(nameof(BaseBoard));
+            }
+        }
+
+        public string Processor
+        {
+            get => _processor;
+            set
+            {
+                _processor = value;
+                OnPropertyChanged(nameof(Processor));
+            }
+        }
+
+        public string Videocard
+        {
+            get => _vc;
+            set
+            {
+                _vc = value;
+                OnPropertyChanged(nameof(Videocard));
+            }
+        }
+
+        public string Ramm
+        {
+            get => _ramm;
+            set
+            {
+                _ramm = value;
+                OnPropertyChanged(nameof(Ramm));
+            }
+        }
+
+        public string IpAdress
+        {
+            get => _ipAdress;
+            set
+            {
+                _ipAdress = value;
+                OnPropertyChanged(nameof(IpAdress));
+            }
+        }
+
+        public string HostName
+        {
+            get => _hostName;
+            set
+            {
+                _hostName = value;
+                OnPropertyChanged(nameof(HostName));
+            }
+        }
+
+        public string Status
+        {
+            get => _status;
+            set
+            {
+                _status = value;
+                OnPropertyChanged(nameof(Status));
+            }
+        }
+
+        #endregion
 
 
         #region Реализация интерфейса INotifyPropertyChanged

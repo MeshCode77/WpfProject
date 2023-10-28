@@ -8,7 +8,8 @@
         mc:Ignorable="d"
         Title="TitleRemontCompleted" Height="150" Width="400"
         WindowStartupLocation="CenterScreen"
-        Name="TitleRemontCompletedWnd">
+        Name="TitleRemontCompletedWnd"
+        Background="WhiteSmoke">
     <Window.DataContext>
         <viewModel:MainWindowVM/>
     </Window.DataContext>

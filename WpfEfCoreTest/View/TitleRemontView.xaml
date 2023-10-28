@@ -8,7 +8,8 @@
         mc:Ignorable="d"
         Title="Описание неисправности" Height="150" Width="400"
         WindowStartupLocation="CenterScreen"
-        Name="TitleRemontWnd">
+        Name="TitleRemontWnd"
+        Background="WhiteSmoke">
 
     <Window.DataContext>
         <viewModel:MainWindowVM/>

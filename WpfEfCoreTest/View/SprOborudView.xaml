@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WpfEfCoreTest.ViewModel"
         mc:Ignorable="d"
         FontSize="14"
-        Background="White"
+        Background="WhiteSmoke"
         Foreground="DarkBlue"
         Title="Справочник оборудования"
         Height="600"

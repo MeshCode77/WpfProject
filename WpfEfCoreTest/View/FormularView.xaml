@@ -6,7 +6,8 @@
         mc:Ignorable="d"
         Title="FormularView" Height="470" Width="1130"
         WindowStartupLocation="CenterScreen"
-        Name="FormularWnd">
+        Name="FormularWnd"
+        Background="WhiteSmoke">
 
     <!--<Window.DataContext>
         <local:FormularVM/>

@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="Введите наменование комплектующего" Height="140" Width="400"
         WindowStartupLocation="CenterScreen"
-        Name="EditNameKompl">
+        Name="EditNameKompl"
+        Background="WhiteSmoke">
     <StackPanel Grid.Row="0">
         <Grid>
             <Grid.ColumnDefinitions>

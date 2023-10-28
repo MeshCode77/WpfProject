@@ -6,13 +6,13 @@
         xmlns:local="clr-namespace:WpfEfCoreTest.ViewModel"
         mc:Ignorable="d"
         FontSize="14"
-        Background="White"
         Foreground="DarkBlue"
         Title="Справочник комплектующих"
         Height="600"
         Width="560" 
         WindowStartupLocation="CenterScreen"
-        Name="SprKompl">
+        Name="SprKompl"
+        Background="WhiteSmoke">
 
     <Window.DataContext>
         <local:SprKomplVM/>

@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:WpfEfCoreTest.View"
         mc:Ignorable="d"
         Title="EditPodrWnd" Height="140" Width="400"
-        Name="WndNewNamePodr">
+        Name="WndNewNamePodr"
+        Background="WhiteSmoke">
     <StackPanel Grid.Row="0">
         <Grid>
             <Grid.ColumnDefinitions>

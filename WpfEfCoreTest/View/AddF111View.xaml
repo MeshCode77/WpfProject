@@ -8,7 +8,8 @@
         mc:Ignorable="d"
         Title="Добавление данных в карточку Ф.111" Height="550" Width="450"
         WindowStartupLocation="CenterScreen"
-        Name="AddF111">
+        Name="AddF111"
+        Background="WhiteSmoke">
 
 <Window.DataContext>
     <local:F111VM />

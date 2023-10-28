@@ -4,9 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfEfCoreTest.View"
+        xmlns:viewModel="clr-namespace:WpfEfCoreTest.ViewModel"
         mc:Ignorable="d"
         Title="EditUserWindow" Height="630" Width="450"
-        Name="EditUserWnd">
+        Name="EditUserWnd"
+        Background="WhiteSmoke">
+
+    <Window.DataContext>
+        <viewModel:SprUsersVM/>
+    </Window.DataContext>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -23,13 +30,14 @@
                        FontSize="14"
                        Foreground="DarkBlue"/>
 
-                <ComboBox ItemsSource="{Binding AllPodrs}"
-                      SelectedIndex="0"      
-                      DisplayMemberPath="NamePodr"
-                      SelectedItem="{Binding IdPodrNavigation}"
-                      FontSize="14"
-                      Height="24"
-                      Foreground="DarkBlue"/>
+                <ComboBox 
+                    ItemsSource="{Binding AllPodrs}"
+                    SelectedIndex="0"
+                    DisplayMemberPath="NamePodr"
+                    SelectedItem="{Binding IdPodrNavigation}"
+                    FontSize="14"
+                    Height="24"
+                    Foreground="DarkBlue"/>
                 <TextBlock Text="Фамилия"
                        FontSize="14"
                        Foreground="DarkBlue"/>

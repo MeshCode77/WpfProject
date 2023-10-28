@@ -50,6 +50,9 @@ namespace WpfEfCoreTest.ViewModel
 
         private RelayCommand openEditCommandWnd;
 
+        // свойства для выделенных элементов
+        public static User selectedUser;
+
         // конструктор класса
         public SprUsersVM()
         {
@@ -151,12 +154,20 @@ namespace WpfEfCoreTest.ViewModel
         public static string Doljnost { get; set; }
         public static string NameComp { get; set; }
         public static string Mac { get; set; }
+
         public static string Vtel { get; set; }
 
+        //public static User SelectedUser { get; set; }
+        public User SelectedUser
+        {
+            get => selectedUser;
+            set
+            {
+                selectedUser = value;
+                OnPropertyChanged(nameof(SelectedUser));
+            }
+        }
 
-        // свойства для выделенных элементов
-
-        public static User SelectedUser { get; set; }
         public static Podr SelectedPodr { get; set; }
         public static Info SelectedInfo { get; set; }
 

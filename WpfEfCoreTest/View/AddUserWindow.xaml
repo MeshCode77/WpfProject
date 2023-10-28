@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:WpfEfCoreTest.ViewModel"
         mc:Ignorable="d"
         Title="AddUserWindow" Height="630" Width="450"
-        Name="AddUserWnd">
+        Name="AddUserWnd"
+        Background="WhiteSmoke">
 
     <Window.DataContext>
         <local:SprUsersVM/>

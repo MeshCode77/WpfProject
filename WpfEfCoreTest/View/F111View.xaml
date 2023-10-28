@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="F111View" Height="auto" Width="auto"
         WindowStartupLocation="CenterScreen"
-        Name="F111Wnd">
+        Name="F111Wnd"
+        Background="WhiteSmoke">
 
     <!--<Window.DataContext>
         <local:F111VM/>

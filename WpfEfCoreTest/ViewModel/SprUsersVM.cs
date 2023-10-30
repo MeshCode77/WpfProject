@@ -16,6 +16,8 @@ namespace WpfEfCoreTest.ViewModel
 {
     public class SprUsersVM : INotifyPropertyChanged
     {
+        // свойства для выделенных элементов
+        public static User selectedUser;
         private readonly TestContext db;
 
         private ObservableCollection<User> _filteredPodr;
@@ -49,9 +51,6 @@ namespace WpfEfCoreTest.ViewModel
         // команда открытия окна для редактирования
 
         private RelayCommand openEditCommandWnd;
-
-        // свойства для выделенных элементов
-        public static User selectedUser;
 
         // конструктор класса
         public SprUsersVM()
@@ -171,7 +170,7 @@ namespace WpfEfCoreTest.ViewModel
         public static Podr SelectedPodr { get; set; }
         public static Info SelectedInfo { get; set; }
 
-        //[NotNull]
+        //Добавляем пользователя
         public RelayCommand AddCommand
         {
             get

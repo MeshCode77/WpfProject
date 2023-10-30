@@ -11,9 +11,9 @@ namespace WpfEfCoreTest.Model
         public string Fname { get; set; }
 
         //public int IdRole { get; set; }
-        public int? IdUser { get; set; }
+        //public int? IdUser { get; set; }
 
         //public virtual Role IdRoleNavigation { get; set; }
-        public virtual User IdUserNavigation { get; set; }
+        //public virtual User IdUserNavigation { get; set; }
     }
 }

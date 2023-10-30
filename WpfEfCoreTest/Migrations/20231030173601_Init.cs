@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WpfEfCoreTest.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -84,16 +84,16 @@ namespace WpfEfCoreTest.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Role",
+                name: "Roles",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Role = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
+                    Role1 = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Role", x => x.id);
+                    table.PrimaryKey("PK_Roles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -230,25 +230,18 @@ namespace WpfEfCoreTest.Migrations
                     login = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     pass = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
                     FName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    idRole = table.Column<int>(type: "int", nullable: false),
-                    idUser = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserSys", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_UserSys_Role",
-                        column: x => x.idRole,
-                        principalTable: "Role",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_UserSys_users",
-                        column: x => x.idUser,
-                        principalTable: "users",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                    //UserId = table.Column<int>(type: "int", nullable: true)
                 });
+                //constraints: table =>
+                //{
+                //    //table.PrimaryKey("PK_UserSys", x => x.id);
+                //    //table.ForeignKey(
+                //    //    name: "FK_UserSys_users_UserId",
+                //    //    column: x => x.UserId,
+                //    //    principalTable: "users",
+                //    //    principalColumn: "id",
+                //    //    onDelete: ReferentialAction.Restrict);
+                //});
 
             migrationBuilder.CreateTable(
                 name: "formular",
@@ -297,11 +290,14 @@ namespace WpfEfCoreTest.Migrations
                     idf111 = table.Column<int>(type: "int", nullable: false),
                     podr = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     user = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    InvNum = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ZavodNum = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     numForm = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     nameOborud = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    BeginDate = table.Column<DateTime>(type: "date", nullable: true),
-                    EndDate = table.Column<DateTime>(type: "date", nullable: true),
-                    Title = table.Column<string>(type: "nvarchar(210)", maxLength: 210, nullable: true)
+                    BeginDate = table.Column<DateTime>(type: "datetime", nullable: true),
+                    EndDate = table.Column<DateTime>(type: "datetime", nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(210)", maxLength: 210, nullable: true),
+                    TitleComplected = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -412,15 +408,10 @@ namespace WpfEfCoreTest.Migrations
                 table: "users",
                 column: "idPodr");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_UserSys_idRole",
-                table: "UserSys",
-                column: "idRole");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserSys_idUser",
-                table: "UserSys",
-                column: "idUser");
+            //migrationBuilder.CreateIndex(
+            //    name: "IX_UserSys_UserId",
+            //    table: "UserSys",
+            //    column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -441,6 +432,9 @@ namespace WpfEfCoreTest.Migrations
                 name: "OtchetRemont");
 
             migrationBuilder.DropTable(
+                name: "Roles");
+
+            migrationBuilder.DropTable(
                 name: "sklad");
 
             migrationBuilder.DropTable(
@@ -454,9 +448,6 @@ namespace WpfEfCoreTest.Migrations
 
             migrationBuilder.DropTable(
                 name: "formular");
-
-            migrationBuilder.DropTable(
-                name: "Role");
 
             migrationBuilder.DropTable(
                 name: "f111");

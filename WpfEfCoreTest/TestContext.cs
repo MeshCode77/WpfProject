@@ -379,14 +379,14 @@ namespace WpfEfCoreTest
 
             modelBuilder.Entity<Role>(entity =>
             {
-                entity.ToTable("Role");
+                //entity.ToTable("Role");
 
-                entity.Property(e => e.Id).HasColumnName("id");
+                //entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Role1)
-                    .IsRequired()
-                    .HasMaxLength(30)
-                    .HasColumnName("Role");
+                //entity.Property(e => e.Role1)
+                //    .IsRequired()
+                //    .HasMaxLength(30)
+                //    .HasColumnName("Role");
             });
 
             modelBuilder.Entity<Sklad>(entity =>
@@ -514,7 +514,7 @@ namespace WpfEfCoreTest
 
                 //entity.Property(e => e.IdRole).HasColumnName("idRole");
 
-                entity.Property(e => e.IdUser).HasColumnName("idUser");
+                //entity.Property(e => e.IdUser).HasColumnName("idUser");
 
                 entity.Property(e => e.Login)
                     .IsRequired()
@@ -532,10 +532,10 @@ namespace WpfEfCoreTest
                 //    .OnDelete(DeleteBehavior.ClientSetNull)
                 //    .HasConstraintName("FK_UserSys_Role");
 
-                entity.HasOne(d => d.IdUserNavigation)
-                    .WithMany(p => p.UserSies)
-                    .HasForeignKey(d => d.IdUser)
-                    .HasConstraintName("FK_UserSys_users");
+                //entity.HasOne(d => d.IdUserNavigation)
+                //    .WithMany(p => p.UserSies)
+                //    .HasForeignKey(d => d.IdUser)
+                //    .HasConstraintName("FK_UserSys_users");
             });
 
             modelBuilder.Entity<VSelectF111toNameOborud>(entity =>

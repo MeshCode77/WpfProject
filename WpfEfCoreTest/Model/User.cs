@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.CompilerServices;
@@ -14,8 +13,10 @@ namespace WpfEfCoreTest.Model
 
         private int id;
         private int idPodr;
+
         private Podr idPodrNavigation;
-        private User idUserNavigation;
+
+        //private User idUserNavigation;
         private string lname;
         private string mname;
 
@@ -106,7 +107,7 @@ namespace WpfEfCoreTest.Model
         public virtual ObservableCollection<Info> Infos { get; set; }
 
         //public virtual Info IdInfoNavigation { get; set; }
-        public virtual ICollection<UserSy> UserSies { get; set; }
+        //public virtual ICollection<UserSy> UserSies { get; set; }
 
 
         public event PropertyChangedEventHandler PropertyChanged;

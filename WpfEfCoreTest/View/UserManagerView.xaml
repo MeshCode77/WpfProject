@@ -39,12 +39,35 @@
             </ListView.View>
         </ListView>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Content="Добавить" Margin="10" Command="{Binding OpenAddUserWnd}" />
-            <Button Content="Изменить" Margin="10" Command="{Binding OpenEditCommandWnd}"/>
-            <Button Content="Удалить" Margin="10" Command="{Binding DeleteUserCommand}"/>
+            <Button Content="Добавить"
+                    Margin="10"
+                    Command="{Binding OpenAddSysUserWnd}"
+                    Width="150"
+                    Background="White"
+                    Foreground="DarkBlue"
+                    FontSize="14"/>
+            <Button Content="Изменить"
+                    Margin="10"
+                    Command="{Binding OpenEditCommandWnd}"
+                    Width="150"
+                    Background="White"
+                    Foreground="DarkBlue"
+                    FontSize="14"/>
+            <Button Content="Удалить"
+                    Margin="10"
+                    Command="{Binding DeleteUserCommand}"
+                    Width="150"
+                    Background="White"
+                    Foreground="DarkBlue"
+                    FontSize="14"/>
 
-            <Button Content="Отмена" Margin="10" Command="{Binding CancelUser}"
-                    CommandParameter="{Binding ElementName=SprUsersWnd}"/>
+            <Button Content="Отмена" Margin="10"
+                    Command="{Binding CancelUser}"
+                    CommandParameter="{Binding ElementName=SprUsersWnd}"
+                    Width="150"
+                    Background="White"
+                    Foreground="DarkBlue"
+                    FontSize="14"/>
 
         </StackPanel>
 

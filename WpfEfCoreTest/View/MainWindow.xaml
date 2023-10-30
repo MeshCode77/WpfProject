@@ -27,6 +27,8 @@
             <ColumnDefinition Width="450" />
             <ColumnDefinition  Width="450" />
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="0*"/>
         </Grid.ColumnDefinitions>
 
         <!--Подразделения-->
@@ -97,7 +99,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            
+
                         </GridView.Columns>
                     </GridView>
                 </ListView.View>
@@ -150,7 +152,7 @@
             Header="карточка Ф.111"
             Grid.Row="1"
             Grid.ColumnSpan="2"
-            Margin="5"
+            Margin="5,5,5,5"
             FontSize="14"
             Foreground="DarkBlue">
             <ListView x:Name="lvF111"
@@ -232,7 +234,7 @@
             Header="Формуляр"
             Grid.Row="1" 
             Grid.Column="2"
-            Margin="5"
+            Margin="5,5,5,5"
             FontSize="14"
             Foreground="DarkBlue">
             <ListView x:Name="lvFormular"
@@ -268,12 +270,12 @@
             </ListView>
         </GroupBox>
 
-        <GroupBox Grid.Row="3" Margin="5" Grid.ColumnSpan="3">
+        <GroupBox Grid.Row="2" Margin="5,5,5,5" Grid.ColumnSpan="3">
             <StackPanel >
                 <StatusBar DockPanel.Dock="Bottom"/>
             </StackPanel>
         </GroupBox>
-        
+
 
         <!--Menu-->
         <StackPanel  Grid.ColumnSpan="3" Height="20" VerticalAlignment="Top">
@@ -306,6 +308,6 @@
                 </MenuItem>
             </Menu>
         </StackPanel>
-        
+
     </Grid>
 </Window>

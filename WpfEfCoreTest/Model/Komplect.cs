@@ -1,6 +1,4 @@
-﻿
-
-#nullable disable
+﻿#nullable disable
 
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,15 +7,17 @@ using WpfEfCoreTest.Annotations;
 
 namespace WpfEfCoreTest.Model
 {
-    public partial class Komplect : INotifyPropertyChanged
+    public class Komplect : INotifyPropertyChanged
     {
+        private int id;
+        private string nameKompl;
+
         public Komplect()
         {
             Formulars = new HashSet<Formular>();
             SprDgms = new HashSet<SprDgm>();
         }
 
-        private int id;
         public int Id
         {
             get => id;
@@ -28,8 +28,6 @@ namespace WpfEfCoreTest.Model
             }
         }
 
-
-        private string nameKompl;
         public string NameKompl
         {
             get => nameKompl;
@@ -40,11 +38,9 @@ namespace WpfEfCoreTest.Model
             }
         }
 
-        
 
         public virtual ICollection<Formular> Formulars { get; set; }
         public virtual ICollection<SprDgm> SprDgms { get; set; }
-
 
 
         #region Реализация интерфейса INotyfyPropertyChange

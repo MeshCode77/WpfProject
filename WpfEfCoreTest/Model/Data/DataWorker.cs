@@ -906,13 +906,76 @@ namespace WpfEfCoreTest.Model.Data
             return result;
         }
 
-        //public static ObservableCollection<UserSy> GetAllUserSys()
-        //{
-        //    using (var tc = new TestContext())
-        //    {
-        //        var result = tc.UserSys.ToObservableCollection();
-        //        return result;
-        //    }
-        //}
+        // Добавляем в БД Системного пользователя
+        public static string AddSysUser(string fname, string login, string pass)
+        {
+            var result = "Уже существует";
+
+            using (var tc = new TestContext())
+            {
+                try
+                {
+                    // проверяем наличие пользователя
+                    var chechIsExist = tc.UserSys.Any(el =>
+                        el.Fname == fname && el.Login == login);
+
+                    if (!chechIsExist)
+                    {
+                        var newUser = new UserSy
+                        {
+                            Fname = fname,
+                            Login = login,
+                            Pass = pass // СВЯЗЬ FK(users) и PK(podrs)
+                        };
+                        tc.UserSys.Add(newUser);
+                        tc.SaveChanges();
+
+
+                        result = "Сделано";
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+
+                return result;
+            }
+        }
+
+        public static string CreateSysUser(string fname, string login, string pass)
+        {
+            var result = "Уже существует";
+
+            using (var tc = new TestContext())
+            {
+                try
+                {
+                    // проверяем наличие пользователя
+                    var chechIsExist = tc.UserSys.Any(el => el.Fname == fname && el.Login == login && el.Pass == pass);
+
+                    if (!chechIsExist)
+                    {
+                        var newUser = new UserSy
+                        {
+                            Fname = fname,
+                            Login = login,
+                            Pass = pass
+                        };
+                        tc.UserSys.Add(newUser);
+                        tc.SaveChanges();
+
+                        result = "Сделано";
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+
+                tc.Dispose();
+                return result;
+            }
+        }
     }
 }

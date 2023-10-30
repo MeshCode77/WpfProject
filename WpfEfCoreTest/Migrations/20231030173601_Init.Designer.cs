@@ -10,8 +10,8 @@ using WpfEfCoreTest;
 namespace WpfEfCoreTest.Migrations
 {
     [DbContext(typeof(TestContext))]
-    [Migration("20230614154123_Init1")]
-    partial class Init1
+    [Migration("20231030173601_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -402,10 +402,10 @@ namespace WpfEfCoreTest.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime?>("BeginDate")
-                        .HasColumnType("date");
+                        .HasColumnType("datetime");
 
                     b.Property<DateTime?>("EndDate")
-                        .HasColumnType("date");
+                        .HasColumnType("datetime");
 
                     b.Property<int>("Idf111")
                         .HasColumnType("int")
@@ -435,6 +435,9 @@ namespace WpfEfCoreTest.Migrations
                     b.Property<string>("Title")
                         .HasMaxLength(210)
                         .HasColumnType("nvarchar(210)");
+
+                    b.Property<string>("TitleComplected")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("User")
                         .IsRequired()
@@ -475,18 +478,14 @@ namespace WpfEfCoreTest.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("id")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Role1")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)")
-                        .HasColumnName("Role");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Role");
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("WpfEfCoreTest.Model.Sklad", b =>
@@ -661,14 +660,6 @@ namespace WpfEfCoreTest.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("FName");
 
-                    b.Property<int>("IdRole")
-                        .HasColumnType("int")
-                        .HasColumnName("idRole");
-
-                    b.Property<int?>("IdUser")
-                        .HasColumnType("int")
-                        .HasColumnName("idUser");
-
                     b.Property<string>("Login")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -681,11 +672,12 @@ namespace WpfEfCoreTest.Migrations
                         .HasColumnType("nvarchar(32)")
                         .HasColumnName("pass");
 
+                    //b.Property<int?>("UserId")
+                    //    .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("IdRole");
-
-                    b.HasIndex("IdUser");
+                    //b.HasIndex("UserId");
 
                     b.ToTable("UserSys");
                 });
@@ -849,23 +841,12 @@ namespace WpfEfCoreTest.Migrations
                     b.Navigation("IdPodrNavigation");
                 });
 
-            modelBuilder.Entity("WpfEfCoreTest.Model.UserSy", b =>
-                {
-                    b.HasOne("WpfEfCoreTest.Model.Role", "IdRoleNavigation")
-                        .WithMany("UserSies")
-                        .HasForeignKey("IdRole")
-                        .HasConstraintName("FK_UserSys_Role")
-                        .IsRequired();
-
-                    b.HasOne("WpfEfCoreTest.Model.User", "IdUserNavigation")
-                        .WithMany("UserSies")
-                        .HasForeignKey("IdUser")
-                        .HasConstraintName("FK_UserSys_users");
-
-                    b.Navigation("IdRoleNavigation");
-
-                    b.Navigation("IdUserNavigation");
-                });
+            //modelBuilder.Entity("WpfEfCoreTest.Model.UserSy", b =>
+            //    {
+            //        b.HasOne("WpfEfCoreTest.Model.User", null)
+            //            .WithMany("UserSies")
+            //            .HasForeignKey("UserId");
+            //    });
 
             modelBuilder.Entity("WpfEfCoreTest.Model.F111", b =>
                 {
@@ -896,11 +877,6 @@ namespace WpfEfCoreTest.Migrations
             modelBuilder.Entity("WpfEfCoreTest.Model.Podr", b =>
                 {
                     b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("WpfEfCoreTest.Model.Role", b =>
-                {
-                    b.Navigation("UserSies");
                 });
 
             modelBuilder.Entity("WpfEfCoreTest.Model.User", b =>

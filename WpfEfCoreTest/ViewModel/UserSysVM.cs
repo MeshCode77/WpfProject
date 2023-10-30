@@ -15,6 +15,8 @@ namespace WpfEfCoreTest.ViewModel
 {
     internal class UserSysVM : INotifyPropertyChanged
     {
+        private UserSy _selectedUserSys;
+
         // команда добавления нового пользователя
         private RelayCommand addSysCommand;
 
@@ -23,9 +25,18 @@ namespace WpfEfCoreTest.ViewModel
 
         // команда открытия окна AddUserWindow
         public RelayCommand openAddSysUserWnd;
-        private UserSy selectedUserSys;
+
+        private RelayCommand openEditSysUserCmd;
 
         public RelayCommand sigIn;
+
+        //public string Role { get; set; }
+
+
+        public UserSysVM()
+        {
+            allUserSys = DataWorker.GetAllUserSys();
+        }
 
         public int Id { get; set; }
 
@@ -33,9 +44,6 @@ namespace WpfEfCoreTest.ViewModel
         public string Login { get; set; }
         public string Pass { get; set; }
         public string Fname { get; set; }
-
-        //public string Role { get; set; }
-
 
         public ObservableCollection<UserSy> AllUserSys
         {
@@ -49,10 +57,10 @@ namespace WpfEfCoreTest.ViewModel
 
         public UserSy SelectedUserSys
         {
-            get => selectedUserSys;
+            get => _selectedUserSys;
             set
             {
-                selectedUserSys = value;
+                _selectedUserSys = value;
                 OnPropertyChanged(nameof(SelectedUserSys));
             }
         }
@@ -85,6 +93,7 @@ namespace WpfEfCoreTest.ViewModel
             }
         }
 
+
         //Добавляем пользователя
         public RelayCommand AddSysUser
         {
@@ -114,6 +123,28 @@ namespace WpfEfCoreTest.ViewModel
                 });
             }
         }
+
+        // Редактирование сис пользователя
+        public RelayCommand OpenEditSysUserCmd
+        {
+            get
+            {
+                return openEditSysUserCmd ?? new RelayCommand(obj =>
+                    {
+                        var resultStr = "Ничего не выбрано";
+
+                        if (SelectedUserSys != null) OpenEditUserSysWnd(SelectedUserSys);
+                    }
+                );
+            }
+        }
+
+        private void OpenEditUserSysWnd(UserSy selectedUserSys)
+        {
+            var edSysUs = new EditSysUser();
+            edSysUs.ShowDialog();
+        }
+
 
         // метод валидации текстбоксов
         private void SetRedBlockControll(Window wnd, string blockName)

@@ -1,0 +1,75 @@
+﻿<Window x:Class="WpfEfCoreTest.View.EditSysUser"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModel="clr-namespace:WpfEfCoreTest.ViewModel"
+        mc:Ignorable="d"
+        Title="Редактирование пользователя системы" Height="300" Width="300"
+        WindowStartupLocation="CenterScreen"
+        Name="EditSysUserWnd">
+
+    <Window.DataContext>
+        <viewModel:UserSysVM/>
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Border BorderThickness="1"
+                CornerRadius="10"
+                BorderBrush="DarkBlue"
+                Padding="5"
+                Margin="5"
+                Grid.RowSpan="2">
+            <StackPanel 
+                Width="200"
+                Height="150"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+                <TextBlock Text="Ф.И.О"
+                           FontSize="14"/>
+                <TextBox  Text="{Binding Fname}"
+                          Name="FnamBlock"
+                          FontSize="14"/>
+                <TextBlock Text="Login"
+                           FontSize="14"
+                           Name="LogBlock"/>
+                <TextBox Text="{Binding Login }"
+                         FontSize="14"/>
+                <TextBlock Text="Пароль"
+                           FontSize="14"
+                           Name="PasBlock"/>
+                <TextBox Text="{Binding Pass}"
+                         FontSize="14"/>
+            </StackPanel>
+        </Border>
+
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+            </Grid>
+            <Button Content="Сохранить"
+                    Height="24"
+                    Width="90"
+                    Margin="0,0,20,15"
+                    Command="{Binding AddSysUser}"
+                    CommandParameter="{Binding ElementName=AddSysUserWnd}"/>
+
+            <Button Content="Отменить"
+                    Height="24"
+                    Width="90"
+                    Margin="0,0,0,15"
+                    IsCancel="True"/>
+        </StackPanel>
+
+    </Grid>
+
+</Window>

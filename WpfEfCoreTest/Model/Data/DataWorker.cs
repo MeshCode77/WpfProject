@@ -987,5 +987,10 @@ namespace WpfEfCoreTest.Model.Data
                 return result;
             }
         }
+
+        public static string EditSysUser(UserSy selectedUserSys, string fname, string login, string pass)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

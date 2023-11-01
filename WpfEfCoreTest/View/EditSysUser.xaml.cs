@@ -1,27 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
+using WpfEfCoreTest.Model;
+using WpfEfCoreTest.ViewModel;
 
 namespace WpfEfCoreTest.View
 {
     /// <summary>
-    /// Логика взаимодействия для EditSysUser.xaml
+    ///     Логика взаимодействия для EditSysUser.xaml
     /// </summary>
     public partial class EditSysUser : Window
     {
-        public EditSysUser()
+        public EditSysUser(UserSy user)
         {
             InitializeComponent();
+
+            DataContext = new UserSysVM();
+            //UserSysVM.SelectedUserSys = user;
+
+            //UserSysVM.Id = user.Id;
+            UserSysVM.Fname = user.Fname;
+            UserSysVM.Login = user.Login;
+            UserSysVM.Pass = user.Pass;
         }
     }
 }

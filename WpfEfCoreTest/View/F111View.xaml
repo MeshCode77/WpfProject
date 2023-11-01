@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfEfCoreTest.ViewModel"
         mc:Ignorable="d"
-        Title="F111View" Height="auto" Width="auto"
+        Title="F111View" Height="600" Width="1150"
         WindowStartupLocation="CenterScreen"
         Name="F111Wnd"
         Background="WhiteSmoke">
 
-    <!--<Window.DataContext>
+    <Window.DataContext>
         <local:F111VM/>
-    </Window.DataContext>-->
+    </Window.DataContext>
 
 
     <Grid>

@@ -1,27 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
+using WpfEfCoreTest.Model;
 
 namespace WpfEfCoreTest.View
 {
     /// <summary>
-    /// Логика взаимодействия для AddSysUserViewxaml.xaml
+    ///     Логика взаимодействия для AddSysUserViewxaml.xaml
     /// </summary>
     public partial class AddSysUserViewxaml : Window
     {
-        public AddSysUserViewxaml()
+        public AddSysUserViewxaml(UserSy user)
         {
             InitializeComponent();
+
+            user = null;
+            //UserSysVM.Fname = null;
+            //UserSysVM.Login = null;
+            //UserSysVM.Pass = null;
         }
     }
 }

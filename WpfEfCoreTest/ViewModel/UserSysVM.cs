@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -23,6 +24,8 @@ namespace WpfEfCoreTest.ViewModel
         // получить все подразделения
         private ObservableCollection<UserSy> allUserSys; // = DataWorker.GetAllUserSys();
 
+        private RelayCommand editSysUserCommand;
+
         // команда открытия окна AddUserWindow
         public RelayCommand openAddSysUserWnd;
 
@@ -36,14 +39,26 @@ namespace WpfEfCoreTest.ViewModel
         public UserSysVM()
         {
             allUserSys = DataWorker.GetAllUserSys();
+
+            if (SelectedUserSys != null)
+            {
+                Fname = SelectedUserSys.Fname;
+                Login = SelectedUserSys.Login;
+                Pass = SelectedUserSys.Pass;
+            }
+            else
+            {
+                Fname = null;
+                Login = null;
+                Pass = null;
+            }
         }
 
-        public int Id { get; set; }
+        //public static int Id { get; set; }
+        public static string Login { get; set; }
+        public static string Pass { get; set; }
+        public static string Fname { get; set; }
 
-        //public int? IdUser { get; set; }
-        public string Login { get; set; }
-        public string Pass { get; set; }
-        public string Fname { get; set; }
 
         public ObservableCollection<UserSy> AllUserSys
         {
@@ -55,15 +70,19 @@ namespace WpfEfCoreTest.ViewModel
             }
         }
 
-        public UserSy SelectedUserSys
-        {
-            get => _selectedUserSys;
-            set
-            {
-                _selectedUserSys = value;
-                OnPropertyChanged(nameof(SelectedUserSys));
-            }
-        }
+
+        public static UserSy SelectedUserSys { get; set; }
+        //public UserSy SelectedUserSys
+        //{
+        //    get => _selectedUserSys;
+        //    set
+        //    {
+        //        _selectedUserSys = value;
+        //        OnPropertyChanged(nameof(SelectedUserSys));
+        //    }
+        //}
+
+        #region вход в систему
 
         public RelayCommand SigIn
         {
@@ -81,20 +100,25 @@ namespace WpfEfCoreTest.ViewModel
             }
         }
 
+        #endregion
+
         public RelayCommand OpenAddSysUserWnd
         {
             get
             {
                 return openAddSysUserWnd ?? new RelayCommand(obj =>
                 {
-                    var newAddUsers = new AddSysUserViewxaml();
+                    SelectedUserSys = null;
+                    var newAddUsers = new AddSysUserViewxaml(SelectedUserSys);
                     newAddUsers.ShowDialog();
                 });
             }
+            private set => openAddSysUserWnd = value;
         }
 
 
-        //Добавляем пользователя
+        #region Добавляем пользователя
+
         public RelayCommand AddSysUser
         {
             get
@@ -124,6 +148,8 @@ namespace WpfEfCoreTest.ViewModel
             }
         }
 
+        #endregion
+
         // Редактирование сис пользователя
         public RelayCommand OpenEditSysUserCmd
         {
@@ -131,17 +157,51 @@ namespace WpfEfCoreTest.ViewModel
             {
                 return openEditSysUserCmd ?? new RelayCommand(obj =>
                     {
-                        var resultStr = "Ничего не выбрано";
-
-                        if (SelectedUserSys != null) OpenEditUserSysWnd(SelectedUserSys);
+                        if (SelectedUserSys != null)
+                        {
+                            var edSysUs = new EditSysUser(SelectedUserSys);
+                            edSysUs.ShowDialog();
+                        }
                     }
                 );
             }
         }
 
+        public RelayCommand EditSysUserCommand
+        {
+            get
+            {
+                return editSysUserCommand ?? new RelayCommand(obj =>
+                    {
+                        var wnd = obj as Window;
+
+                        var resultStr = "Не выбран пользователь системы";
+
+                        if (SelectedUserSys != null)
+                        {
+                            resultStr = DataWorker.EditSysUser(SelectedUserSys, Fname, Login, Pass);
+
+                            //UpdateAllUsersView();
+
+                            ShowMessageToUser(resultStr);
+                            wnd.Close();
+                            SetNullValuesToProperties();
+                        }
+                        else
+                        {
+                            ShowMessageToUser(resultStr);
+                            SetRedBlockControll(wnd, "LnameBlock");
+                        }
+                    }
+                );
+            }
+            set => throw new NotImplementedException();
+        }
+
+
         private void OpenEditUserSysWnd(UserSy selectedUserSys)
         {
-            var edSysUs = new EditSysUser();
+            var edSysUs = new EditSysUser(selectedUserSys);
             edSysUs.ShowDialog();
         }
 

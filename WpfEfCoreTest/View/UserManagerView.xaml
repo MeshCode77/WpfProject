@@ -28,11 +28,11 @@
                 <GridView>
                     <GridViewColumn Header="Id"  Width="30" 
                                     DisplayMemberBinding="{Binding Path=Id }"/>
-                    <GridViewColumn Header="Ф.И.О." Width="230"
+                    <GridViewColumn Header="Ф.И.О." Width="300"
                                     DisplayMemberBinding="{Binding Path=Fname }"/>
-                    <GridViewColumn Header="Логин" Width="150"
+                    <GridViewColumn Header="Логин" Width="200"
                                     DisplayMemberBinding="{Binding Path=Login }"/>
-                    <GridViewColumn Header="Пароль" Width="150"
+                    <GridViewColumn Header="Пароль" Width="200"
                                     DisplayMemberBinding="{Binding Path=Pass }"/>
                 </GridView>
             </ListView.View>
@@ -41,6 +41,7 @@
             <Button Content="Добавить"
                     Margin="15,10,10,10"
                     Command="{Binding OpenAddSysUserWnd}"
+                    CommandParameter="Add"
                     Width="150"
                     Background="White"
                     Foreground="DarkBlue"
@@ -48,6 +49,7 @@
             <Button Content="Изменить"
                     Margin="10,10,10,10"
                     Command="{Binding OpenEditSysUserCmd}"
+                    CommandParameter="Edit"
                     Width="150"
                     Background="White"
                     Foreground="DarkBlue"
@@ -67,7 +69,8 @@
                     Width="150"
                     Background="White"
                     Foreground="DarkBlue"
-                    FontSize="14"/>
+                    FontSize="14"
+                    IsCancel="True"/>
 
         </StackPanel>
 

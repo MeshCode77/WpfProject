@@ -49,8 +49,10 @@ namespace WpfEfCoreTest.ViewModel
             FilteredPodr = OnFilter();
         }
 
+        // свойство класса
         public static string namePodr { get; set; }
 
+        // Свойство для поиска подр
         public string FilterPodr
         {
             get => _filterPodr;
@@ -87,6 +89,7 @@ namespace WpfEfCoreTest.ViewModel
         // свойство выбранного подразделения
         public static Podr SelectedPodr { get; set; }
 
+
         public string NewNamePodr
         {
             get => newNamePodr;
@@ -117,7 +120,6 @@ namespace WpfEfCoreTest.ViewModel
 
                     if (SelectedPodr != null)
                     {
-                        //OpenWndEditPodrNameMethod(SelectedPodr);
                         var editPodrWnd = new EditPodrWnd(SelectedPodr);
                         editPodrWnd.ShowDialog();
                     }
@@ -125,15 +127,15 @@ namespace WpfEfCoreTest.ViewModel
             }
         }
 
-        public string EditNewPodr
-        {
-            get => editNewPodr;
-            set
-            {
-                editNewPodr = value;
-                OnPropertyChanged();
-            }
-        }
+        //public string EditNewPodr
+        //{
+        //    get => editNewPodr;
+        //    set
+        //    {
+        //        editNewPodr = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
 
         public RelayCommand EditPodr
         {
@@ -162,6 +164,7 @@ namespace WpfEfCoreTest.ViewModel
             }
         }
 
+        // Удаление подразделения
         public RelayCommand DeletePodrCmd
         {
             get
@@ -181,6 +184,7 @@ namespace WpfEfCoreTest.ViewModel
             }
         }
 
+        // отмена
         public RelayCommand CancelPodr
         {
             get
@@ -201,6 +205,7 @@ namespace WpfEfCoreTest.ViewModel
             }
         }
 
+        // метод для фильтрации поиска
         private ObservableCollection<Podr> OnFilter()
         {
             if (string.IsNullOrEmpty(DataTransfer.FilterPodr))

@@ -1,23 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
 using WpfEfCoreTest.Model;
 using WpfEfCoreTest.ViewModel;
 
 namespace WpfEfCoreTest.View
 {
     /// <summary>
-    /// Логика взаимодействия для EditF111View.xaml
+    ///     Логика взаимодействия для EditF111View.xaml
     /// </summary>
     public partial class EditF111View : Window
     {
@@ -35,8 +23,6 @@ namespace WpfEfCoreTest.View
             F111VM.ZavodNum = rowF111.ZavodNum;
             F111VM.GtDate = rowF111.GtDate;
             F111VM.OutData = rowF111.OutDate;
-
-
         }
     }
 }

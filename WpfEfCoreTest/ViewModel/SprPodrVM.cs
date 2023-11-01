@@ -270,7 +270,7 @@ namespace WpfEfCoreTest.ViewModel
 
                     if (NewNamePodr == null || NewNamePodr.Replace(" ", "").Length == 0)
                     {
-                        SetRedBlockControll(wnd, "NamePodrBlock");
+                        SetRedBlockControll(wnd, "PodrBlock");
                     }
                     else
                     {

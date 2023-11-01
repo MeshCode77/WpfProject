@@ -250,6 +250,7 @@ namespace WpfEfCoreTest.ViewModel
             }
         }
 
+
         public RelayCommand DeleteUserCommand
         {
             get
@@ -257,8 +258,12 @@ namespace WpfEfCoreTest.ViewModel
                 return deleteUserCommand ?? new RelayCommand(obj =>
                     {
                         var resultStr = "Ничего не выбрано";
-                        //если сотрудник
-                        if (SelectedUser != null)
+
+                        var result = MessageBox.Show("Вы уверены,что хотите удалить этого пользователя",
+                            "В Н И М А Н И Е ! ! !",
+                            MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+
+                        if (result == MessageBoxResult.OK)
                         {
                             resultStr = DataWorker.DeleteUser(SelectedUser);
                             //UpdateAllDataView();

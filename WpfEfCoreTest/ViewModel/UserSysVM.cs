@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -23,6 +22,9 @@ namespace WpfEfCoreTest.ViewModel
 
         // получить все подразделения
         private ObservableCollection<UserSy> allUserSys; // = DataWorker.GetAllUserSys();
+
+        // Команда удаления пользователя
+        private RelayCommand deleteSysUserCmd;
 
         private RelayCommand editSysUserCommand;
 
@@ -127,22 +129,31 @@ namespace WpfEfCoreTest.ViewModel
                 {
                     var wnd = obj as Window;
 
-                    var resultStr = "";
+                    var resultStr = "Ошибка добавления данных";
 
-                    if (Fname == null || Fname.Replace(" ", "").Length == 0) SetRedBlockControll(wnd, "FnameBlock");
-                    if (Fname == null || Fname.Replace(" ", "").Length == 0) SetRedBlockControll(wnd, "LoginBlock");
                     if (Fname == null || Fname.Replace(" ", "").Length == 0)
-                    {
+                        SetRedBlockControll(wnd, "FnameBlock");
+
+                    if (Login == null || Login.Replace(" ", "").Length == 0)
+                        SetRedBlockControll(wnd, "LoginBlock");
+
+                    if (Pass == null || Pass.Replace(" ", "").Length == 0)
                         SetRedBlockControll(wnd, "PassBlock");
-                    }
-                    else
+
+                    if ((Fname != null) & (Login != null) & (Pass != null))
                     {
                         resultStr = DataWorker.CreateSysUser(Fname, Login, Pass);
-                        //UpdateAllDataView();
+
+                        UpdateAllSysUsersView();
 
                         ShowMessageToUser(resultStr); // показать сообщение 
                         SetNullValuesToProperties(); // обнулить свойства
                         wnd.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ошибка", "Не все поля заполнены", MessageBoxButton.OK,
+                            MessageBoxImage.Warning);
                     }
                 });
             }
@@ -150,7 +161,7 @@ namespace WpfEfCoreTest.ViewModel
 
         #endregion
 
-        // Редактирование сис пользователя
+        // Команда открытия окна для редактирования сис пользователя
         public RelayCommand OpenEditSysUserCmd
         {
             get
@@ -167,7 +178,8 @@ namespace WpfEfCoreTest.ViewModel
             }
         }
 
-        public RelayCommand EditSysUserCommand
+        // Редактирование сис пользователя
+        public RelayCommand EditSysUserCmd
         {
             get
             {
@@ -181,7 +193,7 @@ namespace WpfEfCoreTest.ViewModel
                         {
                             resultStr = DataWorker.EditSysUser(SelectedUserSys, Fname, Login, Pass);
 
-                            //UpdateAllUsersView();
+                            UpdateAllSysUsersView();
 
                             ShowMessageToUser(resultStr);
                             wnd.Close();
@@ -190,12 +202,61 @@ namespace WpfEfCoreTest.ViewModel
                         else
                         {
                             ShowMessageToUser(resultStr);
-                            SetRedBlockControll(wnd, "LnameBlock");
+                            SetRedBlockControll(wnd, "FnameBlock");
                         }
                     }
                 );
             }
-            set => throw new NotImplementedException();
+        }
+
+        // Удаление сис пользователя
+        public RelayCommand DeleteSysUserCmd
+        {
+            get
+            {
+                return deleteSysUserCmd ?? new RelayCommand(obj =>
+                    {
+                        var resultStr = "Ничего не выбрано";
+
+                        // ПРОВЕРКА ПЕРЕД УДАЛЕНИЕМ
+                        var result = MessageBox.Show("Вы уверены,что хотите удалить этого пользователя",
+                            "В Н И М А Н И Е ! ! !",
+                            MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                        if (result == MessageBoxResult.OK)
+                        {
+                            if (SelectedUserSys != null) resultStr = DataWorker.DeleteSysUser(SelectedUserSys);
+
+                            // обновление
+                            UpdateAllSysUsersView();
+                            // обнуление свойств
+                            SetNullValuesToProperties();
+                            // вывод сообщения
+                            ShowMessageToUser(resultStr);
+                        }
+                    }
+                );
+            }
+        }
+
+
+        public ObservableCollection<UserSy> AllUsersys
+        {
+            get => allUserSys;
+            set
+            {
+                allUserSys = value;
+                OnPropertyChanged(nameof(AllUsersys));
+            }
+        }
+
+
+        private void UpdateAllSysUsersView()
+        {
+            AllUsersys = DataWorker.GetAllUserSys();
+            UserManagerView.UpdateSysUserView.ItemsSource = null;
+            UserManagerView.UpdateSysUserView.Items.Clear();
+            UserManagerView.UpdateSysUserView.ItemsSource = AllUserSys;
+            UserManagerView.UpdateSysUserView.Items.Refresh();
         }
 
 

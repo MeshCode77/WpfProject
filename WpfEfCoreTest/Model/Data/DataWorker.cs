@@ -409,7 +409,7 @@ namespace WpfEfCoreTest.Model.Data
         }
 
         // Редактирование карточки Ф.111
-        internal static string EditF111(F111 selectedRowF111, int idNameOborud, string nameOborud, string KartNum,
+        public static string EditF111(F111 selectedRowF111, int idNameOborud, string nameOborud, string KartNum,
             string NumForm, string InvNum, string ZavodNum, DateTime GtDate, DateTime? OutData)
         {
             var result = "Данные не изменены!";
@@ -990,7 +990,40 @@ namespace WpfEfCoreTest.Model.Data
 
         public static string EditSysUser(UserSy selectedUserSys, string fname, string login, string pass)
         {
-            throw new NotImplementedException();
+            var result = "Данные не изменены!";
+
+            using (var db = new TestContext())
+            {
+                //check user is exist
+                var user = db.UserSys.FirstOrDefault(u => u.Id == selectedUserSys.Id);
+
+                if (user != null)
+                {
+                    user.Fname = fname;
+                    user.Login = login;
+                    user.Pass = pass;
+
+                    db.SaveChanges();
+                    result = "Сделано! данные успешно  изменены!";
+                    return result;
+                }
+
+                return result;
+            }
+        }
+
+        public static string DeleteSysUser(UserSy selectedUserSys)
+        {
+            var result = "Такого пользователя не существует";
+
+            using (var tc = new TestContext())
+            {
+                tc.UserSys.Remove(selectedUserSys);
+                tc.SaveChanges();
+                result = "Сделано! Пользователь: " + selectedUserSys.Fname + " - удален";
+            }
+
+            return result;
         }
     }
 }

@@ -9,9 +9,9 @@
         WindowStartupLocation="CenterScreen"
         Name="EditSysUserWnd">
 
-    <!--<Window.DataContext>
+    <Window.DataContext>
         <viewModel:UserSysVM/>
-    </Window.DataContext>-->
+    </Window.DataContext>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -33,23 +33,23 @@
                            FontSize="14"
                            Foreground="DarkGray"/>
                 <TextBox  Text="{Binding Fname}"
-                          Name="FnamBlock"
+                          Name="FnameBlock"
                           FontSize="14"
                           Height="24"
                           Margin="0,0,0,10"/>
                 <TextBlock Text="Login"
                            FontSize="14"
-                           Name="LogBlock"
                            Foreground="DarkGray"/>
                 <TextBox Text="{Binding  Login}"
+                         Name="LoginBlock"
                          FontSize="14"
                          Height="24"/>
                 <TextBlock Text="Пароль"
                            FontSize="14"
-                           Name="PasBlock"
                            Margin="0,10,0,0"
                            Foreground="DarkGray"/>
                 <TextBox Text="{Binding Pass}"
+                         Name="PassBlock"
                          Height="24"
                          FontSize="14"/>
             </StackPanel>
@@ -68,7 +68,7 @@
                     Height="24"
                     Width="90"
                     Margin="0,0,20,15"
-                    Command="{Binding EditSysUser}"
+                    Command="{Binding EditSysUserCmd}"
                     CommandParameter="{Binding ElementName=EditSysUserWnd}"/>
 
             <Button Content="Отменить"

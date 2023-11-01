@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfEfCoreTest.View"
         mc:Ignorable="d"
-        Title="Сообщение..." Height="100" Width="350"
+        Title="Сообщение..." Height="150" Width="450"
         Background="WhiteSmoke">
     <Grid>
         <Grid.RowDefinitions>
@@ -13,6 +13,7 @@
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
         <TextBlock x:Name="MessageText" Grid.Row="0"
+                   FontSize="14"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    TextWrapping="Wrap"/>

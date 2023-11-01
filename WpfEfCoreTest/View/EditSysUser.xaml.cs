@@ -13,7 +13,7 @@ namespace WpfEfCoreTest.View
         {
             InitializeComponent();
 
-            DataContext = new UserSysVM();
+            //DataContext = new UserSysVM();
             //UserSysVM.SelectedUserSys = user;
 
             //UserSysVM.Id = user.Id;

@@ -26,24 +26,32 @@
                 Grid.RowSpan="2">
             <StackPanel 
                 Width="200"
-                Height="150"
+                Height="200"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center">
                 <TextBlock Text="Ф.И.О"
-                           FontSize="14"/>
+                           FontSize="14"
+                           Foreground="DarkGray"/>
                 <TextBox  Text="{Binding Fname}"
                           Name="FnameBlock"
-                          FontSize="14"/>
+                          FontSize="14"
+                          Height="24"
+                          Margin="0,0,0,10"/>
                 <TextBlock Text="Login"
                            FontSize="14"
-                           Name="LoginBlock"/>
+                           Foreground="DarkGray"/>
                 <TextBox Text="{Binding Login }"
-                         FontSize="14"/>
+                         FontSize="14"
+                         Name="LoginBlock"
+                         Height="24"/>
                 <TextBlock Text="Пароль"
                            FontSize="14"
-                           Name="PassBlock"/>
+                           Margin="0,10,0,0"
+                           Foreground="DarkGray"/>
                 <TextBox Text="{Binding Pass}"
-                         FontSize="14"/>
+                         FontSize="14"
+                         Name="PassBlock"
+                         Height="24"/>
             </StackPanel>
         </Border>
 

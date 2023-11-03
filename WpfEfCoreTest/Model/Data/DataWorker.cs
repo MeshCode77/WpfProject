@@ -1025,5 +1025,19 @@ namespace WpfEfCoreTest.Model.Data
 
             return result;
         }
+
+        public static bool Registration(string login, string pass)
+        {
+            using (var tc = new TestContext())
+            {
+                tc.UserSys.ToObservableCollection();
+
+                foreach (var temp in tc.UserSys)
+                    if ((temp.Login == login) & (temp.Pass == pass))
+                        return true;
+            }
+
+            return false;
+        }
     }
 }

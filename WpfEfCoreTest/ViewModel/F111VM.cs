@@ -347,8 +347,8 @@ namespace WpfEfCoreTest.ViewModel
                     if (string.IsNullOrEmpty(KartNum) || KartNum.Length == 0) SetRedBlockTextBox(wnd, "KartNumBlock");
                     if (string.IsNullOrEmpty(NumForm) || NumForm.Length == 0) SetRedBlockTextBox(wnd, "NumFormBlock");
                     if (string.IsNullOrEmpty(InvNum) || InvNum.Length == 0) SetRedBlockTextBox(wnd, "InvNumBlock");
-                    if (string.IsNullOrEmpty(ZavodNum) || ZavodNum.Length == 0)
-                        SetRedBlockTextBox(wnd, "ZavodNumBlock");
+                    if (string.IsNullOrEmpty(ZavodNum) || ZavodNum.Length == 0) SetRedBlockTextBox(wnd, "ZavodNumBlock");
+
                     if (SelectedNameOborud == null)
                     {
                         MessageBox.Show("Не выбрано оборудование!");

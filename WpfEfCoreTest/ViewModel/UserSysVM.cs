@@ -28,10 +28,17 @@ namespace WpfEfCoreTest.ViewModel
 
         private RelayCommand editSysUserCommand;
 
+        //public static string LoginLogo { get; set; }
+        private UserSy loginLogo;
+
         // команда открытия окна AddUserWindow
         public RelayCommand openAddSysUserWnd;
 
         private RelayCommand openEditSysUserCmd;
+
+        private string passLogo;
+
+        private char passLogoChar;
 
         public RelayCommand sigIn;
 
@@ -60,6 +67,28 @@ namespace WpfEfCoreTest.ViewModel
         public static string Login { get; set; }
         public static string Pass { get; set; }
         public static string Fname { get; set; }
+
+        public UserSy LoginLogo
+        {
+            get => loginLogo;
+            set
+            {
+                loginLogo = value;
+                OnPropertyChanged(nameof(LoginLogo));
+                // Добавьте здесь код для преобразования значения в строку
+                var selectedValueAsString = loginLogo?.ToString();
+            }
+        }
+
+        public string PassLogo
+        {
+            get => passLogo;
+            set
+            {
+                passLogo = value;
+                OnPropertyChanged(nameof(PassLogo));
+            }
+        }
 
 
         public ObservableCollection<UserSy> AllUserSys
@@ -94,10 +123,19 @@ namespace WpfEfCoreTest.ViewModel
                 {
                     var window = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
 
-                    var main = new MainWindow();
-                    main.Show();
+                    var result = DataWorker.Registration(LoginLogo.Login, PassLogo);
 
-                    if (window != null) window.Close();
+                    if (result)
+                    {
+                        var main = new MainWindow();
+                        main.Show();
+
+                        if (window != null) window.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Логин или пароль не верен.\nПопробуйте еще раз ");
+                    }
                 });
             }
         }

@@ -3,7 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfEfCoreTest.ViewModel"
+        xmlns:viewModel="clr-namespace:WpfEfCoreTest.ViewModel"
+        xmlns:converters="clr-namespace:WpfEfCoreTest.Converters"
+        xmlns:customControls="clr-namespace:WpfEfCoreTest.CustomControls"
         mc:Ignorable="d"
         Title="LogoView"
         Height="500" 
@@ -11,10 +13,11 @@
         WindowStartupLocation="CenterScreen">
 
     <Window.DataContext>
-        <local:UserSysVM/>
+        <viewModel:UserSysVM/>
     </Window.DataContext>
 
     <Window.Resources>
+        <converters:CharToStringConverter x:Key="MyCharToStringConverter" />
         <Style  x:Key="MyButtonStyle" TargetType="Button">
             <Style.Setters>
                 <Setter Property="Button.Background" Value="DeepSkyBlue" />
@@ -43,7 +46,7 @@
                     <ComboBox ItemsSource="{Binding AllUserSys}"
                               SelectedIndex="0"      
                               DisplayMemberPath="Login"
-                              SelectedItem="{Binding SelectedUserSys}"
+                              SelectedItem="{Binding LoginLogo}"
                               Width="200"
                               Height="24"
                               FontSize="14"/>
@@ -51,11 +54,14 @@
                         Text="Password" 
                         Margin="10,7,0,1" 
                         Foreground="DarkGray"/>
-                    <PasswordBox  
-                            PasswordChar="{Binding Pass}"
-                            Width="200" 
-                            Height="24"
-                            FontSize="14"/>
+                    <!--переопределяем свойство Password как DependancyProperty-->
+                    <customControls:BindablePasswordBox Password="{Binding PassLogo,
+                        Mode=TwoWay,
+                        UpdateSourceTrigger=PropertyChanged}"
+                        Width="200" 
+                        Height="24"
+                        FontSize="14">
+                    </customControls:BindablePasswordBox>
                     <Border
                             Height="26" Width="200"
                             BorderBrush="DeepSkyBlue"

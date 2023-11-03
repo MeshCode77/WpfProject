@@ -55,12 +55,12 @@
                     <!--</ComboBox>-->
                     <TextBox Text="{Binding LoginLogo}"
                         VerticalContentAlignment="Center"                          
-                        Padding="20,0,0,0"
+                        Padding="25,0,0,0"
                         Height="24"
                         Width="200"
                         FontSize="14">
                         <TextBox.Background>
-                            <ImageBrush ImageSource="c:\Users\Admin\Documents\GitHub\WpfProject\WpfEfCoreTest\img\User512px.png"
+                            <ImageBrush ImageSource="c:\Users\Admin\Documents\GitHub\WpfProject\WpfEfCoreTest\img\person48px.png"
                                         Stretch="Uniform"
                                         AlignmentX="Left"/>
                         </TextBox.Background>

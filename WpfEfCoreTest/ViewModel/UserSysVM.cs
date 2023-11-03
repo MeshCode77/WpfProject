@@ -15,6 +15,8 @@ namespace WpfEfCoreTest.ViewModel
 {
     internal class UserSysVM : INotifyPropertyChanged
     {
+        //public static string LoginLogo { get; set; }
+        private static string loginLogo;
         private UserSy _selectedUserSys;
 
         // команда добавления нового пользователя
@@ -27,9 +29,6 @@ namespace WpfEfCoreTest.ViewModel
         private RelayCommand deleteSysUserCmd;
 
         private RelayCommand editSysUserCommand;
-
-        //public static string LoginLogo { get; set; }
-        private string loginLogo;
 
         // команда открытия окна AddUserWindow
         public RelayCommand openAddSysUserWnd;
@@ -132,7 +131,8 @@ namespace WpfEfCoreTest.ViewModel
                     }
                     else
                     {
-                        MessageBox.Show("Логин или пароль не верен.\nПопробуйте еще раз ");
+                        MessageBox.Show("Логин или пароль не верен.\n\n   Попробуйте еще раз...", "Информация...",
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 });
             }

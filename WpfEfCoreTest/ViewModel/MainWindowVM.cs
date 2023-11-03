@@ -25,6 +25,8 @@ namespace WpfEfCoreTest.ViewModel
 
         private readonly ObservableCollection<bool> getCheckBoxRemontIsChecked = new();
 
+        private readonly UserSysVM userSys;
+
         private bool _isSelected; // { get; set; } //= DataWorker.GetAllDataF111();
 
         private Podr _selectedPodr;
@@ -54,6 +56,8 @@ namespace WpfEfCoreTest.ViewModel
         private RelayCommand openWndUserManagerCmd;
 
         private RelayCommand selectItemCommand;
+
+        private string sysuser;
 
         private TestContext tc;
         private RelayCommand titleCancel;
@@ -92,6 +96,19 @@ namespace WpfEfCoreTest.ViewModel
             formular = new ObservableCollection<Formular>();
 
             if (SelectedUser != null) FilteredF111s = DataWorker.GetAllDataF111ToId(SelectedUser.Id);
+
+            userSys = new UserSysVM();
+            SysUser = userSys.LoginLogo;
+        }
+
+        public string SysUser
+        {
+            get => sysuser;
+            set
+            {
+                sysuser = value;
+                OnPropertyChanged(nameof(SysUser));
+            }
         }
 
 

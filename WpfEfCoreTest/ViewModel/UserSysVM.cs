@@ -29,7 +29,7 @@ namespace WpfEfCoreTest.ViewModel
         private RelayCommand editSysUserCommand;
 
         //public static string LoginLogo { get; set; }
-        private UserSy loginLogo;
+        private string loginLogo;
 
         // команда открытия окна AddUserWindow
         public RelayCommand openAddSysUserWnd;
@@ -68,15 +68,13 @@ namespace WpfEfCoreTest.ViewModel
         public static string Pass { get; set; }
         public static string Fname { get; set; }
 
-        public UserSy LoginLogo
+        public string LoginLogo
         {
             get => loginLogo;
             set
             {
                 loginLogo = value;
                 OnPropertyChanged(nameof(LoginLogo));
-                // Добавьте здесь код для преобразования значения в строку
-                var selectedValueAsString = loginLogo?.ToString();
             }
         }
 
@@ -123,7 +121,7 @@ namespace WpfEfCoreTest.ViewModel
                 {
                     var window = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
 
-                    var result = DataWorker.Registration(LoginLogo.Login, PassLogo);
+                    var result = DataWorker.Registration(LoginLogo, PassLogo);
 
                     if (result)
                     {

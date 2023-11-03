@@ -43,18 +43,33 @@
                 <StackPanel Margin="10,0,5,0" Height="154">
                     <TextBlock Text="   Login"
                                Foreground="DarkGray"/>
-                    <ComboBox ItemsSource="{Binding AllUserSys}"
+                    <!--<ComboBox ItemsSource="{Binding AllUserSys}"
                               SelectedIndex="0"      
                               DisplayMemberPath="Login"
                               SelectedItem="{Binding LoginLogo}"
                               Width="200"
                               Height="24"
-                              FontSize="14"/>
+                              FontSize="14"
+                              VerticalContentAlignment="Center"
+                              Padding="20,0,0,0">-->
+                    <!--</ComboBox>-->
+                    <TextBox Text="{Binding LoginLogo}"
+                        VerticalContentAlignment="Center"                          
+                        Padding="20,0,0,0"
+                        Height="24"
+                        Width="200"
+                        FontSize="14">
+                        <TextBox.Background>
+                            <ImageBrush ImageSource="c:\Users\Admin\Documents\GitHub\WpfProject\WpfEfCoreTest\img\User512px.png"
+                                        Stretch="Uniform"
+                                        AlignmentX="Left"/>
+                        </TextBox.Background>
+                    </TextBox>
                     <TextBlock 
                         Text="Password" 
                         Margin="10,7,0,1" 
                         Foreground="DarkGray"/>
-                    <!--переопределяем свойство Password как DependancyProperty-->
+                    <!--используем переопределенное свойство Password как DependancyProperty-->
                     <customControls:BindablePasswordBox Password="{Binding PassLogo,
                         Mode=TwoWay,
                         UpdateSourceTrigger=PropertyChanged}"

@@ -274,7 +274,12 @@
             <StackPanel >
                 <StatusBar DockPanel.Dock="Bottom">
                     <StatusBarItem>
-                        <TextBlock Text="{Binding SysUser}"/>
+                        <TextBlock Text="Вы вошли как: "
+                                   Foreground="DarkBlue"/>
+                    </StatusBarItem>
+                    <StatusBarItem>
+                        <TextBlock Text="{Binding SysUser}"
+                                   Foreground="DarkBlue"/>
                     </StatusBarItem>
                 </StatusBar>
             </StackPanel>

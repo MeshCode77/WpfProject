@@ -37,15 +37,12 @@ namespace WpfEfCoreTest.ViewModel
 
         private string passLogo;
 
-        private char passLogoChar;
-
         public RelayCommand sigIn;
-
-        //public string Role { get; set; }
-
+        private UserSysVM userSys;
 
         public UserSysVM()
         {
+
             allUserSys = DataWorker.GetAllUserSys();
 
             if (SelectedUserSys != null)

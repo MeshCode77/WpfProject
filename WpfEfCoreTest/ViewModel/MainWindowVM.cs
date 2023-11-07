@@ -70,35 +70,23 @@ namespace WpfEfCoreTest.ViewModel
         //конструктор
         public MainWindowVM()
         {
-            db = new TestContext();
-
-            //db.Podrs.Load();
-            //db.Podrs.ToObservableCollection();
-            //podrs = new ObservableCollection<Podr>();
+            db = new TestContext();     
 
             AllPodrs = DataWorker.GetAllPodrs();
 
-
-            //db.Users.Load();
-            //db.Users.ToObservableCollection();
             users = new ObservableCollection<User>();
 
-
             infos = new ObservableCollection<Info>();
-
-            //db.F111s.Load();
-            //db.F111s.ToObservableCollection();
+          
             f111s = new ObservableCollection<F111>();
-
-
-            //db.Formulars.Load();
-            //db.Formulars.ToObservableCollection();
+        
             formular = new ObservableCollection<Formular>();
 
             if (SelectedUser != null) FilteredF111s = DataWorker.GetAllDataF111ToId(SelectedUser.Id);
 
             userSys = new UserSysVM();
             SysUser = userSys.LoginLogo;
+
         }
 
         public string SysUser
@@ -157,7 +145,6 @@ namespace WpfEfCoreTest.ViewModel
                 });
             }
         }
-
 
         private ObservableCollection<Podr> podrs { get; }
         private ObservableCollection<User> users { get; set; }
@@ -379,6 +366,11 @@ namespace WpfEfCoreTest.ViewModel
             {
                 return openWndUserManagerCmd ?? new RelayCommand(obj =>
                 {
+                    if (userSys.LoginLogo == "tech" || userSys.LoginLogo == "buh")
+                    {
+                        MessageBox.Show("Доступ запрещен !!!");
+                        return;
+                    }
                     var userMan = new UserManagerView();
                     userMan.ShowDialog();
                 });

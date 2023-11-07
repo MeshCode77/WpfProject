@@ -63,7 +63,7 @@
                         Width="200"
                         FontSize="14">
                         <TextBox.Background>
-                            <ImageBrush ImageSource="c:\Users\Admin\Documents\GitHub\WpfProject\WpfEfCoreTest\img\person48px.png"
+                            <ImageBrush ImageSource="G:\Программирование\C#\WPF\MyProjects\WpfProject\WpfEfCoreTest\img\person48px.png"
                                         Stretch="Uniform"
                                         AlignmentX="Left"/>
                         </TextBox.Background>

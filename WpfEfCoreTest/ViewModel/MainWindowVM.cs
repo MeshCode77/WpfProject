@@ -14,8 +14,8 @@ namespace WpfEfCoreTest.ViewModel
 {
     public class MainWindowVM : INotifyPropertyChanged
     {
-        private const string Msg1 = "true";
-        private const string Msg2 = "false";
+        //private const string Msg1 = "true";
+        //private const string Msg2 = "false";
         public static TestContext db;
         public static User _selectedUser;
         public static F111 _selectedF111;
@@ -70,23 +70,22 @@ namespace WpfEfCoreTest.ViewModel
         //конструктор
         public MainWindowVM()
         {
-            db = new TestContext();     
+            db = new TestContext();
 
             AllPodrs = DataWorker.GetAllPodrs();
 
             users = new ObservableCollection<User>();
 
             infos = new ObservableCollection<Info>();
-          
+
             f111s = new ObservableCollection<F111>();
-        
+
             formular = new ObservableCollection<Formular>();
 
             if (SelectedUser != null) FilteredF111s = DataWorker.GetAllDataF111ToId(SelectedUser.Id);
 
             userSys = new UserSysVM();
             SysUser = userSys.LoginLogo;
-
         }
 
         public string SysUser
@@ -371,6 +370,7 @@ namespace WpfEfCoreTest.ViewModel
                         MessageBox.Show("Доступ запрещен !!!");
                         return;
                     }
+
                     var userMan = new UserManagerView();
                     userMan.ShowDialog();
                 });

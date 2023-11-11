@@ -7,10 +7,9 @@ using WpfEfCoreTest.Model.Data;
 
 namespace WpfEfCoreTest.Model
 {
-    public class User
+    public class User : INotifyPropertyChanged
     {
         private string fname;
-
         private int id;
         private int idPodr;
 

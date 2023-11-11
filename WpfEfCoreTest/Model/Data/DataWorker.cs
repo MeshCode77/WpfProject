@@ -39,16 +39,17 @@ namespace WpfEfCoreTest.Model.Data
         //получить все данные из F111
         public static ObservableCollection<F111> GetAllDataF111()
         {
+            ObservableCollection<F111> result;
+
             using (var tc = new TestContext())
             {
-                var result = tc.F111s.ToObservableCollection();
-
-                if (result != null)
-                    return result;
-                MessageBox.Show("Данные отсутствуют");
-
-                return null;
+                result = tc.F111s.ToObservableCollection();
             }
+
+            if (result != null) return result;
+
+            MessageBox.Show("Данные отсутствуют");
+            return null;
         }
 
 
@@ -724,8 +725,10 @@ namespace WpfEfCoreTest.Model.Data
                 {
                     var count = 0;
 
+                    // проверяем по таблице F111s f.IdnameOborud == no.Id т.к. все колличество оборудования храниться там 
                     var idF111 = tc.F111s.Where(f => f.IdnameOborud == no.Id);
 
+                    // подсчитываем колличество одинакового оборудования
                     foreach (var temp in idF111)
                         if (temp.IdnameOborud == no.Id)
                             count++;

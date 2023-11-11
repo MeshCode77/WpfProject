@@ -11,43 +11,29 @@ namespace WpfEfCoreTest.Model
     public class NameOborud : INotifyPropertyChanged
     {
         private int _faktSrokExpl;
+
         private int _srokExpl;
         private int _stoimost1Ed;
         private int economicEffect;
         private int id;
-        private int kolEdNameOb; // = DataWorker.GetOborudColl();
+        private int kolEdNameOb;
+
+
         private string nameOborud1;
 
-
         public int Id { get; set; }
-        //{
-        //    get => id;
-        //    set
-        //    {
-        //        id = value;
-        //        OnPropertyChanged(nameof(Id));
-        //    }
-        //}
-
         public string NameOborud1 { get; set; }
-        //{
-        //    get => nameOborud1;
-        //    set
-        //    {
-        //        nameOborud1 = value;
-        //        OnPropertyChanged(nameof(NameOborud1));
-        //    }
-        //}
 
-        [NotMapped] public int KolEdNameOb { get; set; }
-        //{
-        //    get => kolEdNameOb;
-        //    set
-        //    {
-        //        kolEdNameOb = value;
-        //        OnPropertyChanged(nameof(KolEdNameOb));
-        //    }
-        //}
+        [NotMapped]
+        public int KolEdNameOb
+        {
+            get => kolEdNameOb;
+            set
+            {
+                kolEdNameOb = value;
+                OnPropertyChanged(nameof(KolEdNameOb));
+            }
+        }
 
 
         [NotMapped]

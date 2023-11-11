@@ -15,17 +15,20 @@ namespace WpfEfCoreTest.ViewModel
         public static TestContext db;
 
 
-        private static ObservableCollection<F111> allDataF111; // = GetAllDataF111(); 
+        private static readonly ObservableCollection<F111> allDataF111 = DataWorker.GetAllDataF111();
 
         private ObservableCollection<NameOborud> _allUnionColl;
 
         //свойста для отображения коллекции значений колличества едениц техники для всей коллекции NameOborud
         private ObservableCollection<int> _countOborudColl = DataWorker.GetOborudColl();
 
-        private ObservableCollection<int> _kolEdNameOb; // = DataWorker.GetOborudColl();
+        private int _kolEdNameOb; // = DataWorker.GetOborudColl();
 
+        private ObservableCollection<int> _kolEdNameObColl = DataWorker.GetOborudColl();
 
         private ObservableCollection<NameOborud> _kolNameOb;
+
+        private string _nameOborud1;
 
         private ObservableCollection<NameOborud> _nameUnionColl; // = DataWorker.GetAllNameOborud();
 
@@ -38,7 +41,7 @@ namespace WpfEfCoreTest.ViewModel
         private NameOborud _selectedNameOborud;
 
         //получить все Оборудование
-        private ObservableCollection<NameOborud> allOborud = DataWorker.GetAllNameOborud();
+        private ObservableCollection<NameOborud> allOborud;
 
         //получить все ПЭВМ 
         private ObservableCollection<F111> allPvm = DataWorker.AllPvm();
@@ -52,9 +55,6 @@ namespace WpfEfCoreTest.ViewModel
         // объединенная коллекция 
         private CompositeCollection unionCollection; // { get; set; }
 
-        //объединенная коллекция
-        //private ObservableCollection<NameOborud> unionColl;// = UnionColl(); // UnionNameOborud();
-
 
         #region Конструктор класса
 
@@ -62,19 +62,13 @@ namespace WpfEfCoreTest.ViewModel
         {
             AllUnionColl = UnionNameOborud();
 
-            //allDataF111 = DataWorker.GetAllDataF111(); // для обновления данных на форме при изменении колличества оборудования      
-
-            //CountOborudColl = DataWorker.GetOborudColl();
-
             AddToStoim1EdCollCmd = new RelayCommand(AddItem, CanAddItem);
 
             AddToSrokExplCmd = new RelayCommand(AddItemSrokExpl, CanAddItemSrokExpl);
 
             AddToFaktSrokExplCmd = new RelayCommand(AddItemFaktSrokExpl, CanAddItemFaktSrokExpl);
 
-            //SummaEconomEffect();
-
-            //EditToStoim1EdCollCmd = new RelayCommand(Update);
+            AllOborud = UnionCollNo();
         }
 
         #endregion
@@ -90,27 +84,38 @@ namespace WpfEfCoreTest.ViewModel
 
         public static ObservableCollection<int> EconomicEffectColl { get; set; } = new();
 
+        public int Id { get; set; }
 
-        //public ObservableCollection<int> KolEdNameOb
-        //{
-        //    get => _kolEdNameOb;
-        //    set
-        //    {
-        //        _kolEdNameOb = value;
-        //        OnPropertyChanged(nameof(KolEdNameOb));
-        //    }
-        //}
+        public string NameOborud1
+        {
+            get => _nameOborud1;
+            set
+            {
+                _nameOborud1 = value;
+                OnPropertyChanged(nameof(NameOborud1));
+            }
+        }
 
+        public int KolEdNameOb
+        {
+            get => _kolEdNameOb;
+            set
+            {
+                _kolEdNameOb = value;
+                OnPropertyChanged(nameof(KolEdNameOb));
+            }
+        }
 
-        //public CollectionViewSource NameUnionColl
-        //{
-        //    get => _nameUnionColl;
-        //    set
-        //    {
-        //        _nameUnionColl = value;
-        //        OnPropertyChanged(nameof(NameUnionColl));
-        //    }
-        //}
+        // свойство для колличества едениц техники
+        public ObservableCollection<int> CountOborudColl
+        {
+            get => _countOborudColl;
+            set
+            {
+                _countOborudColl = value;
+                OnPropertyChanged(nameof(CountOborudColl));
+            }
+        }
 
 
         // коллекция наименований NameOborud
@@ -176,14 +181,14 @@ namespace WpfEfCoreTest.ViewModel
             }
         }
 
-        // свойство для колличества едениц техники
-        public ObservableCollection<int> CountOborudColl
+
+        public ObservableCollection<int> KolEdNameObColl
         {
-            get => _countOborudColl;
+            get => _kolEdNameObColl;
             set
             {
-                _countOborudColl = value;
-                OnPropertyChanged(nameof(CountOborudColl));
+                _kolEdNameObColl = value;
+                OnPropertyChanged(nameof(KolEdNameObColl));
             }
         }
 
@@ -261,6 +266,39 @@ namespace WpfEfCoreTest.ViewModel
                 OnPropertyChanged(nameof(SelectedSt1Ed));
             }
         }
+
+
+        public static ObservableCollection<NameOborud> UnionCollNo()
+        {
+            var tempColl = new ObservableCollection<NameOborud>();
+            tempColl = DataWorker.GetAllNameOborud();
+
+            var countColl = new ObservableCollection<int>();
+            countColl = DataWorker.GetOborudColl();
+
+            var temp1 = 0;
+
+            foreach (var temp in tempColl)
+            {
+                if (countColl.Count == 0)
+                    return null;
+                // заполняет добавленный столбец в ListView который не учавствует в схеме БД таблицы NameOborud другой коллекцией
+                temp.KolEdNameOb = countColl[temp1];
+                temp1++;
+            }
+
+
+            return tempColl;
+        }
+
+        public void DataCountColl()
+        {
+            var temp1 = 0;
+            //foreach (var temp in countColl)
+
+            //    return temp;
+        }
+
 
         //public static int SummaAllEconomEffect
         //{
@@ -344,18 +382,14 @@ namespace WpfEfCoreTest.ViewModel
         }
 
 
-        ////// метод для заполенния данными дополнительного поля KolEdNameOb значениями из коллекции CountColl
+        ////// метод для заполнения данными дополнительного поля KolEdNameOb значениями из коллекции CountColl
         public static ObservableCollection<NameOborud> UnionNameOborud()
         {
             // коллекция для NameOborud
             var unionColl = new ObservableCollection<NameOborud>();
             unionColl = DataWorker.GetAllNameOborud();
 
-            // коллекция для CountColl
-            //var valColl = new ObservableCollection<int>();
-            //valColl = DataWorker.GetOborudColl();        
-
-            var stoim1EdColl = DataWorker.GetOborudColl();
+            var stoim1EdColl = DataWorker.GetOborudColl(); // количество оборудования по категориям
 
             var temp1 = 0;
 

@@ -77,6 +77,8 @@ namespace WpfEfCoreTest.Model
             {
                 _faktSrokExpl = value;
                 OnPropertyChanged(nameof(FaktSrokExpl));
+
+                EconomicEffect = Stoimost1Ed / SrokExpl * (FaktSrokExpl - SrokExpl) * KolEdNameOb;
             }
         }
 

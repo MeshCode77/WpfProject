@@ -10,13 +10,30 @@
         Name="EditF111"
         Background="WhiteSmoke">
 
-    <!--<Window.DataContext>
+    <Window.DataContext>
         <vm:F111VM/>
-    </Window.DataContext>-->
+    </Window.DataContext>
 
     <Grid>
         <GroupBox Margin="5">
             <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="Наименование подразделения"
+                           HorizontalAlignment="Center"/>
+                <ComboBox  Name="PodrBlock" 
+                           ItemsSource="{Binding AllPodrs}"
+                           SelectedItem="{Binding SelectedPodr }"
+                           HorizontalAlignment="Center"
+                           Width="200"
+                           Margin="2"
+                           Background="Azure"
+                           Foreground="DarkBlue">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NameOborud1}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+
+                </ComboBox>
                 <TextBlock Text="Наименование оборудования"
                            HorizontalAlignment="Center"/>
                 <ComboBox  Name="ModelBlock" 

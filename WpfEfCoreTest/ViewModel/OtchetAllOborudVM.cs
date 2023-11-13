@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Data;
+using System.Windows.Input;
 using SqlServMvvmApp;
 using WpfEfCoreTest.Annotations;
 using WpfEfCoreTest.Model;
@@ -29,9 +30,6 @@ namespace WpfEfCoreTest.ViewModel
         private ObservableCollection<NameOborud> _kolNameOb;
 
         private string _nameOborud1;
-
-        private ObservableCollection<NameOborud> _nameUnionColl; // = DataWorker.GetAllNameOborud();
-
 
         private string _newItemText;
         private string _newItemTextFaktSrokExpl;
@@ -223,19 +221,6 @@ namespace WpfEfCoreTest.ViewModel
             }
         }
 
-        //public ObservableCollection<int> Stoim1EdColl
-        //{
-        //    get => _stoim1EdColl;
-        //    set
-        //    {
-        //        if (_stoim1EdColl != value)
-        //        {
-        //            _stoim1EdColl = value;
-        //            OnPropertyChanged(nameof(Stoim1EdColl));
-        //        }
-        //    }
-        //}
-
         public RelayCommand ResultCmd
         {
             get
@@ -267,14 +252,15 @@ namespace WpfEfCoreTest.ViewModel
             }
         }
 
-
+        // метод объединения данных таблицы NameOborud и другой коллекции (о колличестве оборуд.) в одном ListView
         public static ObservableCollection<NameOborud> UnionCollNo()
         {
             var tempColl = new ObservableCollection<NameOborud>();
-            tempColl = DataWorker.GetAllNameOborud();
+            tempColl = DataWorker.GetAllNameOborud(); // коллекция данных из таблицы NameOborud
 
             var countColl = new ObservableCollection<int>();
-            countColl = DataWorker.GetOborudColl();
+            countColl = DataWorker
+                .GetOborudColl(); // коллекция данных из F111 о колличестве оборудования по каждой поззиции
 
             var temp1 = 0;
 
@@ -630,11 +616,15 @@ namespace WpfEfCoreTest.ViewModel
         public int EconomicEffect
         {
             get => economicEffect;
-
             set
             {
                 economicEffect = value;
                 OnPropertyChanged(nameof(EconomicEffect));
+
+                //if (string.IsNullOrEmpty(Stoimost1Ed.ToString()) || string.IsNullOrEmpty(SrokExpl.ToString()) ||
+                //    string.IsNullOrEmpty(FaktSrokExpl.ToString()) || string.IsNullOrEmpty(SrokExpl.ToString()) ||
+                //    string.IsNullOrEmpty(KolEdNameOb.ToString()))
+                EconomicEffect = Stoimost1Ed / SrokExpl * (FaktSrokExpl - SrokExpl) * KolEdNameOb;
             }
         }
 
@@ -649,6 +639,14 @@ namespace WpfEfCoreTest.ViewModel
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private RelayCommand raschetEconomEffect;
+
+        public ICommand RaschetEconomEffect => raschetEconomEffect ??= new RelayCommand(PerformRaschetEconomEffect);
+
+        private void PerformRaschetEconomEffect(object commandParameter)
+        {
         }
 
         #endregion

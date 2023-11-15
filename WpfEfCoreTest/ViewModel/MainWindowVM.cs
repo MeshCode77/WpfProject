@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Input;
 using SqlServMvvmApp;
 using WpfEfCoreTest.Annotations;
 using WpfEfCoreTest.Model;
@@ -670,6 +671,25 @@ namespace WpfEfCoreTest.ViewModel
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void CloseWindow()
+        {
+            var wnd = new Window();
+            Window.GetWindow(wnd)?.Close();
+        }
+
+        private RelayCommand changeSysUser;
+        public ICommand ChangeSysUser => changeSysUser ??= new RelayCommand(PerformChangeSysUser);
+
+        private void PerformChangeSysUser(object commandParameter)
+        {
+            var window1 = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+
+            var lv = new LogoView();
+            lv.ShowDialog();
+
+            if (window1 != null) window1.Close();
         }
 
         #endregion

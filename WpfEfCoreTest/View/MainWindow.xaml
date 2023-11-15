@@ -285,13 +285,12 @@
             </StackPanel>
         </GroupBox>
 
-
         <!--Menu-->
         <StackPanel  Grid.ColumnSpan="3" Height="20" VerticalAlignment="Top">
             <Menu FontSize="12">
                 <MenuItem Header="Администрирование">
                     <MenuItem Header="Пользователи и права" Command="{Binding OpenWndUserManagerCmd}"/>
-                    <MenuItem Header="Сменить пользователя"/>
+                    <MenuItem Header="Сменить пользователя" Command="{Binding ChangeSysUser}"/>
                     <MenuItem Header="Выход"/>
                 </MenuItem>
                 <MenuItem Header="Справочники">

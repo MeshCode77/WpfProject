@@ -42,7 +42,6 @@ namespace WpfEfCoreTest.ViewModel
 
         public UserSysVM()
         {
-
             allUserSys = DataWorker.GetAllUserSys();
 
             if (SelectedUserSys != null)

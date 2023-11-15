@@ -5,27 +5,28 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.CompilerServices;
 using WpfEfCoreTest.Annotations;
+using WpfEfCoreTest.ViewModel;
 
 namespace WpfEfCoreTest.Model
 {
     public class NameOborud : INotifyPropertyChanged
     {
+        //public ObservableCollection<int> EconomEfectColl = new();
+        public static int economicEffect;
+        private int _allSummaEconomEfect;
         private int _faktSrokExpl;
-
         private int _srokExpl;
         private int _stoimost1Ed;
-        private int economicEffect;
         private int id;
         private int kolEdNameOb;
-
-
         private string nameOborud1;
+
 
         public int Id { get; set; }
         public string NameOborud1 { get; set; }
 
         [NotMapped]
-        public int KolEdNameOb
+        public int KolEdNameOb //{ get; set; }
         {
             get => kolEdNameOb;
             set
@@ -37,7 +38,7 @@ namespace WpfEfCoreTest.Model
 
 
         [NotMapped]
-        public int EconomicEffect
+        public int EconomicEffect //{ get; set; }
         {
             get => economicEffect;
             set
@@ -59,7 +60,7 @@ namespace WpfEfCoreTest.Model
         }
 
         [NotMapped]
-        public int SrokExpl
+        public int SrokExpl //{ get; set; }
         {
             get => _srokExpl;
             set
@@ -70,7 +71,7 @@ namespace WpfEfCoreTest.Model
         }
 
         [NotMapped]
-        public int FaktSrokExpl
+        public int FaktSrokExpl //{ get; set; }
         {
             get => _faktSrokExpl;
             set
@@ -79,6 +80,21 @@ namespace WpfEfCoreTest.Model
                 OnPropertyChanged(nameof(FaktSrokExpl));
 
                 EconomicEffect = Stoimost1Ed / SrokExpl * (FaktSrokExpl - SrokExpl) * KolEdNameOb;
+
+                OtchetAllOborudVM.GetColl(EconomicEffect);
+
+                //OtchetAllOborudVM.SummaAllEconomEffect = OtchetAllOborudVM.collEf.Sum();
+            }
+        }
+
+        [NotMapped]
+        public int AllSummaEconomEffect //{ get; set; }
+        {
+            get => _allSummaEconomEfect;
+            set
+            {
+                _allSummaEconomEfect = value;
+                OnPropertyChanged(nameof(AllSummaEconomEffect));
             }
         }
 

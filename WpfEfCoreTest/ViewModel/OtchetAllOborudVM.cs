@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Data;
-using System.Windows.Input;
 using SqlServMvvmApp;
 using WpfEfCoreTest.Annotations;
 using WpfEfCoreTest.Model;
@@ -13,9 +13,6 @@ namespace WpfEfCoreTest.ViewModel
 {
     public class OtchetAllOborudVM : INotifyPropertyChanged
     {
-        public static TestContext db;
-
-
         private static readonly ObservableCollection<F111> allDataF111 = DataWorker.GetAllDataF111();
 
         private ObservableCollection<NameOborud> _allUnionColl;
@@ -52,24 +49,6 @@ namespace WpfEfCoreTest.ViewModel
 
         // объединенная коллекция 
         private CompositeCollection unionCollection; // { get; set; }
-
-
-        #region Конструктор класса
-
-        public OtchetAllOborudVM()
-        {
-            AllUnionColl = UnionNameOborud();
-
-            AddToStoim1EdCollCmd = new RelayCommand(AddItem, CanAddItem);
-
-            AddToSrokExplCmd = new RelayCommand(AddItemSrokExpl, CanAddItemSrokExpl);
-
-            AddToFaktSrokExplCmd = new RelayCommand(AddItemFaktSrokExpl, CanAddItemFaktSrokExpl);
-
-            AllOborud = UnionCollNo();
-        }
-
-        #endregion
 
         public static int SummaAllEconomEffect { get; set; }
 
@@ -277,66 +256,6 @@ namespace WpfEfCoreTest.ViewModel
             return tempColl;
         }
 
-        public void DataCountColl()
-        {
-            var temp1 = 0;
-            //foreach (var temp in countColl)
-
-            //    return temp;
-        }
-
-
-        //public static int SummaAllEconomEffect
-        //{
-        //    get => _summaEconomEffect;
-        //    set
-        //    {
-        //        _summaEconomEffect = value;
-        //        OnPropertyChanged(nameof(SummaAllEconomEffect));
-        //    }
-        //}
-
-
-        public ObservableCollection<int> GetAllOborud()
-        {
-            var count = 0;
-            var id = 0;
-
-            for (var i = 0; i < AllOborud.Count; i++)
-            {
-                id = AllOborud[i].Id;
-
-                for (var j = 0; j < allDataF111.Count; j++)
-                    if (allDataF111[j].IdnameOborud == id)
-                        count++;
-
-                CountOborud = count;
-                if (CountOborudColl != null) CountOborudColl.Add(count);
-            }
-
-            return CountOborudColl;
-        }
-
-        private int CountOb()
-        {
-            var count = 0;
-            var id = 0;
-
-            for (var i = 0; i < AllOborud.Count; i++)
-            {
-                id = AllOborud[i].Id;
-
-                for (var j = 0; j < allDataF111.Count; j++)
-                    if (allDataF111[j].IdnameOborud == id)
-                        count++;
-
-                CountOborud = count;
-                //CountOborudColl.Add(count);
-            }
-
-            return count;
-        }
-
 
         // метод объединения 2 коллекции с помощью классов CollectionViewSource и CompositeCollection
         public CompositeCollection UnionColl()
@@ -408,15 +327,21 @@ namespace WpfEfCoreTest.ViewModel
         }
 
 
-        //public static int SummaEconomEffect()
-        //{
-        //    var SummaAllEconomEffect = 0;
+        #region Конструктор класса
 
-        //    foreach (var item in EconomicEffectColl)
-        //        SummaAllEconomEffect = item + SummaAllEconomEffect;
+        public OtchetAllOborudVM()
+        {
+            AllUnionColl = UnionNameOborud();
 
-        //    return SummaAllEconomEffect;
-        //}
+            AllOborud = UnionCollNo();
+        }
+
+        public OtchetAllOborudVM(int sum)
+        {
+            AllSummaEconomEffect = sum;
+        }
+
+        #endregion
 
         #region Свойство команд для добавления и обновления коллекций
 
@@ -545,13 +470,6 @@ namespace WpfEfCoreTest.ViewModel
 
         #region // Cвойства для расчета экономического эфекта
 
-        ////cвойства для расчета экономического эфекта
-        //private static string _stoimost1Ed; // стоимость за новую еденицу при покупке
-        //private static string _srokExpl; // срок службы
-        //private static string _factSrokExpl; // фактический срок службы
-        //private static string _kolEd; // колличество еденич
-        //private static string _effect; // экономический эфект
-
         //cвойства для расчета экономического эфекта
         public static int _stoimost1Ed; // стоимость за новую еденицу при покупке
         public static int _srokExpl; // срок службы
@@ -570,7 +488,6 @@ namespace WpfEfCoreTest.ViewModel
             }
         }
 
-
         public int SrokExpl
         {
             get => _srokExpl;
@@ -580,6 +497,8 @@ namespace WpfEfCoreTest.ViewModel
                 OnPropertyChanged(nameof(SrokExpl));
             }
         }
+
+        public static ObservableCollection<int> EconomEfectColl;
 
         public int FaktSrokExpl
         {
@@ -591,28 +510,6 @@ namespace WpfEfCoreTest.ViewModel
             }
         }
 
-
-        public int KolEd
-        {
-            get => _kolEd;
-            set
-            {
-                _kolEd = value;
-                OnPropertyChanged(nameof(KolEd));
-            }
-        }
-
-
-        public int Effect
-        {
-            get => _effect;
-            set
-            {
-                _effect = value;
-                OnPropertyChanged(nameof(Effect));
-            }
-        }
-
         public int EconomicEffect
         {
             get => economicEffect;
@@ -620,12 +517,34 @@ namespace WpfEfCoreTest.ViewModel
             {
                 economicEffect = value;
                 OnPropertyChanged(nameof(EconomicEffect));
-
-                //if (string.IsNullOrEmpty(Stoimost1Ed.ToString()) || string.IsNullOrEmpty(SrokExpl.ToString()) ||
-                //    string.IsNullOrEmpty(FaktSrokExpl.ToString()) || string.IsNullOrEmpty(SrokExpl.ToString()) ||
-                //    string.IsNullOrEmpty(KolEdNameOb.ToString()))
-                EconomicEffect = Stoimost1Ed / SrokExpl * (FaktSrokExpl - SrokExpl) * KolEdNameOb;
             }
+        }
+
+        private static int _allSummaEconomEfect;
+
+        public int AllSummaEconomEffect
+        {
+            get => _allSummaEconomEfect;
+            set
+            {
+                _allSummaEconomEfect = value;
+                OnPropertyChanged(nameof(AllSummaEconomEffect));
+            }
+        }
+
+        public static ObservableCollection<int> collEf = new();
+
+        public static void GetColl(int coll)
+        {
+            collEf.Add(coll);
+            var sum = collEf.Sum();
+
+            GetSum(sum);
+        }
+
+        public static void GetSum(int sum)
+        {
+            _allSummaEconomEfect = sum;
         }
 
         #endregion
@@ -639,14 +558,6 @@ namespace WpfEfCoreTest.ViewModel
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private RelayCommand raschetEconomEffect;
-
-        public ICommand RaschetEconomEffect => raschetEconomEffect ??= new RelayCommand(PerformRaschetEconomEffect);
-
-        private void PerformRaschetEconomEffect(object commandParameter)
-        {
         }
 
         #endregion

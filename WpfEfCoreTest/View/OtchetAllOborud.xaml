@@ -3,10 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfEfCoreTest.View"
         xmlns:viewModel="clr-namespace:WpfEfCoreTest.ViewModel"
-        xmlns:sys="clr-namespace:System;assembly=mscorlib" 
-        xmlns:system="clr-namespace:System;assembly=System.Runtime"
         mc:Ignorable="d"
         Title="OtchetAllOborud" Height="650" Width="1500"
         WindowStartupLocation="CenterScreen"
@@ -82,290 +79,46 @@
                                 <GridViewColumn Header="Экономический эффект">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBox Text="{Binding EconomicEffect, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                            <TextBox Text="{Binding EconomicEffect, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
                                                      Width="200"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-
-
                             </GridView>
                         </ListView.View>
-
                     </ListView>
                 </Grid>
-            </TabItem>
-
-            <TabItem Header="Цена за 1 ед">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <ListView x:Name="lvPodr4"
-                              ItemsSource="{Binding AllOborud}"                 
-                              SelectedItem="{Binding SelectedOborud}"                
-                              Margin="2,5,0,5"
-                              BorderThickness="1">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="№"  Width="35" 
-                                                DisplayMemberBinding="{Binding Path=Id }"/>
-                                <GridViewColumn Header="Наименование"  
-                                                DisplayMemberBinding="{Binding Path=NameOborud1}"
-                                                Width="250"/>
-                                <GridViewColumn  Header="Колличество"  
-                                                 DisplayMemberBinding="{Binding  CountOborudColl }"
-                                                 Width="250"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-
-                    <ListView Grid.Column="1" x:Name="lvPodr5"
-                              ItemsSource="{Binding Stoim1EdColl }"
-                              SelectedItem="{Binding SelectedSt1Ed}"
-                              Margin="5,5,0,5"
-                              BorderThickness="1"
-                              Width="auto">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn  Header="Цена за 1 ед"
-                                                 DisplayMemberBinding="{Binding }" />
-                                <GridViewColumn Header="Добавить">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <StackPanel>
-                                                <Border  Height="18" Width="60"
-                                                         BorderBrush="Gainsboro"
-                                                         Background="DeepSkyBlue"
-                                                         BorderThickness="1"
-                                                         CornerRadius="10">
-                                                    <Button BorderThickness="0"
-                                                            Padding=".1"
-                                                            BorderBrush="Azure"
-                                                            Background="DeepSkyBlue"
-                                                            Content="открыть"
-                                                            Foreground="Azure"
-                                                            Width="50"
-                                                            Command="{Binding }"
-                                                            CommandParameter="{Binding}"/>
-                                                    <!--Click="ButtonBase_OnClick"-->
-                                                </Border>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                    <StackPanel Grid.Column="2" Margin="0,7,0,2" Width="auto" HorizontalAlignment="Center">
-                        <TextBlock Text="     Введите стоимость 1 ед.     " FontSize="14"/>
-                        <TextBox Text ="{Binding NewItemText, UpdateSourceTrigger=PropertyChanged}" 
-                                 Margin="0,3,0,0"
-                                 FontSize="14"
-                                 Name="txbSt1Ed"/>
-
-                        <Button Content="Добавить"
-                                Name="btnAddSt1Ed"
-                                Margin="0,10,0,0"
-                                Command="{Binding AddToStoim1EdCollCmd}"/>
-
-                        <TextBox Text ="{Binding SelectedSt1Ed}" 
-                                 Margin="0,13,0,0"
-                                 FontSize="14"
-                                 Name="txbSt1Up"/>
-                        <Button Content="Изменить"
-                                Name="btnEditSt1Ed"
-                                Margin="0,10,0,0"
-                                Command="{Binding EditToStoim1EdCollCmd}"/>
-                    </StackPanel>
-
-                    <ListView Grid.Column="3" x:Name="lvNormSrok"
-                              ItemsSource="{Binding SrokExpColl}"                 
-                              SelectedItem="{Binding SelectedSrokExpl}"                
-                              Margin="1,5,0,5"
-                              BorderThickness="1">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn  Header="Нормативный срок службы" 
-                                                 DisplayMemberBinding="{Binding StringFormat={}}"
-                                                 Width="250">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <StackPanel>
-                                                <TextBlock Text="{Binding CountOborudColl }"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-
-                    <StackPanel Grid.Column="4" Margin="0,7,0,2" Width="auto" HorizontalAlignment="Center">
-                        <TextBlock Text="Введите  нормативный срок экспл." FontSize="14"/>
-                        <TextBox Text ="{Binding NewItemTextSrokExpl, UpdateSourceTrigger=PropertyChanged}" 
-                                 Margin="5,3,0,5"
-                                 FontSize="14"
-                                 Name="txbSrokExpl"/>
-
-                        <Button Content="Добавить"
-                                Name="btnAddSrokExpl"
-                                Margin="0,10,0,0"
-                                Command="{Binding AddToSrokExplCmd}"/>
-
-                        <TextBox Text ="{Binding SelectedSt1Ed}" 
-                                 Margin="0,13,0,0"
-                                 FontSize="14"
-                                 Name="txbSrokUpd"/>
-                        <Button Content="Изменить"
-                                Name="btnEditSrokUpd"
-                                Margin="5,10,0,0"
-                                Command="{Binding EditToStoim1EdCollCmd}"/>
-                    </StackPanel>
-
-                    <ListView Grid.Column="5" x:Name="lvPodr8"
-                              ItemsSource="{Binding FaktSrokExpColl}"
-                              SelectedItem="{Binding SelectedFuktSrokExp}"
-                              Margin="5,5,0,5"
-                              BorderThickness="1">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn  Header="Фактический срок экспл."
-                                                 DisplayMemberBinding="{Binding StringFormat={}}"/>
-                                <GridViewColumn Header="Добавить">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <StackPanel>
-                                                <Border  Height="18" Width="60"
-                                                         BorderBrush="Gainsboro"
-                                                         Background="DeepSkyBlue"
-                                                         BorderThickness="1"
-                                                         CornerRadius="10">
-                                                    <Button BorderThickness="0"
-                                                            Padding=".1"
-                                                            BorderBrush="Azure"
-                                                            Background="DeepSkyBlue"
-                                                            Content="открыть"
-                                                            Foreground="Azure"
-                                                            Width="50"
-                                                            Command="{Binding }"
-                                                            CommandParameter="{Binding}"/>
-                                                    <!--Click="ButtonBase_OnClick"-->
-                                                </Border>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                    <StackPanel Grid.Column="7" Margin="0,7,0,2" Width="auto" HorizontalAlignment="Center">
-                        <TextBlock Text="Введите фактический срок экспл." FontSize="14"/>
-                        <TextBox Text ="{Binding NewItemTextFaktSrokExpl, UpdateSourceTrigger=PropertyChanged}" 
-                                 Margin="0,3,0,0"
-                                 FontSize="14"
-                                 Name="txbFuktSrokExpl"/>
-
-                        <Button Content="Добавить"
-                                Name="btnAddFaktSrokExpl"
-                                Margin="0,10,0,0"
-                                Command="{Binding AddToFaktSrokExplCmd}"/>
-
-                        <TextBox Text ="{Binding SelectedSt1Ed}" 
-                                 Margin="0,13,0,0"
-                                 FontSize="14"
-                                 Name="txbFaktSrokUpd"/>
-                        <Button Content="Изменить"
-                                Name="btnEditFaktSrokUpd"
-                                Margin="0,10,0,0"
-                                Command="{Binding EditToStoim1EdCollCmd}"/>
-                    </StackPanel>
-                </Grid>
-            </TabItem>
-
-            <TabItem Header="Все вместе" Margin="-2,-2,-2,0" Height="23" VerticalAlignment="Top">
-                <ListView x:Name="lvPodr3"   ItemsSource="{Binding AllUnionColl }">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="№" 
-                                            DisplayMemberBinding="{Binding Id}" 
-                                            Width="50" />
-                            <GridViewColumn Header="Наименование"
-                                            DisplayMemberBinding="{Binding NameOborud1}"
-                                            Width="250"/>
-                            <GridViewColumn Header="Колличество">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock   Text="{Binding  KolEdNameOb  }" Width="220"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-
-                            <GridViewColumn   Header="Введите стоимость за 1 ед.">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock   Text="{Binding Stoimost1Ed }" Width="220"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn  Header="Нормативный срок службы">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding  SrokExpl }"  Width="200"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn  Header="Фактический срок службы">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding FaktSrokExpl}"  Width="200"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn  Header="Экономический эффект">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding EconomicEffect}"  Width="200"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
             </TabItem>
         </TabControl>
-        <StackPanel Grid.Row="1" HorizontalAlignment="Right">
+        <StackPanel Grid.Row="1" >
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="70"/>
-                    <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="110"/>
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-
-                <TextBlock Text="{Binding SummaAllEconomEffect}" 
-                           Margin="5"
-                           HorizontalAlignment="Left"
-                           Width="65"/>
-                <Button 
-                    HorizontalAlignment="Left"
-                    Content="Расчитать"
+                <TextBlock Text="Экономический эффект составляет:"
+                           Margin="950,0,10,0"
+                           FontSize="14"/>
+                <TextBlock  Name="tblock"
+                    Text="{Binding AllSummaEconomEffect, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                    HorizontalAlignment="Center" Width="180"
+                    Margin="1105,0,20,0"
                     FontSize="14"
-                    Margin="60,5,0,0"
-                    Width="100" Grid.ColumnSpan="2"
-                    Command="{Binding RaschetEconomEffect}"/>
+                    FontWeight="Bold"/>
+                <!--<Button Grid.Column="1" 
+                        HorizontalAlignment="Center"
+                        Content="Расчитать"
+                        FontSize="14"
+                        Margin="0,5,0,0"
+                        Width="100" Grid.ColumnSpan="2"
+                        Command="{Binding RaschetEconomEffect}"/>-->
                 <Button 
                     HorizontalAlignment="Right"
                     Grid.Column="2"
                         Content="Отмена"
                         FontSize="14"
-                        Margin="5,5,5,0"
-                        Width="100"/>
+                        Margin="5,0,5,0"
+                        Width="100"
+                    IsCancel="True"/>
             </Grid>
         </StackPanel>
     </Grid>

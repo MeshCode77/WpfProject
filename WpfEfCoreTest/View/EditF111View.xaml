@@ -5,42 +5,41 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:WpfEfCoreTest.ViewModel" d:DataContext="{d:DesignInstance Type=vm:F111VM}"
         mc:Ignorable="d"
-        Title="EditF111View" Height="450" Width="450"
+        Title="EditF111View" Height="500" Width="450"
         WindowStartupLocation="CenterScreen"
         Name="EditF111"
         Background="WhiteSmoke">
 
-    <Window.DataContext>
+    <!--<Window.DataContext>
         <vm:F111VM/>
-    </Window.DataContext>
+    </Window.DataContext>-->
+
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Height" Value="24"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+    </Window.Resources>
 
     <Grid>
-        <GroupBox Margin="5">
+        <Border
+            CornerRadius="5"
+            BorderThickness="1"
+            BorderBrush="DarkGray"
+            Margin="15">
             <StackPanel VerticalAlignment="Center">
-                <TextBlock Text="Наименование подразделения"
-                           HorizontalAlignment="Center"/>
-                <ComboBox  Name="PodrBlock" 
-                           ItemsSource="{Binding AllPodrs}"
-                           SelectedItem="{Binding SelectedPodr }"
-                           HorizontalAlignment="Center"
-                           Width="200"
-                           Margin="2"
-                           Background="Azure"
-                           Foreground="DarkBlue">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding NameOborud1}"/>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-
-                </ComboBox>
                 <TextBlock Text="Наименование оборудования"
-                           HorizontalAlignment="Center"/>
+                           HorizontalAlignment="Center"
+                           FontSize="14"/>
                 <ComboBox  Name="ModelBlock" 
                            ItemsSource="{Binding AllNameOborud}"
                            SelectedItem="{Binding SelectedNameOborudCB }"
                            HorizontalAlignment="Center"
                            Width="200"
+                           FontSize="14"
                            Margin="2"
                            Background="Azure"
                            Foreground="DarkBlue">
@@ -49,7 +48,7 @@
                             <TextBlock Text="{Binding NameOborud1}"/>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
-                    
+
                 </ComboBox>
                 <!--<TextBox Name="ModelBlock"
                          Text ="{Binding Model}"
@@ -57,32 +56,33 @@
                          Height="20"
                          Margin="2"/>-->
                 <TextBlock Text="№ карты Ф.111"
-                           HorizontalAlignment="Center"/>
+                           HorizontalAlignment="Center"
+                           FontSize="14"/>
                 <TextBox Name="KartNumBlock"
                          Text ="{Binding KartNum}"
                          Width="200" 
-                         Height="20"
+                         Height="24"
                          Margin="2"/>
                 <TextBlock Text="№ формуляра"
                            HorizontalAlignment="Center"/>
                 <TextBox Name="NumFormBlock"
                          Text ="{Binding NumForm}"
                          Width="200" 
-                         Height="20"
-                         Margin="2"/>
+                         Height="24"
+                         Margin="2"
+                         FontSize="14"
+                         />
                 <TextBlock Text="№ инвентарный"
                            HorizontalAlignment="Center"/>
-                <TextBox Name="InvNumBlock"
+                <TextBox Name="InvNumBlock" 
                          Text ="{Binding InvNum}"
                          Width="200" 
-                         Height="20"
                          Margin="2"/>
                 <TextBlock Text="№ заводской"
                            HorizontalAlignment="Center"/>
                 <TextBox Name="ZavodNumBlock"
                          Text ="{Binding ZavodNum}"
                          Width="200" 
-                         Height="20"
                          Margin="2"/>
                 <TextBlock Text="Дата получения"
                            HorizontalAlignment="Center"/>
@@ -99,7 +99,7 @@
                             Width="200"
                             Margin="2"/>
             </StackPanel>
-        </GroupBox>
+        </Border>
         <StackPanel VerticalAlignment="Bottom" Margin="5">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -109,17 +109,18 @@
                 <Button Command="{Binding EditF111Command}"
                         CommandParameter="{Binding ElementName=EditF111}"
                     Content="Сохранить" 
-                    Margin="5"
+                    Margin="25,-6,0,16"
                         Background="White"
                         Foreground="DarkBlue"
                         FontSize="14"/>
-                <Button IsCancel="True"
+                <Button 
+                    IsCancel="True"
                     Grid.Column="1" 
                     Content="Отмена"
-                    Margin="5"
+                    Margin="10,-6,0,17"
                     Background="White"
                     Foreground="DarkBlue"
-                    FontSize="14"/>
+                    FontSize="14" HorizontalAlignment="Left" Width="185"/>
             </Grid>
         </StackPanel>
     </Grid>

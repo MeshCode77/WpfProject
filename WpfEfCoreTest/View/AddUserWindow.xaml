@@ -30,7 +30,6 @@
                        FontSize="14"/>
 
             <ComboBox ItemsSource="{Binding AllPodrs}"
-                      SelectedIndex="0"      
                       DisplayMemberPath="NamePodr"
                       SelectedItem="{Binding IdPodrNavigation}"
                       FontSize="14"

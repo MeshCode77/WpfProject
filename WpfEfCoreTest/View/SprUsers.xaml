@@ -16,7 +16,6 @@
         <local:SprUsersVM/>
     </Window.DataContext>
 
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition  Height="50"/>

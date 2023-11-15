@@ -111,7 +111,9 @@ namespace WpfEfCoreTest.Model.Data
                     // проверяем наличие пользователя
                     var chechIsExist = tc.Users.Any(el =>
                         el.Lname == lname && el.Fname == fname && el.IdPodrNavigation == IdPodrNavigation);
-                    var checkIsExistInfo = tc.Infos.Any(el => el.Doljnost == dolj);
+
+                    var checkIsExistInfo =
+                        tc.Infos.Any(el => el.Login == login && el.Pass == pass && el.NameComp == nameComp);
 
                     if (!chechIsExist && !checkIsExistInfo)
                     {
@@ -441,35 +443,35 @@ namespace WpfEfCoreTest.Model.Data
             }
         }
 
-        public static string UpdateF111ToUser(int IdUser)
-        {
-            var result = "Данные не изменены";
+        //public static string UpdateF111ToUser(int IdUser)
+        //{
+        //    var result = "Данные не изменены";
 
-            using (var tc = new TestContext())
-            {
-                //var result = tc.F111s.Where(u => u.IdUser == idUser).ToObservableCollection();
-                //var result = tc.F111s.Update(F111VM.SelectedRowF111);
+        //    using (var tc = new TestContext())
+        //    {
+        //        //var result = tc.F111s.Where(u => u.IdUser == idUser).ToObservableCollection();
+        //        //var result = tc.F111s.Update(F111VM.SelectedRowF111);
 
-                var result1 = tc.F111s.FirstOrDefault(x => x.Id == IdUser);
+        //        var result1 = tc.F111s.FirstOrDefault(x => x.Id == IdUser);
 
-                var tempF111 = new F111
-                {
-                    KartNum = F111VM.KartNum,
-                    NumForm = F111VM.NumForm,
-                    InvNum = F111VM.InvNum,
-                    ZavodNum = F111VM.ZavodNum,
-                    GtDate = F111VM.GtDate,
-                    OutDate = F111VM.OutData
-                };
+        //        var tempF111 = new F111
+        //        {
+        //            KartNum = F111VM.KartNum,
+        //            NumForm = F111VM.NumForm,
+        //            InvNum = F111VM.InvNum,
+        //            ZavodNum = F111VM.ZavodNum,
+        //            GtDate = F111VM.GtDate,
+        //            OutDate = F111VM.OutData
+        //        };
 
-                tc.SaveChanges();
-                result = "Сделано! Данные успешно изменены";
+        //        tc.SaveChanges();
+        //        result = "Сделано! Данные успешно изменены";
 
-                return result;
-            }
+        //        return result;
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
 
 
         public static string DeleteF111(F111 selectedF111)

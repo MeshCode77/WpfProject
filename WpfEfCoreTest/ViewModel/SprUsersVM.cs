@@ -52,6 +52,8 @@ namespace WpfEfCoreTest.ViewModel
 
         private RelayCommand openEditCommandWnd;
 
+        private int selectIndexPodr;
+
         // конструктор класса
         public SprUsersVM()
         {
@@ -69,8 +71,21 @@ namespace WpfEfCoreTest.ViewModel
             F111s = db.F111s.Local.ToObservableCollection();
 
             FilteredUser = OnFilterUser();
-            //FilteredPodr = OnFilterPodr();
+
+            // для отображения в comboBox выбранного значения при редактировании
+            if (SelectedUser != null) SelectIndexPodr = SelectedUser.IdPodr - 1;
         }
+
+        public int SelectIndexPodr
+        {
+            get => selectIndexPodr;
+            set
+            {
+                selectIndexPodr = value;
+                OnPropertyChanged(nameof(SelectIndexPodr));
+            }
+        }
+
 
         public string FilterUser
         {
@@ -353,15 +368,16 @@ namespace WpfEfCoreTest.ViewModel
             Lname = null;
             Fname = null;
             Mname = null;
-            //IdPodrNavigation = null;
 
-            // ДЛЯ Podr
-            NamePodr = null;
+            AllPodrs = null;
+
+
             Login = null;
             Pass = null;
             Mac = null;
             Doljnost = null;
             NameComp = null;
+            Vtel = null;
         }
 
 
@@ -557,7 +573,14 @@ namespace WpfEfCoreTest.ViewModel
 
         public RelayCommand OpenAddUserWnd
         {
-            get { return openAddUserWnd ?? new RelayCommand(obj => { OpenAddUserWndMethod(); }); }
+            get
+            {
+                return openAddUserWnd ?? new RelayCommand(obj =>
+                {
+                    SetNullValuesToProperties();
+                    OpenAddUserWndMethod();
+                });
+            }
         }
 
         // метод открытия окна AddUserWindow

@@ -83,7 +83,8 @@ namespace WpfEfCoreTest.ViewModel
 
             formular = new ObservableCollection<Formular>();
 
-            if (SelectedUser != null) FilteredF111s = DataWorker.GetAllDataF111ToId(SelectedUser.Id);
+            if (SelectedUser != null)
+                FilteredF111s = DataWorker.GetAllDataF111ToId(SelectedUser.Id);
 
             userSys = new UserSysVM();
             SysUser = userSys.LoginLogo;

@@ -40,6 +40,9 @@ namespace WpfEfCoreTest.ViewModel
         // получить все подразделения
         private ObservableCollection<Podr> allPodrs = DataWorker.GetAllPodrs();
 
+        // команда смены системного пользователя
+        private RelayCommand changeSysUser;
+
         private RelayCommand openNetworkScan;
 
 
@@ -83,8 +86,7 @@ namespace WpfEfCoreTest.ViewModel
 
             formular = new ObservableCollection<Formular>();
 
-            if (SelectedUser != null)
-                FilteredF111s = DataWorker.GetAllDataF111ToId(SelectedUser.Id);
+            if (SelectedUser != null) FilteredF111s = DataWorker.GetAllDataF111ToId(SelectedUser.Id);
 
             userSys = new UserSysVM();
             SysUser = userSys.LoginLogo;
@@ -405,6 +407,8 @@ namespace WpfEfCoreTest.ViewModel
             }
         }
 
+        public ICommand ChangeSysUser => changeSysUser ??= new RelayCommand(PerformChangeSysUser);
+
 
         public void UpdateF111ToUser()
         {
@@ -437,6 +441,15 @@ namespace WpfEfCoreTest.ViewModel
             MainWindow.AllDataF111ToUser.ItemsSource = f111s;
         }
 
+        private void PerformChangeSysUser(object commandParameter)
+        {
+            var window1 = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+
+            var lv = new LogoView();
+            lv.ShowDialog();
+
+            if (window1 != null) window1.Close();
+        }
 
         #region КОМАНДЫ ДЛЯ ОПИСАНИЯ ПРЕДВАРИТЕЛЬНЫХ И РЕАЛЬНЫХ ПРИЧИН НЕИСПРАВНОСТЕЙ ОБОРУДОВАНИЯ
 
@@ -672,25 +685,6 @@ namespace WpfEfCoreTest.ViewModel
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private void CloseWindow()
-        {
-            var wnd = new Window();
-            Window.GetWindow(wnd)?.Close();
-        }
-
-        private RelayCommand changeSysUser;
-        public ICommand ChangeSysUser => changeSysUser ??= new RelayCommand(PerformChangeSysUser);
-
-        private void PerformChangeSysUser(object commandParameter)
-        {
-            var window1 = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
-
-            var lv = new LogoView();
-            lv.ShowDialog();
-
-            if (window1 != null) window1.Close();
         }
 
         #endregion

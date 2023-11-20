@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using WpfEfCoreTest.ViewModel;
 
 namespace WpfEfCoreTest.View
 {
@@ -15,7 +16,7 @@ namespace WpfEfCoreTest.View
         {
             InitializeComponent();
 
-            //DataContext = new F111VM();
+            DataContext = new F111VM();
 
             AllDataF111ToUser = LvF111User;
         }

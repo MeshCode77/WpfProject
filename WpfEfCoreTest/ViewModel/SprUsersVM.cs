@@ -60,13 +60,13 @@ namespace WpfEfCoreTest.ViewModel
             // загружаем данные из бд в локальный кэш
             db = new TestContext();
             db.Users.Load();
-            db.Podrs.Load();
+            //db.Podrs.Load();
             db.Infos.Load();
             db.F111s.Load();
             db.Formulars.Load();
 
             Users = db.Users.Local.ToObservableCollection();
-            Podrs = db.Podrs.Local.ToObservableCollection();
+            //Podrs = db.Podrs.Local.ToObservableCollection();
             Infos = db.Infos.Local.ToObservableCollection();
             F111s = db.F111s.Local.ToObservableCollection();
 
@@ -85,7 +85,6 @@ namespace WpfEfCoreTest.ViewModel
                 OnPropertyChanged(nameof(SelectIndexPodr));
             }
         }
-
 
         public string FilterUser
         {
@@ -371,7 +370,7 @@ namespace WpfEfCoreTest.ViewModel
 
             AllPodrs = null;
 
-
+            NamePodr = null;
             Login = null;
             Pass = null;
             Mac = null;
@@ -473,7 +472,7 @@ namespace WpfEfCoreTest.ViewModel
             set
             {
                 users = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(Users));
             }
         }
 
@@ -483,7 +482,7 @@ namespace WpfEfCoreTest.ViewModel
             set
             {
                 podrs = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(Podrs));
             }
         }
 
@@ -493,7 +492,7 @@ namespace WpfEfCoreTest.ViewModel
             set
             {
                 infos = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(Infos));
             }
         }
 
@@ -503,7 +502,7 @@ namespace WpfEfCoreTest.ViewModel
             set
             {
                 f111s = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(F111s));
             }
         }
 
@@ -513,7 +512,7 @@ namespace WpfEfCoreTest.ViewModel
             set
             {
                 formulars = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(Formulars));
             }
         }
 
@@ -531,7 +530,7 @@ namespace WpfEfCoreTest.ViewModel
             set
             {
                 allUsers = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(AllUsers));
             }
         }
 
@@ -545,7 +544,7 @@ namespace WpfEfCoreTest.ViewModel
             set
             {
                 allPodrs = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(AllPodrs));
             }
         }
 
@@ -560,7 +559,7 @@ namespace WpfEfCoreTest.ViewModel
             set
             {
                 allInfos = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(AllInfos));
             }
         }
 
@@ -573,19 +572,13 @@ namespace WpfEfCoreTest.ViewModel
 
         public RelayCommand OpenAddUserWnd
         {
-            get
-            {
-                return openAddUserWnd ?? new RelayCommand(obj =>
-                {
-                    SetNullValuesToProperties();
-                    OpenAddUserWndMethod();
-                });
-            }
+            get { return openAddUserWnd ?? new RelayCommand(obj => { OpenAddUserWndMethod(); }); }
         }
 
         // метод открытия окна AddUserWindow
         private void OpenAddUserWndMethod()
         {
+            SetNullValuesToProperties();
             var newAddUsers = new AddUserWindow();
             SetCentralPositionAndOpen(newAddUsers);
         }

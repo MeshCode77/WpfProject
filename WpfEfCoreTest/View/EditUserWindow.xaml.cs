@@ -15,7 +15,7 @@ namespace WpfEfCoreTest.View
 
             DataContext = new SprUsersVM();
 
-            SprUsersVM.selectedUser = user;
+            //SprUsersVM.SelectedUser = user;
 
             SprUsersVM.Lname = user.Lname;
             SprUsersVM.Fname = user.Fname;

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WpfEfCoreTest.View"
         xmlns:viewModel="clr-namespace:WpfEfCoreTest.ViewModel"
         mc:Ignorable="d"
-        Title="EditUserWindow" Height="590" Width="450"
+        Title="EditUserWindow" Height="630" Width="450"
         Name="EditUserWnd"
         Background="WhiteSmoke">
 
@@ -14,26 +14,14 @@
         <viewModel:SprUsersVM/>
     </Window.DataContext>-->
 
-    <Window.Resources>
-        <Style TargetType="TextBlock">
-            <Setter Property="FontSize" Value="14" />
-        </Style>
-        <Style TargetType="TextBox">
-            <Setter Property="Height" Value="24"/>
-            <Setter Property="FontSize" Value="14"/>
-        </Style>
-    </Window.Resources>
-
-    <Grid Margin="0,0,0,15">
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <Border
-            CornerRadius="5"
-            BorderThickness="1"
-            BorderBrush="DarkGray"
-            Margin="30,25,30,0">
+        <GroupBox Header="Редактирование информации о пользователе"
+            Margin="40,5,40,10"
+            Width="350">
             <StackPanel Orientation="Vertical"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
@@ -59,87 +47,100 @@
                      Height="24"
                      Foreground="DarkBlue"/>
                 <TextBlock Text="Имя"
-                           Foreground="DarkBlue"/>
+                       FontSize="14"
+                       Foreground="DarkBlue"/>
                 <TextBox x:Name="FnameBlock" 
                      Text="{Binding Fname}"
+                     FontSize="14"
                      Foreground="DarkBlue"/>
                 <TextBlock Text="Отчество"
-                           Foreground="DarkBlue"/>
+                       FontSize="14"
+                       Foreground="DarkBlue"/>
                 <TextBox x:Name="MnameBlock" 
                      Text="{Binding Mname}"
+                     FontSize="14"
                      Foreground="DarkBlue"/>
                 <TextBlock Text="Должность"
                        FontSize="14"
                        Foreground="DarkBlue"/>
                 <TextBox x:Name="DoljBlock"
                      Text="{Binding Doljnost}"
+                     FontSize="14"
                      Height="24"
                      Foreground="DarkBlue"/>
                 <TextBlock Text="Имя компьютера"
-                           Foreground="DarkBlue"/>
+                       FontSize="14"
+                       Foreground="DarkBlue"/>
                 <TextBox x:Name="NameCompBlock" 
                      Text="{Binding NameComp}"
+                     FontSize="14"
+                     Height="24"
                      Foreground="DarkBlue"/>
-                <TextBlock 
-                        Text="Логин"
-                        Width="40"
+                <TextBlock Text="Логин"
+                       FontSize="14" Width="40"
                        Margin="0,0,260,0"
                        Foreground="DarkBlue"/>
                 <TextBox x:Name="LoginBlock" 
                      Text="{Binding Login}"
+                     FontSize="14"
+                     Height="24"
                      Width="145"
                      Margin="0,0,155,5"
                      Foreground="DarkBlue"/>
                 <TextBlock Text="Пароль"
-                           Width="55"
+                       FontSize="14" Width="55"
                        Margin="63,-45,0,90"
                        Foreground="DarkBlue"/>
                 <TextBox x:Name="PassBlock" 
                      Text="{Binding Pass}"
+                     FontSize="14"
+                     Height="24"
                      Width="145"
                      Margin="155,-150,0,11"
                      Foreground="DarkBlue"/>
-                <TextBlock 
-                    Text="MAC адресс"
-                    Margin="0,-105,5,5" 
-                    Height="24"
-                        Foreground="DarkBlue"/>
+                <TextBlock Text="MAC адресс"
+                       FontSize="14"
+                       Margin="0,-105,5,5" Height="24"
+                       Foreground="DarkBlue"/>
                 <TextBox x:Name="MACBlock" 
-                            Text="{Binding Mac}"
-                            Margin="0,-70,0,5"
-                            Foreground="DarkBlue"/>
+                     Text="{Binding Mac}"
+                     FontSize="14"
+                     Height="24"
+                     Margin="0,-70,0,5"
+                     Foreground="DarkBlue"/>
                 <TextBlock Text="Внутрений тел."
-                           Margin="0,-20,5,5" 
-                           Height="24"
-                           Foreground="DarkBlue"/>
+                       FontSize="14"
+                       Margin="0,-20,5,5" Height="24"
+                       Foreground="DarkBlue"/>
                 <TextBox x:Name="VtelBlock" 
-                            Text="{Binding Vtel}"
-                            Margin="-55,-10,100,5"
-                            Width="145"
-                            Foreground="DarkBlue"/>
+                     Text="{Binding Vtel}"
+                     FontSize="14"
+                     Height="24"
+                     Margin="-55,-10,100,5"
+                     Width="145"
+                     Foreground="DarkBlue"/>
             </StackPanel>
-        </Border>
+        </GroupBox>
 
         <StackPanel 
-            HorizontalAlignment="Left"
-            Orientation="Horizontal"
-            Margin="48,510,0,25"
-            Width="350" RenderTransformOrigin="0.506,1.46">
+            HorizontalAlignment="Center"
+            Orientation="Horizontal" Margin="0,534,0,0" Grid.RowSpan="2" Width="350">
             <Button Content="Сохранить"
                     Command="{Binding EditUserCommand}"
                     CommandParameter="{Binding ElementName=EditUserWnd}"
                     Width="165"
                     Height="24"
+                    Margin="0"
                     Background="White"
                     Foreground="DarkBlue"/>
             <Button 
                 Content="Отмена"
                 IsCancel="True"
-                Width="160" 
+                Width="165" 
                 Height="24"
+                Margin="20,10,0,10"
                 Background="White"
-                Foreground="DarkBlue"
-                Margin="20,0,0,0"/>
+                Foreground="DarkBlue"/>
         </StackPanel>
     </Grid>
 </Window>

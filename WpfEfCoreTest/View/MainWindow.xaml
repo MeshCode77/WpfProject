@@ -90,7 +90,6 @@
                                                         Background="DeepSkyBlue"
                                                         Content="открыть"
                                                         Foreground="Azure"
-                                                        FontSize="11"
                                                         Width="50"
                                                         Command="{Binding ElementName=lvUsers,Path=DataContext.OpenWindowF111}"
                                                         CommandParameter="{Binding ElementName=MainWnd}"/>
@@ -157,8 +156,8 @@
             FontSize="14"
             Foreground="DarkBlue">
             <ListView x:Name="lvF111"
-                          ItemsSource="{Binding FilteredF111s}"
-                          SelectedItem="{Binding SelectedF111}"
+                          ItemsSource="{Binding FilteredF111s, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                          SelectedItem="{Binding SelectedF111, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                           Margin="5,0,0,0"
                           BorderThickness="1"
                           FontSize="14">
@@ -217,7 +216,6 @@
                                                     Content="открыть"
                                                     Foreground="Azure"
                                                     Width="50"
-                                                    FontSize="11"
                                                     Command="{Binding ElementName=lvF111,Path=DataContext.OpenWindowFormular}"
                                                     CommandParameter="{Binding ElementName=MainWnd}"/>
                                             <!--Click="ButtonBase_OnClick"-->

@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:viewModel="clr-namespace:WpfEfCoreTest.ViewModel"
+        xmlns:viewModel="clr-namespace:WpfEfCoreTest.ViewModel" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Title="OtchetAllOborud" Height="650" Width="1500"
         WindowStartupLocation="CenterScreen"
@@ -29,64 +29,47 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
 
-                    <ListView x:Name="lvPodr"
+                    <DataGrid x:Name="lvPodr"
+                              SelectionMode="Single"
+                              SelectionUnit="FullRow"
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
                               ItemsSource="{Binding AllOborud}"                 
                               Margin="10,10,0,0"
+                              SelectedItem="{Binding SelectedOborud, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                               BorderThickness="1" Grid.ColumnSpan="3"
                               VerticalContentAlignment="Center">
-
-                        <ListView.ItemContainerStyle>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="CellEditEnding">
+                                <i:InvokeCommandAction Command="{Binding ResultCmd}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <!--<DataGrid.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Center"/>
                             </Style>
-                        </ListView.ItemContainerStyle>
+                        </DataGrid.ItemContainerStyle>-->
                         <!-- Остальная разметка ListView -->
 
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="№"  Width="35" 
-                                                DisplayMemberBinding="{Binding Path=Id }"/>
-                                <GridViewColumn Header="Наименование"  
-                                                DisplayMemberBinding="{Binding Path=NameOborud1}"
-                                                Width="250"/>
-                                <GridViewColumn Header="Колличество"
-                                                DisplayMemberBinding="{Binding KolEdNameOb  }"
-                                                Width="250"/>
-                                <GridViewColumn Header="Стоимость за единицу">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBox Text="{Binding Stoimost1Ed}"
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="№"  Width="35" IsReadOnly="True"
+                                                Binding="{Binding Path=Id }"/>
+                            <DataGridTextColumn Header="Наименование" Width="*" 
+                                                Binding="{Binding Path=NameOborud1}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Колличество"
+                                                Binding="{Binding KolEdNameOb  }" IsReadOnly="True"
+                                                Width="auto"/>
+                            <DataGridTextColumn Header="Стоимость за единицу" Binding="{Binding Stoimost1Ed, UpdateSourceTrigger=PropertyChanged}" Width="200"/>
+                            <DataGridTextColumn Header="Нормативный срок службы" Binding="{Binding SrokExpl, UpdateSourceTrigger=PropertyChanged}"
                                                      Width="200"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="Нормативный срок службы">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBox Text="{Binding SrokExpl}"
-                                                     Width="200"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="Фактический срок службы">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBox Text="{Binding FaktSrokExpl}"
-                                                     Width="200"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="Экономический эффект">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBox Text="{Binding EconomicEffect, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
-                                                     Width="200"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
+                            <DataGridTextColumn Header="Фактический срок службы" Binding="{Binding FaktSrokExpl, UpdateSourceTrigger=PropertyChanged}"
+                                                     Width="200">
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Экономический эффект" IsReadOnly="True" Binding="{Binding EconomicEffect, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="200">
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </Grid>
             </TabItem>
         </TabControl>

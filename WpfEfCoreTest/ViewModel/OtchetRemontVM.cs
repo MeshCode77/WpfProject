@@ -146,7 +146,7 @@ namespace WpfEfCoreTest.ViewModel
 
                 //AllOtchetRem.Add(otchRem);
 
-                result = DataWorker.AddToRemontDB(otchRem, selected.Id);
+                result = DataWorker.UpdateRemontDB(otchRem, selected.Id);
             }
             catch (Exception e)
             {

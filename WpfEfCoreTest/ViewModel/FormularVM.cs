@@ -46,6 +46,8 @@ namespace WpfEfCoreTest.ViewModel
 
         private Komplect selectedNameKomplCB;
 
+        private int selectIndexNK;
+
         #region Конструктор класса
 
         public FormularVM()
@@ -63,20 +65,21 @@ namespace WpfEfCoreTest.ViewModel
             db.Komplects.ToObservableCollection();
             AllKomplects = db.Komplects.Local.ToObservableCollection();
 
-            // для отображения в comboBox значения
-            //if (SelectedRowFormular != null)
-            //{
-            //    var resNameOborud = db.Komplects.FirstOrDefault(x => x.Id == SelectedRowFormular.IdKomplect);
-            //    //var resGtDate = db.F111s.FirstOrDefault(x => x.GtDate == SelectedRowF111.GtDate);
-
-
-            //    if (resNameOborud != null)
-            //        SelectedNameKomplCB = resNameOborud;
-            //    //GtDate = resGtDate.GtDate;
-            //}
+            // для отображения в comboBox выбранного значения при редактировании
+            if (SelectedRowFormular != null) SelectIndexNK = SelectedRowFormular.IdKomplect - 1;
         }
 
         #endregion
+
+        public int SelectIndexNK
+        {
+            get => selectIndexNK;
+            set
+            {
+                selectIndexNK = value;
+                OnPropertyChanged(nameof(SelectIndexNK));
+            }
+        }
 
         public static Formular selectedRowFormular { get; set; }
 
@@ -162,6 +165,7 @@ namespace WpfEfCoreTest.ViewModel
             {
                 return openFormularCmd ?? new RelayCommand(odj =>
                 {
+                    SetNullValuesToProperties();
                     var openFormular = new AddFormularView();
                     openFormular.ShowDialog();
                 });
@@ -191,8 +195,13 @@ namespace WpfEfCoreTest.ViewModel
                 return deleteFormularCmd ?? new RelayCommand(obj =>
                     {
                         var resultStr = "Ничего не выбрано";
+
+                        var result = MessageBox.Show("Вы уверены,что хотите удалить этого пользователя",
+                            "В Н И М А Н И Е ! ! !",
+                            MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+
                         //если сотрудник
-                        if (SelectedRowFormular != null)
+                        if (result == MessageBoxResult.OK)
                         {
                             resultStr = DataWorker.DeleteFormular(SelectedRowFormular);
 

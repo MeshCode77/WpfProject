@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Management;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using server;
 using SqlServMvvmApp;
 using WpfEfCoreTest.Model;
@@ -21,17 +24,23 @@ namespace WpfEfCoreTest.ViewModel
 
         private string _baseBoard;
 
-        private ObservableCollection<ComputerComponent> _components;
+        private ObservableCollection<ComputerComponent> _components = new();
         private string _diskDrive;
 
         // Коллекция, которая будет содержать все жесткие диски системы
         private string _hostName;
         public string _ipAdress;
 
+
+        private CancellationTokenSource cancellationTokenSource;
+
         private int _isScanning;
+        private int _scanningIpSize = 255;
+        private string _currentScanningIpAdress;
+
         private string _processor;
         public string _ramm;
-        private ObservableCollection<ScanHost> _scanHostColl;
+        private ObservableCollection<ScanHost> _scanHostColl = new();
 
         private ScanHost _selectedHost;
         private string _status;
@@ -40,6 +49,62 @@ namespace WpfEfCoreTest.ViewModel
         private string hostName;
 
         public RelayCommand scanCommand;
+
+        public ComputerScannerVM()
+        {
+            cancellationTokenSource = new CancellationTokenSource();
+            ScanHostColl.CollectionChanged += ScanHostColl_CollectionChanged;
+        }
+
+        private async void ScanHostColl_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
+    
+                    if(e.NewItems[0] is ScanHost newItem)
+
+                    await Task.Run(async () =>
+                    {
+                        newItem.IsBusy = true;
+
+                        var hostName = await GetHostNameByIpAddress(newItem.IpAdress);
+                        newItem.HostName = hostName;
+
+                        await Task.Run(() =>
+                        {
+                            try
+                            {
+                                if (cancellationTokenSource.IsCancellationRequested)
+                                    cancellationTokenSource.Token.ThrowIfCancellationRequested(); // генерируем исключение
+
+                                // Создаем сокет
+                                using var client = new TcpClient(newItem.IpAdress, 7000);
+                                //Console.WriteLine("Клиент подключен");
+                                newItem.IsRemoteAppActive = true;
+
+                                client.Close();
+                            }
+                            catch
+                            {
+                                newItem.IsRemoteAppActive = false;
+                            }
+                        });
+
+                        newItem.IsBusy = false;
+                    });
+
+                    break;
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
+                    break;
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Replace:
+                    break;
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Move:
+                    break;
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Reset:
+                    break;
+            }
+        }
 
         public ObservableCollection<ScanHost> ScanHostColl
         {
@@ -57,7 +122,7 @@ namespace WpfEfCoreTest.ViewModel
             set
             {
                 _components = value;
-                OnPropertyChanged("Components");
+                OnPropertyChanged(nameof(Components));
             }
         }
 
@@ -69,8 +134,21 @@ namespace WpfEfCoreTest.ViewModel
                 _selectedHost = value;
                 OnPropertyChanged(nameof(SelectedHost));
                 //MessageBox.Show(SelectedHost.IpAdress);
-                GetComputerInfoByIpAddress(SelectedHost.IpAdress);
-                Components = AddCompComponent();
+            }
+        }
+
+        private bool _isBusy;
+
+        public bool IsBusy
+        {
+            get => _isBusy;
+            set
+            {
+                if (_isBusy != value)
+                {
+                    _isBusy = value;
+                    OnPropertyChanged(nameof(IsBusy));
+                }
             }
         }
 
@@ -87,49 +165,204 @@ namespace WpfEfCoreTest.ViewModel
             }
         }
 
+        public int ScanningIpSize
+        {
+            get => _scanningIpSize;
+            set
+            {
+                if (_scanningIpSize != value)
+                {
+                    _scanningIpSize = value;
+                    OnPropertyChanged(nameof(ScanningIpSize));
+                }
+            }
+        }
+
+        public string CurrentScanningIpAdress
+        {
+            get => _currentScanningIpAdress;
+            set
+            {
+                if (_currentScanningIpAdress != value)
+                {
+                    _currentScanningIpAdress = value;
+                    OnPropertyChanged(nameof(CurrentScanningIpAdress));
+                }
+            }
+        }
+
         public RelayCommand ScanCommand
         {
             get
             {
                 return scanCommand ?? new RelayCommand(async obj =>
                 {
-                    var temp = "192.168.100";
-                    /// код для создания второго потока
-                    var task = Task.Run(async () =>
+                    try
                     {
+                        cancellationTokenSource = new CancellationTokenSource();
+
+                        IsBusy = true;
+
+                        ScanHostColl.Clear();
+
                         //var temp = "192.168.100";
-                        //ScanHostColl = await ScanNetwork3());
-                        return ScanHostColl = new ObservableCollection<ScanHost>();
-                    });
-                    var ping = new Ping();
+                        /// код для создания второго потока
+                        //var task = Task.Run(async () =>
+                        //{
+                        //    //var temp = "192.168.100";
+                        //    //ScanHostColl = await ScanNetwork3());
+                        //    return ScanHostColl = new ObservableCollection<ScanHost>();
+                        //});
+                        using var ping = new Ping();
 
-                    for (var i = 0; i < 255; i++)
-                    {
-                        var ipAddress = $"{temp}.{i}";
-                        var reply1 = await ping.SendPingAsync(ipAddress, 1);
+                        var startIps = StartIpAdress.Split(".").ToList();
+                        var nextIps = NextIpAdress.Split(".").ToList();
 
-                        if (reply1.Status == IPStatus.Success)
+                        if (startIps.Count == 4 && nextIps.Count == 4 && nextIps.Count == startIps.Count && string.Join("", startIps.Take(3)) == string.Join("", nextIps.Take(3)))
                         {
-                            var hostName = GetHostNameByIpAddress(ipAddress);
+                            IsScanning = 1;
+                            ScanningIpSize = int.Parse(nextIps[3]) - int.Parse(startIps[3]);
 
-                            var niViewModel = new ScanHost
+                            for (var i = int.Parse(startIps[3]); i <= int.Parse(nextIps[3]); i++)
                             {
-                                IpAdress = ipAddress,
-                                HostName = hostName.Result,
-                                Status = reply1.Status.ToString()
-                            };
+                                if (cancellationTokenSource.IsCancellationRequested)
+                                    cancellationTokenSource.Token.ThrowIfCancellationRequested(); // генерируем исключение
 
-                            // Добавляем хост в коллекцию на основном потоке
-                            //Application.Current.Dispatcher.Invoke(() => { ScanHostColl.Add(niViewModel); });
-                            ScanHostColl.Add(niViewModel);
-                            OnPropertyChanged(nameof(ScanHostColl));
+                                CurrentScanningIpAdress = $"{startIps[0]}.{startIps[1]}.{startIps[2]}.{i}";
+
+                                var reply1 = await ping.SendPingAsync(CurrentScanningIpAdress, 1);
+
+                                if (reply1.Status == IPStatus.Success)
+                                {
+                                    //var hostName = GetHostNameByIpAddress(ipAddress);
+
+                                    var niViewModel = new ScanHost
+                                    {
+                                        IpAdress = CurrentScanningIpAdress,
+                                        //HostName = hostName.Result,
+                                        Status = reply1.Status.ToString()
+                                    };
+
+                                    // Добавляем хост в коллекцию на основном потоке
+                                    //Application.Current.Dispatcher.Invoke(() => { ScanHostColl.Add(niViewModel); });
+                                    ScanHostColl.Add(niViewModel);
+                                    OnPropertyChanged(nameof(ScanHostColl));
+                                }
+
+                                IsScanning++;
+                            }
                         }
 
-                        IsScanning++;
+                        CurrentScanningIpAdress = string.Empty;
+                        IsBusy = false;
+                    }
+                    catch (OperationCanceledException ae)
+                    {
+                        IsScanning = 1;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.ToString(), "Ошибка");
+                    }
+                    finally
+                    {
+                        cancellationTokenSource.Dispose();
+                        IsBusy = false;
+                        CurrentScanningIpAdress = string.Empty;
                     }
 
                     // Запуск второго потока
                     //thread.Start();
+                }, obj => {
+
+                    if (IsBusy) return false;
+
+                    if (string.IsNullOrEmpty(StartIpAdress) || string.IsNullOrEmpty(NextIpAdress)) return false;
+
+                    var startIps = StartIpAdress.Split(".").ToList();
+                    var nextIps = NextIpAdress.Split(".").ToList();
+
+                    if(startIps.Count != 4) return false;
+                    if (startIps.Count != 4) return false;
+
+                    if(nextIps.Count != startIps.Count) return false;
+
+                    if(string.Join("", startIps.Take(3)) != string.Join("", nextIps.Take(3))) return false;
+
+                    if(string.IsNullOrEmpty(startIps[3]) || string.IsNullOrEmpty(nextIps[3])) return false;
+
+
+                    if(!int.TryParse(startIps[3], out var startIp)) return false;
+                    if(!int.TryParse(nextIps[3], out var nextIp)) return false;
+
+
+                    if(nextIp > 255) return false;
+
+                    if(startIp >= nextIp) return false;
+
+                    return true;
+                });
+            }
+        }
+
+        public RelayCommand StopScanCommand
+        {
+            get
+            {
+                return new RelayCommand(obj =>
+                {
+                    cancellationTokenSource.Cancel();
+
+                }, obj => IsBusy);
+            }
+        }
+
+        public RelayCommand GetCompInfoCommand
+        {
+            get
+            {
+                return new RelayCommand(async obj =>
+                {
+                    if (SelectedHost != null)
+                    {
+                        try
+                        {
+                            SelectedHost.IsBusy = true;
+                            await GetComputerInfoByIpAddress(SelectedHost.IpAdress);
+                            
+                            Components.Clear();
+
+                            var component = new ComputerComponent
+                            {
+                                Processor = Processor,
+                                BaseBoard = BaseBoard,
+                                DiskDrive = DiskDrive,
+                                Videocard = Videocard,
+                                Ramm = Ramm
+                            };
+
+                            Components.Add(component);
+
+                            SelectedHost.IsRemoteAppActive = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            SelectedHost.IsRemoteAppActive = false;
+                            MessageBox.Show(ex.Message);
+                        }
+                        finally
+                        {
+                            SelectedHost.IsBusy = false;
+                        }
+                    }
+
+                }, obj =>
+                {
+                    //if (IsBusy) return false;
+                    if(SelectedHost == null) return false;
+                    if(SelectedHost.IsBusy) return false;
+
+                    return true;
                 });
             }
         }
@@ -151,60 +384,61 @@ namespace WpfEfCoreTest.ViewModel
             }
         }
 
-        public void GetComputerInfoByIpAddress(string ipAddress)
+        public async Task GetComputerInfoByIpAddress(string ipAddress)
         {
-            try
+            // Создаем сокет
+            using var client = new TcpClient(ipAddress, 7000);
+            //Console.WriteLine("Клиент подключен");
+
+            // Отправляем команду
+            using var stream = client.GetStream();
+            var request = "get_info";
+            var bytesWrite = Encoding.UTF8.GetBytes(request);
+            await stream.WriteAsync(bytesWrite, 0, bytesWrite.Length);
+            stream.Flush();
+            //Console.WriteLine("Запрос на сервер: " + request); // + bytesWrite.Length);
+
+            // Получаем ответ
+
+            var buffer = new byte[4096];
+            var bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+
+            // Преобразуем полученные данные из байтового массива в строку JSON
+            var info = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+            //Console.WriteLine(answer);
+
+            // Десериализуем строку JSON в объекты C#
+            var cc = new Components();
+
+            cc = JsonConvert.DeserializeObject<Components>(info);
+
+            Processor = cc.Processor;
+            BaseBoard = cc.BaseBoard;
+            DiskDrive = cc.DiskDrive;
+            Videocard = cc.Videocard;
+            Ramm = cc.Ramm;
+
+            client.Close();
+
+
+            // Получаем экземпляр класса Ping и отправляем эхо-запрос
+            using (var ping = new Ping())
             {
-                // Создаем сокет
-                var client = new TcpClient(ipAddress, 7000);
-                //Console.WriteLine("Клиент подключен");
+                var reply = await ping.SendPingAsync(ipAddress,1);
 
-                // Отправляем команду
-                var stream = client.GetStream();
-                var request = "get_info";
-                var bytesWrite = Encoding.UTF8.GetBytes(request);
-                stream.Write(bytesWrite, 0, bytesWrite.Length);
-                stream.Flush();
-                //Console.WriteLine("Запрос на сервер: " + request); // + bytesWrite.Length);
+                if (reply.Status != IPStatus.Success)
+                    // Если устройство не отвечает на эхо-запрос, генерируем исключение
+                    throw new Exception("Устройство не найдено");
+            }
 
-                // Получаем ответ
+            // Получаем информацию о хосте
+            // TODO не понимаю зачем тут опрашивать DNS имя и список адресов
+            //var hostEntry = Dns.GetHostEntry(ipAddress);
+            //var HostName = hostEntry.HostName; // Имя хоста
+            //var addresses = hostEntry.AddressList; // Список IP-адресов, связанных с хостом
 
-                var buffer = new byte[4096];
-                var bytesRead = stream.Read(buffer, 0, buffer.Length);
-
-                // Преобразуем полученные данные из байтового массива в строку JSON
-                var info = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                //Console.WriteLine(answer);
-
-                // Десериализуем строку JSON в объекты C#
-                var cc = new Components();
-
-                cc = JsonConvert.DeserializeObject<Components>(info);
-
-                Processor = cc.Processor;
-                BaseBoard = cc.BaseBoard;
-                DiskDrive = cc.DiskDrive;
-                Videocard = cc.Videocard;
-                Ramm = cc.Ramm;
-
-                client.Close();
-
-
-                // Получаем экземпляр класса Ping и отправляем эхо-запрос
-                using (var ping = new Ping())
-                {
-                    var reply = ping.Send(ipAddress);
-
-                    if (reply.Status != IPStatus.Success)
-                        // Если устройство не отвечает на эхо-запрос, генерируем исключение
-                        throw new Exception("Устройство не найдено");
-                }
-
-                // Получаем информацию о хосте
-                var hostEntry = Dns.GetHostEntry(ipAddress);
-                var HostName = hostEntry.HostName; // Имя хоста
-                var addresses = hostEntry.AddressList; // Список IP-адресов, связанных с хостом
-
+            await Task.Run(() =>
+            {
                 // Получаем информацию об устройстве, соответствующем указанному IP-адресу
                 var scope = new ManagementScope("\\\\" + ipAddress + "\\root\\cimv2");
 
@@ -300,19 +534,15 @@ namespace WpfEfCoreTest.ViewModel
                 var result = $"Тип памяти: {memoryType}, объем памяти: {memorySizeGB:F2} ГБ";
                 //var result = $"Объем памяти: {memorySizeGB:F2} ГБ";
                 Ramm = result;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            });
         }
 
 
         public ObservableCollection<ComputerComponent> AddCompComponent()
         {
-            var Components = new ObservableCollection<ComputerComponent>();
+            var components = new ObservableCollection<ComputerComponent>();
 
-            var components = new ComputerComponent
+            var component = new ComputerComponent
             {
                 Processor = Processor,
                 BaseBoard = BaseBoard,
@@ -321,8 +551,8 @@ namespace WpfEfCoreTest.ViewModel
                 Ramm = Ramm
             };
 
-            Components.Add(components);
-            OnPropertyChanged(nameof(components));
+            components.Add(component);
+            OnPropertyChanged(nameof(Components));
 
             return Components;
         }
@@ -387,6 +617,30 @@ namespace WpfEfCoreTest.ViewModel
             {
                 _ipAdress = value;
                 OnPropertyChanged(nameof(IpAdress));
+            }
+        }
+
+        private string _startIpAdress;
+
+        public string StartIpAdress
+        {
+            get => _startIpAdress;
+            set
+            {
+                _startIpAdress = value;
+                OnPropertyChanged(nameof(StartIpAdress));
+            }
+        }
+
+        private string _nextIpAdress;
+
+        public string NextIpAdress
+        {
+            get => _nextIpAdress;
+            set
+            {
+                _nextIpAdress = value;
+                OnPropertyChanged(nameof(NextIpAdress));
             }
         }
 

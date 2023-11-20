@@ -26,11 +26,17 @@ namespace WpfEfCoreTest.ViewModel
 
         private bool buttonOnOff;
 
+
+        private NameOborud selectedNameOborudCB;
+
+
         // выбранное подразделение в comboBox при добавлении в карточку F111
         private Podr selectedPodr;
 
 
         #region Конструктор класса
+
+        //private int idUser = MainWindowVM._selectedUser.Id;
 
         // Конструктор класса
         public F111VM()
@@ -38,16 +44,19 @@ namespace WpfEfCoreTest.ViewModel
             db = new TestContext();
 
             db.F111s.Load();
-            db.F111s.ToObservableCollection();
 
             db.NameOboruds.Load();
             AllNameOborud = db.NameOboruds.Local.ToObservableCollection();
 
-            // для отображения в comboBox значения NameOborud
+            //this.idUser = idUser;
+
+
+            // для отображения в comboBox значения
             if (SelectedRowF111 != null)
             {
                 var resNameOborud = db.NameOboruds.FirstOrDefault(x => x.Id == SelectedRowF111.IdnameOborud);
                 var resGtDate = db.F111s.FirstOrDefault(x => x.GtDate == SelectedRowF111.GtDate);
+
 
                 if (resNameOborud != null && resGtDate != null)
                 {
@@ -56,15 +65,11 @@ namespace WpfEfCoreTest.ViewModel
                 }
             }
 
+
             KartNumMethod();
         }
 
         #endregion
-
-
-        public static F111 selectedRowF111 { get; set; }
-
-        private NameOborud selectedNameOborudCB { get; set; }
 
         public ObservableCollection<Podr> AllPodrs
         {
@@ -75,6 +80,9 @@ namespace WpfEfCoreTest.ViewModel
                 OnPropertyChanged();
             }
         }
+
+
+        public static F111 selectedRowF111 { get; set; }
 
         public F111 SelectedRowF111
         {
@@ -99,7 +107,9 @@ namespace WpfEfCoreTest.ViewModel
             }
         }
 
+
         private static ObservableCollection<F111> f111s { get; set; }
+
 
         public ObservableCollection<F111> AllDataF111
         {
@@ -177,7 +187,7 @@ namespace WpfEfCoreTest.ViewModel
                 var rnd = new Random(); // экземпляр класса Random
                 var temp = rnd.Next(1, 1000).ToString(); // колличество элементов от 1 до 1000
 
-                var chechIsExist = db.F111s.Any(el => el.KartNum == temp); // проверка нахождения значения в коллекции
+                var chechIsExist = db.F111s.Any(el => el.KartNum == temp); // 
 
                 if (!chechIsExist)
                 {
@@ -291,6 +301,7 @@ namespace WpfEfCoreTest.ViewModel
             {
                 return openAddF111Wnd ?? new RelayCommand(odj =>
                 {
+                    SetNullValuesToProperties();
                     var addF111 = new AddF111View();
                     addF111.ShowDialog();
                 });
@@ -369,7 +380,8 @@ namespace WpfEfCoreTest.ViewModel
 
         #region команда редактирования F111
 
-        // команда сохранить редактирования F111
+        // команда редактирования F111
+
         private RelayCommand editF111Command;
 
         public RelayCommand EditF111Command

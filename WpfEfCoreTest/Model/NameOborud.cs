@@ -5,24 +5,19 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.CompilerServices;
 using WpfEfCoreTest.Annotations;
-using WpfEfCoreTest.ViewModel;
 
 namespace WpfEfCoreTest.Model
 {
     public class NameOborud : INotifyPropertyChanged
     {
-        //public ObservableCollection<int> EconomEfectColl = new();
-        public static int economicEffect;
-        private int _allSummaEconomEfect;
+        public double _economicEffect;
         private int _faktSrokExpl;
         private int _srokExpl;
         private int _stoimost1Ed;
-        private int id;
         private int kolEdNameOb;
-        private string nameOborud1;
-
 
         public int Id { get; set; }
+
         public string NameOborud1 { get; set; }
 
         [NotMapped]
@@ -38,12 +33,12 @@ namespace WpfEfCoreTest.Model
 
 
         [NotMapped]
-        public int EconomicEffect //{ get; set; }
+        public double EconomicEffect //{ get; set; }
         {
-            get => economicEffect;
+            get => _economicEffect;
             set
             {
-                economicEffect = value;
+                _economicEffect = value;
                 OnPropertyChanged(nameof(EconomicEffect));
             }
         }
@@ -56,6 +51,12 @@ namespace WpfEfCoreTest.Model
             {
                 _stoimost1Ed = value;
                 OnPropertyChanged(nameof(Stoimost1Ed));
+
+                var res = SrokExpl * (FaktSrokExpl - SrokExpl) * KolEdNameOb;
+
+                if (res == 0) return;
+
+                EconomicEffect = Stoimost1Ed / (double)res;
             }
         }
 
@@ -67,6 +68,12 @@ namespace WpfEfCoreTest.Model
             {
                 _srokExpl = value;
                 OnPropertyChanged(nameof(SrokExpl));
+
+                var res = SrokExpl * (FaktSrokExpl - SrokExpl) * KolEdNameOb;
+
+                if (res == 0) return;
+
+                EconomicEffect = Stoimost1Ed / (double)res;
             }
         }
 
@@ -79,22 +86,17 @@ namespace WpfEfCoreTest.Model
                 _faktSrokExpl = value;
                 OnPropertyChanged(nameof(FaktSrokExpl));
 
-                EconomicEffect = Stoimost1Ed / SrokExpl * (FaktSrokExpl - SrokExpl) * KolEdNameOb;
+                // Проверка на 0
 
-                OtchetAllOborudVM.GetColl(EconomicEffect);
+                var res = SrokExpl * (FaktSrokExpl - SrokExpl) * KolEdNameOb;
+
+                if (res == 0) return;
+
+                EconomicEffect = Stoimost1Ed / (double)res;
+
+                //OtchetAllOborudVM.GetColl(EconomicEffect);
 
                 //OtchetAllOborudVM.SummaAllEconomEffect = OtchetAllOborudVM.collEf.Sum();
-            }
-        }
-
-        [NotMapped]
-        public int AllSummaEconomEffect //{ get; set; }
-        {
-            get => _allSummaEconomEfect;
-            set
-            {
-                _allSummaEconomEfect = value;
-                OnPropertyChanged(nameof(AllSummaEconomEffect));
             }
         }
 

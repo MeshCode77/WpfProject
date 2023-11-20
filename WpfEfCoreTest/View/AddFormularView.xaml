@@ -11,9 +11,9 @@
         Name="AddFormularWnd"
         Background="WhiteSmoke">
 
-    <Window.DataContext>
+    <!--<Window.DataContext>
         <viewModel:FormularVM/>
-    </Window.DataContext>
+    </Window.DataContext>-->
 
     <Grid>
         <GroupBox 

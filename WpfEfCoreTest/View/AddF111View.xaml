@@ -11,9 +11,9 @@
         Name="AddF111"
         Background="WhiteSmoke">
 
-<Window.DataContext>
+<!--<Window.DataContext>
     <local:F111VM />
-</Window.DataContext>
+</Window.DataContext>-->
 
     <Grid>
         <GroupBox Margin="5">
@@ -24,7 +24,6 @@
                            Foreground="DarkBlue"/>
                 <ComboBox  Name="ModelBlock"
                            ItemsSource="{Binding AllNameOborud}"
-                           SelectedIndex="0"
                            DisplayMemberPath="NameOborud1"
                            SelectedItem="{Binding SelectedNameOborud}"
                            HorizontalAlignment="Center"
@@ -54,7 +53,7 @@
                            Foreground="DarkBlue"/>
                 <TextBox Name="KartNumBlock"
                          Text ="{Binding KartNum}"
-                         Width="200" 
+                         Width="250" 
                          Height="24"
                          Margin="2"
                          FontSize="14"
@@ -64,7 +63,7 @@
                            Foreground="DarkBlue"/>
                 <TextBox Name="NumFormBlock"
                          Text ="{Binding NumForm}"
-                         Width="200" 
+                         Width="250" 
                          Height="24"
                          Margin="2"
                          FontSize="14"
@@ -75,7 +74,7 @@
                            Foreground="DarkBlue"/>
                 <TextBox Name="InvNumBlock"
                          Text ="{Binding InvNum}"
-                         Width="200" 
+                         Width="250" 
                          Height="24"
                          Margin="2"
                          Foreground="DarkBlue"/>
@@ -85,7 +84,7 @@
                            Foreground="DarkBlue"/>
                 <TextBox Name="ZavodNumBlock"
                          Text ="{Binding ZavodNum}"
-                         Width="200" 
+                         Width="250" 
                          Height="24"
                          Margin="2"
                          Foreground="DarkBlue"/>
@@ -97,7 +96,7 @@
                             Text="{Binding GtDate}"
                             SelectedDate="{Binding GtDate}"
                             HorizontalAlignment="Center"
-                            Width="200"
+                            Width="250"
                             Margin="2"
                             FontSize="14"
                             Height="24"
@@ -109,15 +108,15 @@
                 <DatePicker Name="OutDataBlock"
                             Text="{Binding OutData}"
                             HorizontalAlignment="Center"
-                            Width="200"
+                            Width="250"
                             Margin="2"
                             FontSize="14"
                             Height="24"
                             Foreground="DarkBlue"/>
                 <TextBlock Text="В ремонте"
-                           Margin="5,0,0,0">
+                           Margin="35,10,0,0">
                         <CheckBox x:Name="chkRemont" 
-                            Margin="35,10,0,0"
+                            Margin="5,10,0,0"
                             IsChecked="{Binding Remont}"
                             FontSize="14"
                             Foreground="DarkBlue"/>
@@ -132,10 +131,11 @@
                 </Grid.ColumnDefinitions>
                 <Button Command="{Binding AddF111Cmd}"
                         CommandParameter="{Binding ElementName=AddF111}"
-                    Content="Сохранить" 
-                    Margin="5"
+                        Content="Сохранить" 
+                        Margin="5"
                         Background="Azure"
-                        Foreground="DarkBlue"/>
+                        Foreground="DarkBlue"
+                        Height="24"/>
                 <Button IsCancel="True"
                     Grid.Column="1" 
                     Content="Отмена"

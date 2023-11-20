@@ -5,14 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfEfCoreTest.ViewModel"
         mc:Ignorable="d"
-        Title="F111View" Height="600" Width="1250"
+        Title="F111View" Height="600" Width="1150"
         WindowStartupLocation="CenterScreen"
         Name="F111Wnd"
         Background="WhiteSmoke">
 
-    <Window.DataContext>
+    <!--<Window.DataContext>
         <local:F111VM/>
-    </Window.DataContext>
+    </Window.DataContext>-->
+
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -26,12 +27,10 @@
         </Grid.RowDefinitions>
         <!--Карточка ф.111-->
         <ListView Name="LvF111User"
-                      ItemsSource="{Binding FilteredF111s, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                      SelectedItem="{Binding SelectedRowF111}"
+                      ItemsSource="{Binding FilteredF111s, Mode=TwoWay}"
+                      SelectedItem="{Binding SelectedRowF111, Mode=TwoWay}"
                       Margin="10,15,0,5"
-                      BorderThickness="1"
-                      d:ItemsSource="{d:SampleData ItemCount=5}"
-                      Grid.ColumnSpan="2"
+                      BorderThickness="1" d:ItemsSource="{d:SampleData ItemCount=5}" Grid.ColumnSpan="2"
                       FontSize="14">
             <ListView.View>
                 <GridView>

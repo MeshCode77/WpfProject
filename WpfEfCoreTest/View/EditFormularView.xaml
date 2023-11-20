@@ -25,7 +25,8 @@
                     Margin="5,20,0,0" />
                 <ComboBox  Name="NameKomplBlock"
                            ItemsSource="{Binding AllKomplects}"
-                           SelectedItem="{Binding SelectedNameKomplCB}"                                                    
+                           SelectedItem="{Binding SelectedNameKomplCB}"
+                           SelectedIndex="{Binding SelectIndexPodr}"
                            Width="200"
                            Margin="5"
                            FontSize="14"

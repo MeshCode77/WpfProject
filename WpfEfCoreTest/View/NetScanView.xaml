@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfEfCoreTest.ViewModel"
+        xmlns:local="clr-namespace:WpfEfCoreTest.ViewModel" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Title="NetScanView"
         Height="520" 
@@ -32,15 +32,15 @@
         <StackPanel
             Margin="10"
             Orientation="Horizontal">
-            <TextBox Text="{Binding IpAdress }" 
+            <TextBox Text="{Binding StartIpAdress, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                      Width="100" 
-                     Margin="20,20,20,20"
+                     Margin="20,20,10,20"
                      Height="18"
                      VerticalAlignment="Top"
                      HorizontalAlignment="Left"/>
-            <TextBox Text="{Binding IpAdress }" 
+            <TextBox Text="{Binding NextIpAdress, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay }" 
                      Width="100" 
-                     Margin="10,20,20,20"
+                     Margin="10,20,10,20"
                      Height="18"
                      VerticalAlignment="Top"
                      HorizontalAlignment="Left"/>
@@ -48,22 +48,70 @@
                     HorizontalAlignment="Center" 
                     VerticalAlignment="Top" 
                     Margin="0,20,5,0" 
-                    Width="80"
+                    Width="50"
                     Command="{Binding ScanCommand}"/>
+            <Button Content="Stop"
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Top" 
+                    Margin="3,20,5,0" 
+                    Width="50"
+                    Command="{Binding StopScanCommand}"/>
+            <TextBlock Text="{Binding CurrentScanningIpAdress, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat='Сканируется: {0}'}" 
+                     Margin="10,20,20,20"
+                     Height="18"
+                     VerticalAlignment="Top"
+                     HorizontalAlignment="Left"/>
         </StackPanel>
 
 
         <ListView Grid.Row="0" ItemsSource="{Binding ScanHostColl}"
                   SelectedItem="{Binding SelectedHost}">
             <ListView.Margin>30,70,30,40</ListView.Margin>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding GetCompInfoCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsBusy}" Value="True">
+                            <Setter Property="Background" Value="#FFFFD562" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
             <ListView.View>
                 <GridView>
+                    <GridViewColumn Header="" 
+                     Width="auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock FontFamily="Segoe MDL2 Assets" FontWeight="Bold" >
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsRemoteAppActive}" Value="True">
+                                                    <Setter Property="Foreground" Value="Green"/>
+                                                    <Setter Property="Text" Value="&#xE8FB;"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsRemoteAppActive}" Value="False">
+                                                    <Setter Property="Foreground" Value="Red"/>
+                                                    <Setter Property="Text" Value="&#xE711;"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <GridViewColumn Header="IP Adress"
                                     DisplayMemberBinding="{Binding  IpAdress, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay }"
-                                    Width="100"/>
+                                    Width="auto"/>
                     <GridViewColumn Header="HostName"
                                     DisplayMemberBinding="{Binding HostName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                    Width="100"/>
+                                    Width="250"/>
                     <GridViewColumn Header="Status" 
                                     DisplayMemberBinding="{Binding Status, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                     Width="100"/>
@@ -87,7 +135,7 @@
         <ProgressBar Grid.Row="1" Grid.Column="0"
                      Value="{Binding IsScanning, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                      Minimum="1"
-                     Maximum="255"
+                     Maximum="{Binding ScanningIpSize, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                      Height="26"
                      Width="auto" 
                      Margin="5" />
@@ -145,8 +193,7 @@
             </DataGrid.ItemTemplate>
         </DataGrid>-->
 
-        <ListView Grid.Column="1" ItemsSource="{Binding Components}"
-                  SelectedItem="{Binding SelectedHost}"
+        <ListView Grid.Column="1" ItemsSource="{Binding Components, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                   FontSize="14">
             <ListView.Margin>30,70,30,40</ListView.Margin>
                 <ListView.ItemTemplate>

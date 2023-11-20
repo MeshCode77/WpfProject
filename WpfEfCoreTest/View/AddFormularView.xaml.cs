@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using WpfEfCoreTest.ViewModel;
 
 namespace WpfEfCoreTest.View
 {
@@ -11,7 +12,7 @@ namespace WpfEfCoreTest.View
         {
             InitializeComponent();
 
-            //DataContext = new FormularVM();
+            DataContext = new FormularVM();
         }
     }
 }
